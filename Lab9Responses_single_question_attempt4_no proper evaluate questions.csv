@@ -1,0 +1,119 @@
+ANON_ID,original_code,selected_level_1,question_1,answer_1,selected_level_2,question_2,answer_2,selected_level_3,question_3,answer_3
+1,"int IsPalindrome(char *word)
+{
+    int left = 0;
+    int right = strlen(word) - 1;
+
+    while (left < right) {
+        if (word[left] != word[right]) {
+            return 0; 
+        }
+        left++;
+        right--;
+    }
+
+    return 1; 
+    
+}",Understand,"In the IsPalindrome function, what is the purpose of the 'right' variable initialization using 'strlen(word) - 1'?",It sets the starting index to the last character of the string.,Apply,"If the function is called with the string ""radar"", what will be the values of the variables 'left' and 'right' immediately before the while loop terminates?","left = 2, right = 2",Evaluate,Would replacing the while loop with a recursive approach improve the time or space complexity of this function? Justify your answer.,"No. The time complexity remains O(n) in both cases, but recursion would increase space complexity from O(1) to O(n) due to the call stack."
+2,"int IsPalindrome(char *word)
+{
+    int n = strlen(word);
+    for (int i = 0; i < (n / 2); i++) {
+        if (word[i]!=word[n-i-1]) {
+            return 0;
+            break;
+        }
+    }
+    return 1;
+}",Understand,"In the for loop, what is the purpose of using 'n-i-1' as an index for the word array?",It is used to access the character at the corresponding position from the end of the string to compare it with the character at the beginning.,Apply,"If the input word is ""radar"", what is the value of n and how many times will the for loop iterate before the function returns a value?",n is 5 and the loop will iterate 2 times.,Evaluate,"In your loop, you have a 'break' statement immediately following 'return 0'. Evaluate the necessity of this 'break' statement and explain how it affects the program's execution.","The 'break' statement is redundant and unreachable because 'return 0' immediately exits the entire function, terminating the loop and the function call instantly."
+3,"int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    
+    for (int i = 0; i < length / 2; i++) {
+        if (word[i] != word[length - 1 - i]) {
+            return 0;
+        }
+    }
+    return 1;
+}",Understand,"In the for loop, what is the purpose of using 'length - 1 - i' as an index for the word array?",It is used to access the character at the corresponding position from the end of the string to compare it with the character at the beginning.,Apply,"If the input word is ""radar"", what is the value of the expression (length - 1 - i) during the first iteration of the loop (when i = 0)?",4,Evaluate,Would replacing the loop condition 'i < length / 2' with 'i < length' improve the efficiency of this function? Justify your answer.,"No, it would decrease efficiency because it would perform twice as many comparisons as necessary, checking each pair of characters twice."
+4,"#include <string.h>
+#include <stdio.h>
+
+int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    int middle = (length - 1)/2;
+    int counter = 0;
+   
+    if (length <= 1) {
+        return 1;
+    }
+
+    if (length == 2) {
+        if (word[0] == word[1]) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    for (int i = 0; i < middle; i++) {
+        if (word[i] == word[length - 1 - i]) {
+            counter++;
+        }
+    }
+    
+    int ispalindrome = 0;
+    if (counter == middle) {
+        ispalindrome = 1;
+    }
+    return ispalindrome;
+}",Understand,"In the for loop, what is the purpose of using 'length - 1 - i' as an index for the word array?",It is used to access the character at the corresponding position from the end of the string to compare it with the character at the beginning.,Apply,"If the function IsPalindrome is called with the string ""radar"", what will be the final value of the variable 'counter' after the for loop finishes executing?",2,Evaluate,Your current implementation uses a counter to track matching characters. Would it be more efficient to return 0 immediately when a mismatch is found? Justify your answer.,"Yes, returning 0 immediately (early exit) is more efficient because it avoids unnecessary iterations through the rest of the string once it is proven not to be a palindrome."
+5,"int IsPalindrome(char *word)
+{
+    int left = 0;
+    int right = (int)strlen(word) - 1;
+    
+    while (left < right) {
+        if (word[left] != word[right]) {
+            return 0;
+        }
+        left++;
+        right--;
+    }
+    return 1;
+}",Understand,"In the IsPalindrome function, what is the purpose of the 'left++' and 'right--' statements inside the while loop?",They move the pointers toward the center of the string to compare the next pair of characters.,Apply,"If the function is called with the string ""radar"", what will be the values of the variables 'left' and 'right' immediately before the while loop terminates?","left = 2, right = 2",Evaluate,Would replacing the while loop with a recursive approach improve the efficiency of this IsPalindrome function? Justify your answer.,"No, recursion would decrease efficiency by increasing memory usage on the call stack (O(n) space) compared to the current iterative approach (O(1) space), without improving time complexity."
+6,"int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    for (int i = 0; i < length/2; i++) {
+        if (word[i] != word[length-i-1]) {
+            return 0;
+        }
+    }
+    return 1;
+}",Understand,"In the for loop, what is the purpose of using 'length/2' as the loop termination condition?","It ensures the loop only iterates through the first half of the string, as comparing the first half with the second half is sufficient to determine if the word is a palindrome.",Apply,"If the input word is ""radar"", what is the value of length-i-1 during the first iteration of the loop (when i = 0)?",4,Evaluate,Would changing the loop condition from 'i < length/2' to 'i < length' affect the correctness of the function? Justify why the current approach is more efficient.,"Correctness would not change, but 'i < length/2' is more efficient because it avoids redundant comparisons by stopping at the middle of the string."
+7,"int IsPalindrome(char *word)
+{
+
+int length = strlen(word);
+
+int left = 0;
+int right = length - 1;
+
+while (left < right) 
+{
+    if (word[left] != word[right])
+    
+    {
+        return 0;
+    }
+    
+    left++;
+    right--;
+}
+
+return 1;
+    
+}",Understand,"In the IsPalindrome function, what is the purpose of the 'left++' and 'right--' statements inside the while loop?",They move the pointers toward the center of the string to compare the next pair of characters.,Apply,"If the function is called with the string ""radar"", what will be the values of the variables 'left' and 'right' immediately before the while loop terminates?","left = 2, right = 2",Evaluate,Would replacing the while loop with a for loop improve the efficiency or clarity of this specific implementation? Justify your answer.,"It would not improve efficiency as the number of iterations remains the same, but it might improve clarity by consolidating the initialization and increment/decrement steps into one line."

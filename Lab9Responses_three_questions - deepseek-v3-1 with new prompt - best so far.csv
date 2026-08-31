@@ -1,0 +1,1535 @@
+﻿ANON_ID,original_code,understand_question,understand_answer,apply_question,apply_answer,create_question,create_answer
+1,"int IsPalindrome(char *word)
+{
+    int left = 0;
+    int right = strlen(word) - 1;
+
+    while (left < right) {
+        if (word[left] != word[right]) {
+            return 0; 
+        }
+        left++;
+        right--;
+    }
+
+    return 1; 
+    
+}",What is the purpose of the condition 'left < right' in the while loop?,"It ensures the loop continues only while the left index is less than the right index, allowing the function to check characters from both ends moving inward until they meet or cross.","If the function is called with the string 'racecar', how many times will the condition 'word[left] != word[right]' be evaluated before the function returns?","The condition will be evaluated 3 times before the function returns 1, as the loop runs for 3 iterations comparing 'r' vs 'r', 'a' vs 'a', and 'c' vs 'c'.","How could you modify the IsPalindrome function to handle a new test case where the input string might contain uppercase letters, without changing the function's signature?","Add a line inside the while loop to convert both word[left] and word[right] to the same case (e.g., using tolower()) before comparing them, ensuring case-insensitive palindrome checks."
+2,"int IsPalindrome(char *word)
+{
+    int n = strlen(word);
+    for (int i = 0; i < (n / 2); i++) {
+        if (word[i]!=word[n-i-1]) {
+            return 0;
+            break;
+        }
+    }
+    return 1;
+}",What is the purpose of the condition 'word[i] != word[n-i-1]' in the if statement?,It compares the character at the current index i from the start of the string with the character at the symmetric index from the end to check if they are different.,"If the function is called with the string 'racecar', how many times will the condition inside the for loop (word[i] != word[n-i-1]) be evaluated before the function returns?","The condition will be evaluated 3 times before the function returns 1, as the loop runs for i=0,1,2 (n=7, so n/2=3.5, integer division gives 3).",What is one unnecessary statement in the IsPalindrome function that can be removed without changing its behavior?,"The 'break;' statement after 'return 0;' is unnecessary because the return statement immediately exits the function, making the break unreachable."
+3,"int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    
+    for (int i = 0; i < length / 2; i++) {
+        if (word[i] != word[length - 1 - i]) {
+            return 0;
+        }
+    }
+    return 1;
+}",What is the purpose of the expression 'length - 1 - i' as an index for the word array in this code?,"It calculates the index of the character at the symmetric position from the end of the string, allowing comparison of the first character with the last, the second with the second last, and so on.","If the function is called with the string 'racecar', how many times will the condition inside the for loop be evaluated?","The condition will be evaluated 4 times, as the loop runs for i from 0 to 2 (since length is 7, so length/2 is 3, and the loop condition is i < 3).","How could you modify the IsPalindrome function to handle a string with mixed case letters (e.g., 'Noon') without changing the function's parameters?","Inside the for loop, compare the lowercase versions of the characters using tolower(word[i]) != tolower(word[length - 1 - i]), and ensure the ctype.h header is included for tolower()."
+4,"#include <string.h>
+#include <stdio.h>
+
+int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    int middle = (length - 1)/2;
+    int counter = 0;
+   
+    if (length <= 1) {
+        return 1;
+    }
+
+    if (length == 2) {
+        if (word[0] == word[1]) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    for (int i = 0; i < middle; i++) {
+        if (word[i] == word[length - 1 - i]) {
+            counter++;
+        }
+    }
+    
+    int ispalindrome = 0;
+    if (counter == middle) {
+        ispalindrome = 1;
+    }
+    return ispalindrome;
+}",What is the purpose of the expression 'length - 1 - i' in the condition 'word[i] == word[length - 1 - i]'?,It calculates the index of the character at the symmetric position from the end of the string to compare with the character at index i from the beginning.,"If the function IsPalindrome() is called with the input string 'noon', what is the value of the variable 'counter' immediately after the for loop completes?","The value of counter is 2, as the loop runs for i=0 and i=1, and both comparisons (n==n and o==o) succeed.",What change would you make to this code to improve its runtime efficiency by reducing unnecessary operations?,"Remove the counter variable and instead return 0 immediately when a mismatch is found in the for loop, eliminating the need to count matches and check against middle."
+5,"int IsPalindrome(char *word)
+{
+    int left = 0;
+    int right = (int)strlen(word) - 1;
+    
+    while (left < right) {
+        if (word[left] != word[right]) {
+            return 0;
+        }
+        left++;
+        right--;
+    }
+    return 1;
+}",What is the purpose of the condition 'left < right' in the while loop?,"It ensures the loop continues only while the left index is less than the right index, stopping when they meet or cross, which means all character pairs have been checked.","If the function is called with the string 'racecar', what are the values of 'left' and 'right' at the start of the third iteration of the while loop?","At the start of the third iteration, 'left' is 2 and 'right' is 4.",How could you modify the IsPalindrome function to handle a new requirement where it should ignore any non-alphabetic characters (like spaces or punctuation) when checking if the input string is a palindrome?,"Inside the while loop, add checks to skip non-alphabetic characters by incrementing left if word[left] is not a letter and decrementing right if word[right] is not a letter before comparing characters."
+6,"int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    for (int i = 0; i < length/2; i++) {
+        if (word[i] != word[length-i-1]) {
+            return 0;
+        }
+    }
+    return 1;
+}",What is the purpose of the condition 'word[i] != word[length-i-1]' in the if statement?,It checks if the character at the current position from the start of the string is not equal to the corresponding character from the end of the string.,"If the function is called with the string 'racecar', how many times will the condition inside the for loop be checked before the function returns?","The condition will be checked 3 times, once for each iteration from i=0 to i=2, and then the function returns 1.","How could you modify the IsPalindrome function to handle a new test case where the input string might contain mixed case letters (e.g., 'Noon') while still being efficient?","Convert each character to the same case (e.g., lowercase) within the loop before comparison, using tolower(word[i]) and tolower(word[length-i-1]), to ensure case-insensitive checks without altering the original string."
+7,"int IsPalindrome(char *word)
+{
+
+int length = strlen(word);
+
+int left = 0;
+int right = length - 1;
+
+while (left < right) 
+{
+    if (word[left] != word[right])
+    
+    {
+        return 0;
+    }
+    
+    left++;
+    right--;
+}
+
+return 1;
+    
+}",What is the purpose of the condition 'if (word[left] != word[right])' inside the while loop?,"It checks if the characters at the current left and right positions are different, which would indicate that the word is not a palindrome.","If the function is called with the string 'racecar', what are the values of 'left' and 'right' at the start of the third iteration of the while loop?","At the start of the third iteration, 'left' is 2 and 'right' is 4.","How could you modify this function to handle a new test case where the input string might contain both uppercase and lowercase letters, while still being considered a palindrome?","Convert each character to the same case (either all lowercase or all uppercase) before comparing them in the while loop, using functions like tolower() or toupper() from the ctype.h library."
+8,"int IsPalindrome(char *word)
+{
+    int length= strlen(word), p=1;
+
+    if (length== 1){
+        return p;
+    }
+    for (int i=0; i<length/2; i++){
+    if(word[i]!=word[length-1-i]){
+        p=0;
+        return p;
+    }
+    }
+    return p;
+}",What is the purpose of the condition 'if (word[i] != word[length - 1 - i])' in the for loop?,"It checks if the character at position i from the start of the string is not equal to the character at the symmetric position i from the end of the string, which would indicate the word is not a palindrome.","If the function is called with the string 'noon', how many times will the condition inside the for loop be evaluated?","The condition will be evaluated 2 times, once for i=0 and once for i=1, since the loop runs while i < length/2 and length=4.",What change would make this code more efficient by avoiding unnecessary comparisons for even-length palindromic strings?,The condition 'i < length/2' should be changed to 'i <= (length-1)/2' to handle both even and odd lengths correctly and avoid redundant checks.
+9,"int IsPalindrome(char *word) {
+  int len = strlen(word);
+  for (int i = 0; i < len / 2; i++) {
+    if (word[i] != word[len - i - 1])
+      return 0;
+  }
+  return 1;
+}",What is the purpose of the condition 'word[i] != word[len - i - 1]' in this code?,"It checks if the character at position i from the start of the string is not equal to the character at the corresponding position i from the end of the string, which would indicate the word is not a palindrome.","If the function IsPalindrome() is called with the string 'racecar', how many times will the condition inside the for loop (word[i] != word[len - i - 1]) be evaluated?","The condition will be evaluated 3 times, as the loop runs for i from 0 to 2 (since len is 7 and len/2 is 3, so i < 3).","How could you modify this function to handle a new requirement where the input string might contain both uppercase and lowercase letters, while still considering 'Noon' a palindrome?",Convert each character to the same case (either all lowercase or all uppercase) before comparison using tolower() or toupper() from <ctype.h> in the condition check.
+10,"int IsPalindrome(char *word)
+{
+    int i = 0;
+    int j = 0;
+    int test = 0;
+
+    while (word[i] != '\0') {
+        i++; //counts then number of characters till null ie abcba would be 5
+    }
+    if (i == 1) {
+        return test = 1; //if only one letter, then always true
+    }
+
+
+    for (j = 0; j < i/2; j++) { // from 0 to i/2 and from i to i/2
+        if (word[j] == word [i-j-1]) {
+            test = 1;
+        }
+        else {
+            test = 0;
+            return test;
+        }
+    }
+    return test;
+}",What is the purpose of the condition 'word[j] == word[i-j-1]' in the for loop?,It compares the character at position j from the start of the string with the character at the symmetric position from the end to check if they are equal.,"If the function is called with the string 'noon', what is the value of the variable 'i' after the while loop completes?","The value of 'i' will be 4, as it counts the number of characters in the string before the null terminator.",What change would you make to this code to improve its runtime efficiency when checking a non-palindrome?,"Return 0 immediately when a mismatched character pair is found, rather than continuing to check the remaining pairs after the first mismatch."
+11,"#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
+
+int IsPalindrome(char *word)
+{
+    int pal = true;
+    
+    for (int i = 0; i <= (strlen(word)-1); i++) {
+        if (word[i] != word[strlen(word)-1-i]) {
+            pal = false;
+        }
+    }
+    return pal;
+}",What is the purpose of using 'strlen(word)-1-i' as an index in the condition 'word[i] != word[strlen(word)-1-i]'?,"It calculates the index of the character that is symmetric to the character at index i from the end of the string, allowing comparison of corresponding characters from both ends.","If the function IsPalindrome() is called with the input string 'radar', how many times will the condition inside the for loop be evaluated?","The condition will be evaluated 5 times, once for each iteration of the loop from i=0 to i=4.",What change would you make to this function to improve its runtime efficiency?,Store the result of strlen(word) in a variable before the loop instead of calling it repeatedly in each iteration.
+12,"int IsPalindrome(char *word) {
+    size_t length = strlen(word);
+    if (length == 1) return 1;
+
+    for (int left = 0; left < length / 2; left++) {
+        int right = length - left - 1;
+        if (word[left] != word[right]) {
+            return 0;
+        }
+    }
+
+    return 1;
+}",What is the purpose of the condition 'if (length == 1) return 1;' in this function?,It handles the base case where a single-character word is always a palindrome by immediately returning true.,"If the function IsPalindrome() is called with the input string 'radar', what is the value of the variable 'right' during the first iteration of the for loop?",The value of 'right' during the first iteration is 4.,"What change would you make to this function to handle the case where the input string is empty, given that the problem states the string will contain at least one character?","No change is necessary because the problem explicitly states the input string will contain at least one character, so the function correctly assumes this constraint."
+13,"int IsPalindrome(char *word)
+{
+    int stringSize, checkUpperLimit;
+    int i;
+
+    // Determine the size of the string and how many
+    // characters to check.
+    stringSize = strlen(word);
+    checkUpperLimit = stringSize / 2;
+
+    // Check for any cases which make the word not a palindrome
+    for (i = 0; i < checkUpperLimit; i++) {
+        if (word[i] != word[stringSize - i - 1]) {
+            return 0;
+        }
+    }
+
+    // If program makes it this far, word must be a palindrome.
+    return 1;
+}",What is the purpose of the expression 'stringSize - i - 1' in the if condition?,It calculates the index of the character at the symmetric position from the end of the string to compare with the character at index i from the beginning.,"If the function is called with the string 'racecar', how many times will the condition inside the for loop be evaluated?","The condition will be evaluated 4 times, as the loop runs from i=0 to i=2 (inclusive) for a string of length 7, since checkUpperLimit = 7/2 = 3.","What change would you make to this function to handle a new test case where the input string might contain both uppercase and lowercase letters, while still being considered a palindrome?","Convert each character to the same case (e.g., lowercase) within the comparison inside the for loop, using a function like tolower(), before checking if word[i] and word[stringSize - i - 1] are equal."
+14,"int IsPalindrome(char *word)
+{
+    int i = 0;
+    int j = strlen(word)-1;
+    while (word[i] == word[j]){
+        i++;
+        j--;
+        if (i == strlen(word)) {
+            return 1;
+        }
+    }
+    return 0;
+}",What is the purpose of the condition 'if (i == strlen(word))' inside the while loop?,"It checks if the entire string has been compared by verifying that the left index i has reached the end of the string, indicating a palindrome.","If the function is called with the string 'noon', what are the values of i and j at the start of the third iteration of the while loop?","At the start of the third iteration, i is 2 and j is 1.","What change would you make to this code to prevent unnecessary repeated calls to strlen(word) within the loop, improving runtime efficiency?",Store the result of strlen(word) in a variable before the loop and use that variable instead of calling strlen() multiple times.
+15,"int IsPalindrome(char *word)
+{
+    int length = 0;
+    
+    while (word[length] != '\0')
+        length++;
+
+    for (int i = 0; i < length / 2; i++)
+        if (word[i] != word[length - i - 1])  
+            return 0;
+    return 1;
+}",What is the purpose of the condition 'word[i] != word[length - i - 1]' in the for loop?,"It checks if the character at the current position from the start of the string is not equal to the corresponding character from the end of the string, which would indicate the word is not a palindrome.","If the function is called with the string 'racecar', how many times will the condition inside the for loop (word[i] != word[length - i - 1]) be evaluated?","The condition will be evaluated 3 times, as the loop runs for i from 0 to 2 (since length is 7, so length/2 is 3, and the loop condition is i < 3).",What change would you make to this code to improve its runtime efficiency by avoiding the manual calculation of the string's length?,"Replace the manual while loop that calculates length with a call to the strlen() function, which is already available and more efficient."
+16,"int IsPalindrome(char *word)
+{
+    int palindromic = 1;
+	int length = strlen(word) - 1;
+	for (int i = 0; i < length; i++) {
+		if (word[i] != word[length - i]) {
+			palindromic = 0;
+		}
+	}
+
+	return palindromic;
+}",What is the purpose of the condition 'word[i] != word[length - i]' in the for loop?,"It checks if the character at the current position from the start of the string is not equal to the character at the corresponding position from the end of the string, which would indicate the word is not a palindrome.","If the function is called with the string 'noon', what is the value of the variable 'palindromic' immediately after the first iteration of the for loop completes?","The value of 'palindromic' remains 1 because the first character 'n' is equal to the last character 'n', so the condition inside the if statement is false and the variable is not changed.",What change is necessary to fix the bug in this code that causes it to incorrectly identify some palindromes?,The loop condition should be 'i < length / 2' instead of 'i < length' to prevent comparing each pair of characters twice and to handle even-length strings correctly.
+17,"int IsPalindrome(char *word)
+{
+    int len = strlen(word);
+    for (int i = 0; i<len/2; i++) {
+        if (word[i] != word[(len-1-i)]) {
+            return 0;
+        }
+    }
+    return 1;
+}",What is the purpose of using 'len-1-i' as an index in the condition 'word[i] != word[len-1-i]'?,"It calculates the index of the character at the symmetric position from the end of the string, allowing comparison of the first character with the last, the second with the second last, and so on.","If the function is called with the string 'racecar', how many times will the condition inside the for loop be evaluated?","The condition will be evaluated 4 times, as the loop runs for i from 0 to 2 (inclusive) since len/2 is 3.5, which truncates to 3 when using integer division.",How could you modify the IsPalindrome function to make it more runtime efficient by reducing the number of comparisons?,"The function already uses an efficient approach by comparing characters from both ends and stopping at the middle, so no further runtime efficiency improvements are needed for this algorithm."
+18,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    int counter = 0;
+for (int i = 1;i<= length;i++)
+{
+    if (word[i-1] == word[length-i])
+    {
+        counter = counter+1;
+    }
+    else if ((word[i-1] != word[length-i]))
+    {
+        counter = counter;
+    }
+    
+    
+}
+if (counter == length)
+{
+    return 1;
+}
+else {
+    return 0;
+}
+
+}",What is the purpose of the condition 'if (word[i-1] == word[length-i])' in this code?,It checks if the character at the current position from the start of the string matches the corresponding character from the end of the string.,"If the function IsPalindrome() is called with the input string 'noon', what is the value of the variable 'counter' after the first iteration of the for loop?","The value of counter is 1, because the first character 'n' is compared to the last character 'n' and they are equal, so counter is incremented by 1.",What change would you make to this code to improve its runtime efficiency when checking for palindromes?,"Add a break statement inside the else if block to immediately exit the loop when a non-matching character pair is found, avoiding unnecessary comparisons."
+19,"int IsPalindrome(char* word) {
+	int length = strlen(word);
+
+	int i = 0;
+	int flag = 1;
+	//printf(""i=%d, flag=%d, length=%d, halfway=%d\n"", i, flag, length, floor(length / 2) - 1);
+	while (flag == 1 && i<=floor(length/2)-1) {
+		//printf(""i=%d: %c -- %c\n"", i, word[i], word[length - 1 - i]);
+		if (word[i] != word[length - 1 - i]) {
+			//printf(""%c -- %c\n"", word[i], word[length-1-i]);
+			flag = 0;
+			break;
+		}
+		i++;
+	}
+	return flag;
+}",What is the purpose of the condition 'i<=floor(length/2)-1' in the while loop?,"It ensures the loop only checks up to the middle of the string, since comparing beyond that point would be redundant when checking for palindromes.","If the function IsPalindrome() is called with the input string 'radar', what is the value of the variable 'flag' immediately after the first iteration of the while loop completes?","The value of flag remains 1 because the characters 'r' and 'r' are equal, so the condition inside the if statement is false and flag is not set to 0.",What change would you make to this code to correctly handle single-character words as palindromes?,Change the while loop condition from 'i<=floor(length/2)-1' to 'i < floor(length/2)' to ensure the loop runs correctly for single-character words.
+20,"int IsPalindrome(char string[]) {
+
+	int is_identical = 0;
+	int string_length = strlen(string);
+
+	char new_string[100];
+
+	for (int i = 0; i < string_length; i++) {
+
+		new_string[i] = string[string_length - 1 - i];
+
+	}
+
+	new_string[string_length] = '\0';
+
+	if (strcmp(string, new_string) == 0) {
+
+		is_identical = 1;
+
+	}
+
+	return is_identical;
+}",What is the purpose of the expression 'string_length - 1 - i' in the index for the original string?,"It calculates the index of the character from the end of the string, allowing the loop to copy characters from the original string in reverse order into new_string.","If the input string is 'radar', what is the value of new_string[2] after the for loop completes?","The value of new_string[2] is 'd', which is the middle character of the reversed string 'radar'.",What change would you make to this code to avoid the potential buffer overflow issue with the fixed-size array 'new_string'?,Replace the fixed-size array 'char new_string[100]' with dynamic memory allocation using malloc to create an array of exactly string_length + 1 characters.
+21,"int IsPalindrome(char *word)
+{
+   int length = 0;
+    while (word[length] != '\0')
+    {
+        length++;
+    }
+    // printf(""Length = %d\n"", length);
+    
+    
+    // printf(""odd\n"");
+    // printf(""length/2 = %d"", length/2);
+    for (int j = 0; j < (length/2); j++)
+    {
+        // printf(""word[j] == %c\n"", word[j]);
+        // printf(""other = %c\n"", word[length-j-1]);
+        if (word[j] != word[length-j-1])
+        {
+            return 0;
+        }
+    }
+    
+
+  
+
+    //printf(""%d\n"", i/2); // if length =3 prints 1
+
+    return 1; 
+}",What is the purpose of the condition 'word[j] != word[length - j - 1]' in the for loop?,"It checks if the character at position j from the start of the string is not equal to the character at the symmetric position j from the end of the string, which would indicate the word is not a palindrome.","If the function IsPalindrome() is called with the string 'racecar', how many times will the condition inside the for loop (word[j] != word[length-j-1]) be evaluated before the function returns?","The condition will be evaluated 3 times, once for each value of j from 0 to 2, and the function will return 1 after all comparisons are made.",What change would make this code more efficient by using a standard library function instead of a custom loop?,"Replace the custom while loop that calculates string length with a call to the strlen() function from string.h, which is already included and more efficient."
+22,"int IsPalindrome(char *word)
+{
+    for (int i = 0; i < (strlen(word)) / 2; i++) {
+		if (word[i] != word[strlen(word) - i - 1]) {
+			return 0;
+		}
+	}
+	return 1;
+}",What is the purpose of the expression 'strlen(word) - i - 1' in the condition of the if statement?,"It calculates the index of the character at the symmetric position from the end of the string, allowing comparison of the first and last characters, then second and second-to-last, and so on.","If the function is called with the string 'noon', how many times will the condition inside the for loop be evaluated?","The condition will be evaluated 3 times: once for each iteration when i=0, i=1, and i=2.","How could you modify the code to avoid repeatedly calling strlen(word) inside the loop, thus improving runtime efficiency?",Store the result of strlen(word) in a variable before the loop and use that variable instead of calling strlen() multiple times.
+23,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+	int palindrome = 0;
+	int length = strlen(word);
+for( int i = 0; i < length; i++) {
+	if(word[i] == word[length - 1 - i]) {
+		palindrome = 1;
+	} else {
+		palindrome = 0;
+		break;
+	}
+}
+  return palindrome;
+}",What is the purpose of using 'length - 1 - i' as an index for the word array in this code?,"It calculates the index of the character at the symmetric position from the end of the string, allowing comparison of the first character with the last, the second with the second last, and so on.","If the function IsPalindrome() is called with the input string 'noon', what is the value of the variable 'palindrome' immediately after the first iteration of the for loop completes?","The value of 'palindrome' is 1 after the first iteration, because the first character 'n' matches the last character 'n'.",What change would make this code more runtime efficient by reducing unnecessary operations?,"Initialize palindrome to 1 and set it to 0 only when a mismatch is found, eliminating the need to repeatedly set it to 1 for each matching character."
+24,"int IsPalindrome(char *word)
+{
+    int len = strlen(word);
+    int i = 0;
+    for (i = 0; i < len/2; i++) {
+        if (word[i] != word[len - 1 - i]){
+            return 0;
+        }
+    }
+
+    return 1;
+}",What is the purpose of using 'len - 1 - i' as an index for the word array in this code?,"It calculates the index of the character at the symmetric position from the end of the string, allowing comparison of the first character with the last, second with second last, and so on.","If the function is called with the string 'racecar', how many times will the condition inside the for loop (word[i] != word[len - 1 - i]) be evaluated before the function returns?","The condition will be evaluated 3 times before the function returns 1, as the loop runs for i=0,1,2 (since len=7, len/2=3) and all comparisons are equal.",How could you modify the IsPalindrome function to make it more runtime efficient by reducing the number of comparisons?,"Change the loop condition from i < len/2 to i < len/2 - 1 to avoid comparing the middle character with itself when the string length is odd, which is unnecessary."
+25,"int IsPalindrome(char *word)
+{
+    int length = 0;
+    char reverse[100] = """";
+
+
+    while (word[length] != '\0')
+    {
+        length++;
+    }
+    
+
+    for (int i = 0; i < length; i++)
+    {
+        reverse[i] = word[length - 1 - i];
+    }
+    reverse[length] = '\0';
+
+
+    for (int j = 0; j < length; j++)
+    {
+        if (reverse[j] != word[j])
+        {
+            return 0;
+        }
+    }
+
+    
+    return 1;
+}",What is the purpose of the line 'reverse[length] = '\0';' in this code?,It adds a null terminator to the end of the reverse array to properly terminate the string after copying all characters.,"If the function IsPalindrome() is called with the input string 'radar', what is the value stored in the variable 'reverse' after the second for-loop completes?","The value stored in 'reverse' is 'radar', which is identical to the original input string.",What change would you make to this code to improve its runtime efficiency by avoiding the creation of a reversed copy of the entire string?,"Replace the reverse array creation and comparison with a single loop that compares characters from both ends of the original string directly, eliminating the need for extra memory and reducing operations."
+26,"int IsPalindrome(char* word) {
+	if (strlen(word) == 1) {
+		return 1;
+	}
+	for (int i = 0; i < strlen(word)/2; i++) {
+		if (!(word[i] == word[strlen(word) - i - 1])) {
+			return 0;
+		}
+	}
+	return 1;
+}",What is the purpose of the condition 'if (!(word[i] == word[strlen(word) - i - 1]))' in the for loop?,"It checks if the character at position i from the start of the string is not equal to the character at the corresponding position i from the end of the string, which would indicate the word is not a palindrome.","If the function IsPalindrome() is called with the string 'noon', how many times will the condition inside the for loop be evaluated?","The condition will be evaluated 2 times, once for i=0 and once for i=1, since strlen('noon')/2 equals 2.","How could you modify the code to avoid recalculating the string length on every iteration of the loop, and what specific change would you make?","Store the string length in a variable before the loop, such as 'int len = strlen(word);', and then use 'len' instead of 'strlen(word)' throughout the loop condition and comparisons."
+27,"#include <stdio.h>
+#include <string.h>
+int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    int isPalidrome = 0;
+    int opposite = length - 1;
+    int counter = 0;
+    
+    for (int i = 0; i < length/2; i++) {
+        if (word[i] == word[opposite]) {
+            counter++;
+        }
+        opposite--;
+    }
+    
+    if (counter == length/2) {
+        isPalidrome = 1;
+    }
+    
+    return isPalidrome;
+}",What is the purpose of the variable 'opposite' in this code?,The variable 'opposite' is used to track the index position of the character from the end of the string that corresponds to the current character from the beginning being compared.,"If the function IsPalindrome() is called with the string 'noon', what is the value of the variable 'counter' immediately after the for loop completes?","The value of counter is 2, because 'n' matches 'n' and 'o' matches 'o', and length/2 equals 2 for the 4-character string 'noon'.",What change would make this code more runtime efficient by reducing unnecessary operations?,"Remove the 'counter' variable and instead return 0 immediately when a mismatch is found, eliminating the need to continue checking once a non-palindrome is detected."
+28,"#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+	int length = strlen(word);
+	char org[100];
+	strcpy(org, word);
+	
+	
+	for (int i = 0; i < (length/2); i++)
+	
+	{
+		char temp = org[i];
+		org[i] = org[length - 1 - i];
+		org[length -1 - i] = temp;
+				
+	}
+	
+	int result = strcmp(org, word);
+	
+	if (result == 0) {
+		return 1;
+	} 
+	else {
+		return 0;
+	}
+		
+	
+	
+}",What is the purpose of the line 'char temp = org[i]; org[i] = org[length - 1 - i]; org[length - 1 - i] = temp;' in this function?,It swaps the character at position i with the character at the symmetric position from the end of the string to reverse the original string.,"If the function IsPalindrome() is called with the input string 'radar', how many times will the body of the for loop execute?","The loop will execute 2 times because the length of 'radar' is 5, and the loop condition is i < (5/2), which is i < 2.","What change would you make to this function to avoid using the temporary array 'org', thus improving memory efficiency?","Remove the 'org' array and instead compare characters directly from the original string by checking if word[i] equals word[length - 1 - i] within the loop, returning 0 immediately if any pair doesn't match."
+29,"int IsPalindrome(char *word)
+{
+    int length=strlen(word);
+    for (int i=0; i<length/2; i++) {
+        if (word[i]!=word[length-1-i]) {
+            return 0;
+        }
+    }
+    return 1;
+}",What is the purpose of using 'length - 1 - i' as an index for the word array in this code?,"It calculates the index of the character at the symmetric position from the end of the string, allowing comparison of characters from both ends moving towards the center.","If the function is called with the string 'racecar', how many times will the condition inside the for loop be evaluated?","The condition will be evaluated 4 times, as the loop runs for i from 0 to 2 (since length=7, so length/2=3, and the loop condition is i < 3).","How could you modify this function to handle a new test case where the input string might contain both uppercase and lowercase letters, while still being considered a palindrome?","Convert each character to the same case (either all lowercase or all uppercase) before comparing them in the if statement, using functions like tolower() or toupper() from the ctype.h library."
+30,"int IsPalindrome(char *word)
+{
+ size_t length = strlen(word);
+ int halfsize = length/2;
+ 
+ 
+ for (int i = 0; i< halfsize; i++){
+  if (word[i] != word[length -1 -i]) {
+   return 0;
+  }
+}
+return 1;
+}",What is the purpose of using 'length - 1 - i' as an index for the word array in this code?,"It calculates the index of the character at the symmetric position from the end of the string, allowing comparison of the first character with the last, second with second last, and so on.","If the function is called with the string 'racecar', how many times will the condition inside the for loop (word[i] != word[length -1 -i]) be evaluated?","The condition will be evaluated 3 times, as the loop runs for i=0, i=1, and i=2 (half the length of 'racecar', which is 7).",How could you modify the code to make it more runtime efficient by reducing the number of operations inside the loop?,"Precompute the index for the character from the end once per iteration by storing 'length - 1 - i' in a variable before the comparison, instead of recalculating it each time."
+31,"int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    for (int i = 0; i < length/2; i++) {
+        if (word[i] != word[length - i - 1]) {
+            return 0;
+        }
+    }
+    return 1;
+    
+}",What is the purpose of the condition 'word[i] != word[length - i - 1]' in this code?,"It checks if the character at position i from the start of the string is not equal to the character at the corresponding position i from the end of the string, which would indicate the word is not a palindrome.","If the function is called with the string 'racecar', how many times will the condition inside the for loop be checked before the function returns?","The condition will be checked 3 times, once for each iteration where i is 0, 1, and 2, before the function returns 1.","How could you modify the IsPalindrome function to handle a new test case where the input string might contain both uppercase and lowercase letters, while still being considered a palindrome?","Convert each character to the same case (e.g., lowercase) before comparison inside the loop, using a function like tolower() from <ctype.h>, to ensure case-insensitive comparison."
+32,"int IsPalindrome(char *word)
+{
+    int i;
+    int length = strlen(word);
+            if(length == 1)
+            {
+            return 1;
+            }
+
+    for(i=0; i < length/2; i++)
+    {
+        if (word[i] != word[length - 1 - i])
+        {
+            return 0;
+        }
+
+    }
+    return 1;
+}",What is the purpose of using 'length - 1 - i' as an index for the word array in this code?,"It calculates the index of the character at the symmetric position from the end of the string, allowing comparison of the first character with the last, the second with the second last, and so on.","If the function is called with the string 'racecar', how many times will the condition inside the for loop (word[i] != word[length - 1 - i]) be evaluated?","The condition will be evaluated 3 times, once for each iteration of the loop (i=0, i=1, i=2) since length/2 = 7/2 = 3 in integer division.","What change would you make to this function to handle the case where the input string is empty, even though the problem states it will contain at least one character, to make the code more robust and defensive?",Add a check at the beginning of the function: if (word == NULL || *word == '\0') return 0; to handle null pointers or empty strings gracefully.
+33,"int IsPalindrome(char *word)
+{
+	
+	int length = strlen(word);
+	int i;
+	
+	for(i=0 ; i<length/2 ; i++){
+		
+		if(word[i] != word[length-i-1]){
+			return 0;
+		}
+	
+	}
+	
+	return 1;
+
+}",What is the purpose of the condition 'word[i] != word[length-i-1]' in the for loop?,"It checks if the character at position i from the start of the string is not equal to the character at the symmetric position from the end of the string, which would indicate the word is not a palindrome.","If the function is called with the string 'racecar', how many times will the condition inside the for loop be evaluated?","The condition will be evaluated 4 times, as the loop runs for i from 0 to 2 (since length is 7, so length/2 is 3, and the loop condition is i < 3).",How could you modify the IsPalindrome function to make it more runtime efficient by reducing the number of comparisons?,Change the loop condition from 'i < length/2' to 'i < length/2 - 1' to avoid comparing the middle character with itself when the string length is odd.
+34,"int IsPalindrome(char str[]) {
+	int left = 0;
+	int right = strlen(str) - 1;
+
+	while (left < right) {
+		if (str[left] != str[right]) {
+			return 0;
+		}
+
+		left++;
+		right--;
+	}
+
+	return 1;
+}",What is the purpose of the condition 'if (str[left] != str[right])' inside the while loop?,"It checks if the characters at the current left and right positions are different, and if so, immediately returns 0 to indicate the string is not a palindrome.","If the function is called with the string 'racecar', what is the value of 'left' and 'right' at the start of the third iteration of the while loop?","At the start of the third iteration, 'left' is 2 and 'right' is 4.",How could you modify this function to make it more runtime efficient by avoiding the repeated calculation of the string's length?,"Calculate the string length once at the beginning of the function and store it in a variable, then use that variable instead of calling strlen() multiple times."
+35,"int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+
+    char reverse[100];
+    for (int i = 0; i < length; i++) {
+        reverse[length-i-1] = word[i];
+    }
+    reverse[length] = '\0';
+
+    if (strcmp(reverse, word) == 0) {
+        return 1;
+    }
+    return 0;
+}",What is the purpose of the expression 'length - i - 1' in the index for the reverse array?,It calculates the index position in the reverse array where the corresponding character from the original word should be placed to create the reversed string.,"If the function is called with the input string 'radar', what is the value stored in the reverse array after the for loop completes?",The reverse array will contain the string 'radar' because the loop correctly reverses the input string.,What change would you make to this code to prevent a potential buffer overflow when the input string is longer than 99 characters?,"Dynamically allocate memory for the reverse array using malloc based on the actual string length, or use a pointer to traverse the original string without creating a reversed copy."
+36,"int IsPalindrome(char *word)
+{   int wordLength = strlen(word);
+    for (int i = wordLength -1; i >= 0; i--)
+    {
+        if (word[i]  !=  word[wordLength - 1 - i])
+        {
+            return 0;
+        }
+    }
+    return 1;
+    
+}",What is the purpose of using 'wordLength - 1 - i' as an index for the word array in this code?,"It calculates the index of the character that is symmetric to the character at index i, allowing comparison of characters from opposite ends of the string moving toward the center.","If the function is called with the string 'noon', what is the value of the expression 'wordLength - 1 - i' when i is 2?","When i is 2, the expression evaluates to 3 - 1 - 2, which equals 0.",What change would make this function more efficient by reducing the number of comparisons needed?,"Change the loop condition to iterate only up to the middle of the string, such as `for (int i = wordLength - 1; i >= wordLength / 2; i--)`."
+37,"int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    for (int i=0; i < length/2; i++){
+        if (word[i] != word[length-i-1])
+        {
+            return 0;
+        }
+    }
+    return 1;
+}",What is the purpose of the condition 'word[i] != word[length-i-1]' in this code?,"It checks if the character at position i from the start of the string is not equal to the character at the corresponding position i from the end of the string, which would indicate the word is not a palindrome.","If the function is called with the string 'racecar', how many times will the condition inside the for loop be evaluated before the function returns?","The condition will be evaluated 3 times, once for each iteration when i=0, i=1, and i=2, after which the function returns 1.","How could you modify the IsPalindrome function to handle a new test case where the input string might contain mixed case letters (e.g., 'Noon') while still being efficient?","Convert each character to the same case (e.g., lowercase) within the loop before comparison, using tolower(word[i]) and tolower(word[length-i-1]), ensuring the function correctly identifies case-insensitive palindromes."
+38,"int IsPalindrome(char *word) {
+    int length = strlen(word);
+
+    for (int i = 0; i < length; i++) {
+        if (word[i] != word[(length-1) - i]) {
+            return 0;
+        }
+    }
+
+    return 1;
+}",What is the purpose of using 'length - 1 - i' as an index for the word array in this code?,"It calculates the index of the character at the symmetric position from the end of the string, allowing comparison of characters from both ends moving towards the center.","If the function is called with the string 'radar', what is the value of the expression '(length-1) - i' when i is 2?","The value is 2, because length is 5, so (5-1)-2 = 4-2 = 2.",How could you modify the loop condition in the IsPalindrome function to improve its runtime efficiency?,"Change the loop condition from 'i < length' to 'i < length/2' to only check half of the string, since comparing both halves is redundant."
+39,"int IsPalindrome(char *word)
+{
+    int len = strlen(word);
+    
+    for (int i = 0; i<len/2; i++){
+
+        if(word[i] != word[len-1-i]){
+
+            return 0;
+        }
+
+    }
+    return 1;
+}",What is the purpose of using 'len-1-i' as an index in the condition 'word[i] != word[len-1-i]'?,It calculates the index of the character at the symmetric position from the end of the string to compare with the character at index i from the start.,"If the function is called with the string 'racecar', how many times will the condition inside the for loop be evaluated?","The condition will be evaluated 4 times, as the loop runs for i from 0 to 2 (since len=7, len/2=3, and i<3).","How could you modify the IsPalindrome function to handle a new test case where the input string might contain mixed case letters (both uppercase and lowercase), while still using the existing logic structure?","Convert each character to the same case (either all lowercase or all uppercase) before comparing them in the if statement, using functions like tolower() or toupper() from <ctype.h>."
+40,"int IsPalindrome(char* word)
+{
+	char temp[100];
+	int len = strlen(word);
+	for (int i = 0; i < len; i++) {
+		temp[i] = word[len - 1 - i];
+	}
+	temp[len] = '\0';
+	return (strcmp(temp, word) == 0);
+
+}",What is the purpose of using 'len - 1 - i' as the index for the word array in this code?,"It accesses the characters of the input string in reverse order, starting from the last character and moving backwards to the first.","If the input string is 'radar', what is the value stored in the temp array after the for loop completes and before the null terminator is added?","The temp array contains the characters 'r', 'a', 'd', 'a', 'r' in that order, which forms the string 'radar'.","How could you modify this function to avoid using the temporary array 'temp', thereby improving memory efficiency?","Compare characters directly from the original string by iterating from both ends towards the center, eliminating the need for the temporary array and reducing memory usage."
+41,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word) {
+    int L = strlen(word);
+    
+    for  (int i = 0; i<L/2; i++) {
+        if (word[i] != word[L -1 -i]) {
+            return 0;
+        }
+    }
+    
+    return 1;
+}",What is the purpose of using 'L - 1 - i' as an index for the word array in this code?,"It calculates the index of the character at the symmetric position from the end of the string, allowing comparison of the first character with the last, second with second last, and so on.","If the function IsPalindrome() is called with the input string 'radar', how many times will the condition inside the for loop be checked?","The condition will be checked 2 times, as the loop runs for i from 0 to (5/2)-1, which is i=0 and i=1.",How could you modify the IsPalindrome function to make it more runtime efficient by reducing the number of comparisons?,Change the loop condition from i < L/2 to i <= (L-1)/2 to handle both even and odd length strings correctly while maintaining the same number of comparisons.
+42,"int IsPalindrome(char *word)
+{
+    size_t finalnum = strlen(word);
+    int end = finalnum;
+    for (int i = 0; i < finalnum; i++) {
+        if (word[i] != word[end-1-i]) {
+            return 0;
+        }
+    }
+    return 1;
+}",What is the purpose of using 'end-1-i' as an index for the word array in the if condition?,"It calculates the index of the character at the symmetric position from the end of the string, allowing comparison of the first character with the last, the second with the second last, and so on.","If the function is called with the string 'noon', what is the value of the expression 'end-1-i' when i is 1?","The value is 2, because end is 4 (strlen('noon')), so 4-1-1 equals 2.",What change would you make to this code to improve its runtime efficiency when checking very long palindromic strings?,"Change the loop condition from 'i < finalnum' to 'i < finalnum/2' to only check the first half of the string against the second half, reducing the number of comparisons by half."
+43,"int IsPalindrome(char *word)
+{
+   
+
+   for (int i = 0; i<strlen(word); i++){
+    if (word[i] != word[strlen(word)-1-i]){
+        return 0;
+    }
+   }
+   return 1;
+
+}",What is the purpose of using 'strlen(word)-1-i' as an index in the condition 'word[i] != word[strlen(word)-1-i]'?,"It calculates the index of the character at the symmetric position from the end of the string, allowing comparison of the first character with the last, the second with the second last, and so on.","If the function is called with the string 'noon', how many times will the condition inside the for loop be evaluated before the function returns?","The condition will be evaluated 2 times before the function returns 1, as the loop checks indices 0 and 1, finds both conditions false, and then completes without returning 0.",How can you improve the runtime efficiency of this palindrome-checking function by modifying the loop condition?,"Calculate the string length once before the loop and store it in a variable, then use that variable in the loop condition instead of calling strlen() repeatedly."
+44,"int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    for (int i=0; i<length; i++) {
+        if (word[i]!= word[length-i-1]) {
+            return 0;
+        }
+    }
+    return 1;
+}",What is the purpose of the expression 'length - i - 1' in the index for the word array?,"It calculates the index of the character at the symmetric position from the end of the string, allowing comparison of the first character with the last, the second with the second last, and so on.","If the function is called with the string 'noon', what is the value of the expression 'word[length-i-1]' when i=1?","When i=1, length=4, so word[length-i-1] evaluates to word[4-1-1] = word[2], which is 'o'.",How could you modify the loop condition in the IsPalindrome function to improve its runtime efficiency?,"Change the loop condition from 'i < length' to 'i < length/2' to only check half the characters, since comparing both halves is redundant."
+45,"int IsPalindrome(char *word)
+{
+    int i;
+    int length = strlen(word);
+    
+    for (i = 0; i < length/2; i++) {
+        if (word[i] != word[length - 1 - i]) {
+            return 0;
+        }
+    }
+    return 1;
+}",What is the purpose of the expression 'length - 1 - i' as an index in the condition 'word[i] != word[length - 1 - i]'?,It calculates the index of the character at the symmetric position from the end of the string to compare with the character at index i from the beginning.,"If the function is called with the string 'racecar', how many times will the condition inside the for loop (word[i] != word[length - 1 - i]) be evaluated?","The condition will be evaluated 3 times, as the loop runs for i from 0 to 2 (since length is 7, so length/2 is 3, and the loop condition is i < 3).",How could you modify the IsPalindrome function to make it more runtime efficient by reducing the number of comparisons?,"Change the loop condition from i < length/2 to i < length/2 - 1 when length is even, or keep it as i < length/2 when length is odd, to avoid comparing the middle character with itself in odd-length palindromes."
+46,"int IsPalindrome(char* word)
+{
+	int length = strlen(word)-1;
+
+	for (int i = 0; i <= length / 2; i++) {
+
+		if (word[i] != word[length - i]) {
+
+			return 0;
+		}
+	}
+
+	return 1;
+
+}",What is the purpose of the condition 'i <= length / 2' in the for loop?,"It ensures the loop only compares the first half of the string with the corresponding characters in the second half, which is sufficient to check for a palindrome.","If the function is called with the string 'noon', how many times will the condition inside the for loop (word[i] != word[length - i]) be evaluated?","The condition will be evaluated 2 times, once for i=0 and once for i=1, before the loop terminates.","What change would you make to this function to handle the case where the input string might contain uppercase letters, without altering the function's signature or the problem's original assumptions?","Convert each character to lowercase before comparison by adding 'tolower(word[i]) != tolower(word[length - i])' in the if condition, which requires including <ctype.h>."
+47,"int IsPalindrome(char *word)
+{
+   int length;
+	for (int i = 0; word[i] != '\0'; i++) {
+		length = i;
+	   }
+	   if (length%2 == 0) {
+		   for (int i = 0; i <= length/2; i++) {
+			   if (word[i] != word[length - i]) {
+				   return 0;
+			   }
+		   }
+		return 1;	   
+   }
+				   
+		else {
+			for (int i = 0; i <= (length-1)/2; i++) {
+			   if (word[i] != word[length - i]) {
+				   return 0;
+			   }		
+			}
+		return 1; 
+		    
+	}
+}",What is the purpose of the condition 'if (length%2 == 0)' in this code?,It checks whether the length of the word is even or odd to determine the appropriate stopping condition for the palindrome comparison loop.,"If the input string is 'noon', what is the value of the variable 'length' after the first for loop completes?","The value of 'length' is 3, as it represents the index of the last character (which is 'n' at index 3) before the null terminator.",What change would you make to this code to improve its runtime efficiency by eliminating redundant calculations?,Replace the manual length calculation loop with a single call to strlen(word) to determine the string length more efficiently.
+48,"int IsPalindrome(char *word)
+{
+	int length=(int)strlen(word);
+	int i;
+	for (i=0;i<(length/2);i++){
+		if (word[i]!=word[length-1-i]){
+			return 0;
+		}
+	}
+	return 1;
+}",What is the purpose of using 'length - 1 - i' as an index for the word array in this code?,"It calculates the index of the character at the symmetric position from the end of the string, allowing comparison of the first character with the last, the second with the second last, and so on.","If the function IsPalindrome() is called with the input string 'radar', how many times will the condition inside the for loop (word[i] != word[length-1-i]) be evaluated before the function returns?","The condition will be evaluated 2 times, once for i=0 and once for i=1, and then the function will return 1 after the loop completes.",How could you modify the IsPalindrome function to avoid the unnecessary cast of strlen's return value and improve code style?,Remove the (int) cast from 'int length=(int)strlen(word);' since strlen returns size_t which is compatible with integer comparisons and the cast adds no value while reducing readability.
+49,"int IsPalindrome(char *word) {
+    int left = 0;
+    int right = strlen(word) - 1;
+
+    while (left < right) {
+        if (word[left] != word[right]) {
+            return 0;  // not a palindrome
+        }
+        left++;
+        right--;
+    }
+
+    return 1;  // is a palindrome
+}",What is the purpose of the condition 'left < right' in the while loop?,"It ensures the loop continues only while the left index is less than the right index, stopping when they meet or cross, which means all character pairs have been checked.","If the function is called with the string 'racecar', what are the values of 'left' and 'right' at the start of the third iteration of the while loop?","At the start of the third iteration, 'left' is 2 and 'right' is 4.","What change would you make to this function to handle a new requirement where the input string might contain uppercase letters, without altering the core palindrome-checking logic?","Add a line inside the while loop to convert both word[left] and word[right] to the same case (e.g., using tolower()) before comparing them with if (tolower(word[left]) != tolower(word[right]))."
+50,"int IsPalindrome(char *word)
+{
+    int left = 0;
+    int right = strlen(word) - 1;
+
+    while (left < right) {
+        if (word[left] != word[right]) {
+            return 0;
+        }
+        left++;
+        right--;
+    }
+    return 1;
+}",What is the purpose of the condition 'left < right' in the while loop?,"It ensures the loop continues only while the left index is less than the right index, allowing the function to check characters from both ends moving inward until they meet or cross.","If the function is called with the string 'racecar', what are the values of 'left' and 'right' at the start of the third iteration of the while loop?","At the start of the third iteration, 'left' is 2 and 'right' is 4.","How could you modify this function to handle a new requirement where the input string might contain both uppercase and lowercase letters, while still considering 'A' and 'a' as matching for palindrome purposes?",Add a condition inside the while loop to convert both word[left] and word[right] to the same case (either both tolower() or both toupper()) before comparing them with if (tolower(word[left]) != tolower(word[right])).
+51,"int IsPalindrome(char* word)
+{
+	int i = 0;
+	int length = strlen(word);
+	
+
+	if (word[i] != word[length-1]) {
+		return 0;
+	}
+	else if (word[i+1] != word[length-2]) {
+		return 0;
+	}
+	else {
+		return 1;
+	}
+}",What is the purpose of the condition 'word[i] != word[length-1]' in this code?,"It checks if the first character of the string is not equal to the last character, which would immediately indicate that the word is not a palindrome.","If the function IsPalindrome() is called with the input string 'noon', what value does it return and why?","It returns 1 because the first character 'n' matches the last character 'n', and the second character 'o' matches the second-to-last character 'o', satisfying both else-if conditions and executing the else block.",What change is necessary to make this function correctly check if a string of any length is a palindrome?,"Replace the current if-else structure with a loop that compares characters from both ends moving towards the center, as the current code only checks the first two and last two characters."
+52,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+	int start = 0;
+	int end = strlen(word) - 1;
+
+	while (start < end) {
+		if (word[start] != word[end]) {
+			return 0;
+		}
+		start++;
+		end--;
+	}
+	return 1;
+}",What is the purpose of the condition 'if (word[start] != word[end])' in the IsPalindrome function?,"It checks if the characters at the current start and end positions are different, which would indicate the word is not a palindrome.","If the function IsPalindrome() is called with the string 'racecar', how many times will the condition inside the while loop (word[start] != word[end]) be evaluated before the function returns?","The condition will be evaluated 3 times before the function returns 1, as the loop runs for half the length of the string (7 characters), comparing pairs until the middle is reached.",How could you modify the IsPalindrome function to make it more runtime efficient by reducing the number of comparisons?,Change the while loop condition from 'start < end' to 'start <= end' to avoid the unnecessary final comparison when the string has an odd number of characters.
+53,"#include <stdbool.h>
+
+int IsPalindrome(char *word)
+{
+    int stringLength = strlen(word);
+    bool flag = true;
+    int i = 0;
+    while (flag && i < stringLength / 2) {
+        if (word[i] != word[stringLength - 1 - i]) {
+            flag = false;
+        }
+        i++;
+    }
+    
+    if (flag) {
+        return 1;
+    }
+    else {
+        return 0;
+    }
+}",What is the purpose of using 'stringLength - 1 - i' as an index for the word array in this code?,"It calculates the index of the character at the symmetric position from the end of the string, allowing comparison of characters from both ends moving towards the center.","If the function is called with the string 'noon', how many times will the condition inside the while loop (word[i] != word[stringLength - 1 - i]) be evaluated?","The condition will be evaluated 2 times, once for i=0 and once for i=1, before the loop terminates normally.","How could you modify the IsPalindrome function to avoid using the boolean flag variable, thus making the code more efficient and concise?","Remove the flag variable and use a direct return 0 statement inside the if condition when characters don't match, and return 1 after the loop completes if all character pairs matched."
+54,"int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    for (int i = 0; i < length; i++) {
+        if (word[i] != word[length - 1 - i]) {
+            return 0;
+        }
+    }
+    return 1;
+}",What is the purpose of using 'length - 1 - i' as an index for the word array in this code?,"It calculates the index of the character at the symmetric position from the end of the string, allowing comparison of the first character with the last, the second with the second last, and so on.","If the function is called with the string 'noon', how many times will the condition inside the for loop be evaluated before the function returns?","The condition will be evaluated twice, once for i=0 and once for i=1, before the function returns 1.",How could you modify the loop condition in the IsPalindrome function to improve its runtime efficiency?,"Change the loop condition from 'i < length' to 'i < length / 2' to only check half the characters, since comparing both halves is redundant."
+55,"int IsPalindrome(char* word)
+{
+	int len = strlen(word);
+	for (int i = 0; i < len/2; i++) {
+		if (word[i] != word[len-i-1]) {
+			return(0);
+		}
+	}
+	return(1);
+}",What is the purpose of the condition 'word[i] != word[len-i-1]' in the code?,"It checks if the character at position i from the start of the string is not equal to the character at the symmetric position i from the end of the string, which would indicate the word is not a palindrome.","If the function IsPalindrome() is called with the input string 'radar', how many times will the condition inside the for loop (word[i] != word[len-i-1]) be evaluated?","The condition will be evaluated 2 times, once for i=0 and once for i=1, before the loop terminates after the second iteration.","How could you modify the IsPalindrome function to handle a new test case where the input string might contain both uppercase and lowercase letters, while still being considered a palindrome?",Convert each character to the same case (either all lowercase or all uppercase) using tolower() or toupper() from <ctype.h> before comparing them in the if condition.
+56,"int IsPalindrome(char* word) {
+	int count;
+	count = 2;
+	if (word[strlen(word)-1] != word[0]) {
+		return 0; // check if last letter = first letter
+	}
+	for (int i = 1; i < strlen(word); i++) {
+		if (word[i] != word[strlen(word) - count]) {
+			return 0;
+		}
+		count++;
+	}
+	return 1;
+
+}",What is the purpose of the variable 'count' in the IsPalindrome function?,"The variable 'count' is used as an offset to access characters from the end of the string, starting from the second-to-last character and moving backwards through the string during each iteration of the loop.","If the function is called with the string 'noon', what is the value of the variable 'count' at the start of the second iteration of the for loop?",The value of 'count' is 3 at the start of the second iteration of the for loop.,What change would make this code more runtime efficient by avoiding redundant function calls?,Store the result of strlen(word) in a variable before the loop to avoid recalculating it repeatedly.
+57,"int IsPalindrome(char *word)
+{
+    int strlength = strlen(word);
+    for(int i=0; i<=strlength;i++){
+        if (word[i] != word[strlength-i-1]){
+            return 0;
+        }
+    }
+    return 1;
+}",What is the purpose of the condition 'word[i] != word[strlength-i-1]' in the if statement?,It compares the character at position i from the start of the string with the character at the corresponding position i from the end of the string to check if they are different.,"If the function is called with the string 'noon', how many times will the condition inside the for loop be evaluated before the function returns?","The condition will be evaluated 3 times before the function returns 1, as the loop runs for i=0,1,2 and the condition fails for all comparisons, allowing the function to return after the loop completes.",What change should be made to the loop condition to fix the off-by-one error in this palindrome checking function?,Change the loop condition from 'i<=strlength' to 'i<strlength/2' to avoid comparing characters beyond the middle of the string and prevent redundant comparisons.
+58,"int IsPalindrome(char *word)
+{
+    int length = 0;
+    while (word[length] != '\0')
+        length++;
+
+    int a = 0; // start of char array
+    int b = length - 1; // length of char array
+
+    while (a < b) {
+        if (word[a] != word[b]) 
+            return 0;
+        a++;
+        b--;
+        }
+            return 1;
+    }",What is the purpose of the condition 'a < b' in the while loop of the IsPalindrome function?,"It ensures that the loop only compares characters until the pointers meet at the middle of the string, preventing unnecessary comparisons and ensuring correct palindrome detection.","If the function IsPalindrome() is called with the input string 'radar', what are the values of variables 'a' and 'b' at the start of the third iteration of the while loop?","At the start of the third iteration, a is 2 and b is 2.",What change would you make to this code to improve its runtime efficiency by avoiding the manual calculation of the string's length?,"Replace the manual while loop that calculates length with a call to the strlen() function, which is more efficient and already available through the included <string.h> header."
+59,"int IsPalindrome(char *word)
+{
+    int left = 0;
+    int right = strlen(word) -1;
+
+    while(left < right)
+    {
+        if(word[left] != word[right])
+        {
+            return 0;
+        }
+        left++;
+        right--;
+    }
+    return 1;
+}",What is the purpose of the condition 'left < right' in the while loop?,"It ensures the loop continues only while the left index is less than the right index, stopping when they meet or cross, which means all character pairs have been checked.","If the function is called with the string 'racecar', what are the values of 'left' and 'right' at the start of the third iteration of the while loop?","At the start of the third iteration, 'left' is 2 and 'right' is 4.","How could you modify this function to correctly handle a string containing a single space character, such as ' '?","Add a check at the beginning of the function to return 1 if the string length is 0 or 1, since both empty strings and single-character strings (including a space) are palindromes by definition."
+60,"int IsPalindrome(char *word)
+{
+    int length= strlen(word);
+    for (int i=0; i<length/2; i++){
+        if(word[i] != word[length-i-1]){
+            return 0;
+        }
+    }
+    return 1;
+}",What is the purpose of the condition 'word[i] != word[length-i-1]' in this code?,"It checks if the character at position i from the start of the string is not equal to the character at the corresponding position i from the end of the string, which would indicate the word is not a palindrome.","If the function is called with the string 'racecar', how many times will the condition inside the for loop be evaluated?","The condition will be evaluated 3 times because the loop runs for i from 0 to (7/2)-1, which is 0, 1, and 2.","How could you modify the IsPalindrome function to handle a new test case where the input string might contain mixed case letters (e.g., 'Noon') while still being efficient?","Convert each character to the same case (e.g., lowercase) within the loop before comparison, using tolower(word[i]) and tolower(word[length-i-1]), to ensure case-insensitive checks without altering the original string."
+61,"int IsPalindrome(char *word)
+{
+    int left = 0;
+    int right = strlen(word) - 1;
+
+    while (left < right) 
+    {
+        if (word[left] != word[right]) 
+        {
+            return 0;
+        }
+        left++;
+        right--;
+    }
+    return 1;
+}",What is the purpose of the condition 'left < right' in the while loop?,"It ensures the loop continues only while the left index is less than the right index, stopping when they meet or cross, which means all character pairs have been checked.","If the function is called with the string 'racecar', what are the values of 'left' and 'right' at the start of the third iteration of the while loop?","At the start of the third iteration, 'left' is 2 and 'right' is 4.","How could you modify this function to handle a new test case where the input string might contain uppercase letters, while keeping the function's runtime efficient?","Add a line inside the while loop to convert both word[left] and word[right] to the same case (e.g., using tolower()) before comparing them, ensuring case-insensitive palindrome checking without significantly impacting runtime efficiency."
+62,"int IsPalindrome(char *word)
+{
+    	int left = 0;
+	int right = 0;
+	while (word[right] != '\0') {
+		right++;
+	}
+	right--; 
+	while (left < right) {
+		if (word[left] != word[right]) {
+			return 0; 
+		}
+		left++;
+		right--;
+	}
+	return 1; 
+}",What is the purpose of the line 'right--;' immediately after the first while loop in this code?,"It adjusts the 'right' index to point to the last character of the string instead of the null terminator, so that the subsequent comparison can check characters from both ends of the string.","If the function is called with the string 'noon', what are the values of 'left' and 'right' immediately after the first while loop completes?","left is 0 and right is 3, because the first while loop increments right until it finds the null terminator, and then right is decremented by one to point to the last character 'n'.","How could you modify this code to use the strlen() function, as allowed by the problem statement, to improve its clarity and efficiency?","Replace the first while loop that calculates the string length with a call to strlen(word), and then set right = strlen(word) - 1 to initialize the right index correctly."
+63,"int IsPalindrome(char *word)
+{
+    int len = strlen(word);
+	
+	for (int i = 0; i <= len/2; i++) {
+		if (word[i] != word[len - 1 - i]){
+			return 0;
+		}
+	}
+	return 1;
+}",What is the purpose of using 'len - 1 - i' as an index for the word array in this code?,"It calculates the index of the character at the symmetric position from the end of the string, allowing comparison of the first character with the last, second with second last, and so on.","If the function IsPalindrome() is called with the string 'radar', how many times will the condition inside the for loop be evaluated before the function returns?","The condition will be evaluated 3 times, once for each iteration when i is 0, 1, and 2, and then the function returns 1 after the loop completes.",What minor change could be made to this function to make it more runtime efficient by reducing unnecessary iterations?,Change the loop condition from 'i <= len/2' to 'i < len/2' to avoid checking the middle character twice when the length is odd.
+64,"int IsPalindrome(char *word)
+{
+    int left= 0;
+    int right = strlen(word) - 1;
+}",What is the purpose of initializing 'right' to 'strlen(word) - 1' in this code?,"It sets the 'right' index to point to the last character in the string, which is necessary for comparing characters from both ends of the string when checking for a palindrome.","Given the code as written, what is the value of 'right' if the input string is 'racecar'?","The value of 'right' would be 6, which is the index of the last character in the string 'racecar' (strlen(""racecar"") - 1 = 7 - 1 = 6).",What change is necessary to complete the IsPalindrome function so that it correctly checks if the input string is a palindrome?,"Add a while loop that compares characters from both ends of the string, moving inward until they meet, and return 0 if any pair doesn't match or 1 if all pairs match."
+65,"int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    int palindrome = 1;
+        for (int i = 0; i < (length / 2); i++) {
+            if (word[i] != word[length -1 -i]) {
+                palindrome = 0;
+                break;
+            }
+        }
+        if (palindrome == 1) {
+            return 1;
+        }
+        else {
+            return 0;
+    }
+    
+}",What is the purpose of the condition 'if (word[i] != word[length - 1 - i])' in this code?,"It checks if the character at position i from the start of the string is not equal to the character at the corresponding position i from the end of the string, which would indicate the word is not a palindrome.","If the function is called with the string 'racecar', how many times will the condition inside the for loop (word[i] != word[length -1 -i]) be evaluated before the loop terminates?","The condition will be evaluated 3 times before the loop terminates, as the loop runs for i from 0 to 2 (since length is 7, so length/2 is 3).",What change would make this code more efficient by reducing the number of iterations in the for loop?,Change the loop condition from 'i < (length / 2)' to 'i <= (length / 2) - 1' to avoid potential floating-point issues and make the iteration count explicitly clear.
+66,"int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    int check = 1;
+    for (int i = 0; i < length / 2; i++) {
+	    if (!(word[i] == word[length - 1 - i])) {
+		check = 0;
+        }
+    }
+    return check;
+    
+}",What is the purpose of the expression 'length - 1 - i' in the index for the word array?,"It calculates the index of the character at the symmetric position from the end of the string, allowing comparison of the first character with the last, the second with the second last, and so on.","If the function is called with the string 'racecar', how many times will the condition inside the for loop be evaluated?","The condition will be evaluated 3 times, as the loop runs for i from 0 to 2 (since length is 7, and 7/2 is 3 in integer division).","How could you modify the IsPalindrome function to immediately return 0 when a non-matching character pair is found, rather than continuing to check all remaining pairs?","Add a break statement inside the if block after setting check = 0, which would terminate the loop early when a mismatch is detected, improving runtime efficiency."
+67,"int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+
+    int left = 0;
+    int right = length - 1;
+
+    while (left < right) {
+        if (word[left] != word[right]) {
+            return 0;
+        }
+        left++;
+        right--;
+    }
+    return 1;
+    
+}",What is the purpose of the condition 'left < right' in the while loop?,"It ensures the loop continues only while the left index is less than the right index, stopping when they meet or cross, which means all character pairs have been checked.","If the function is called with the string 'racecar', what are the values of 'left' and 'right' at the start of the third iteration of the while loop?","At the start of the third iteration, 'left' is 2 and 'right' is 4.","How could you modify this function to handle a new test case where the input string might contain mixed case letters (e.g., 'Noon') while still being efficient?","Add a call to a standard library function like tolower() inside the while loop to convert both word[left] and word[right] to lowercase before comparing them, ensuring case-insensitive comparison without altering the original string."
+68,"int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    int check = 1;
+    int i = 0;
+    while (i <= length/2) {
+        if (word[i] != word[length - 1 - i]){
+            check = 0;
+            break;
+        }
+        i++;
+    }
+    return check;
+}",What is the purpose of using 'length - 1 - i' as an index for the word array in this code?,"It calculates the index of the character at the symmetric position from the end of the string, allowing comparison between the first and last characters, then moving inward.","If the function is called with the string 'noon', what is the value of the variable 'check' immediately after the first iteration of the while loop completes?","The value of 'check' remains 1 because the first character 'n' matches the last character 'n', so the condition inside the if statement is false and 'check' is not set to 0.",What change would make this code more runtime efficient by reducing the number of comparisons needed?,Change the loop condition from 'i <= length/2' to 'i < length/2' to avoid comparing the middle character with itself when the length is odd.
+69,"int IsPalindrome(char *word) { 
+	int length = strlen(word);
+	for (int i = 0; i < length/2; i++) {
+		if (word[i]!=word[length-1-i]) {
+			return 0;
+		}
+	}
+	return 1;
+}",What is the purpose of the condition 'if (word[i] != word[length-1-i])' in this code?,"It checks if the character at position i from the start of the string is not equal to the character at the corresponding position i from the end of the string, which would indicate the word is not a palindrome.","If the function IsPalindrome() is called with the string 'radar', how many times will the condition inside the for loop be checked?","The condition will be checked 2 times, once for i=0 and once for i=1, since the loop runs while i < length/2 and the length of 'radar' is 5.",How could you modify the IsPalindrome function to make it more runtime efficient by reducing the number of comparisons?,Change the loop condition from i < length/2 to i < (length+1)/2 to handle both even and odd length strings correctly while still comparing only the necessary pairs of characters.
+70,"#define CRT_SECURE_NO_WARNINGS
+#include <string.h>
+
+int IsPalindrome(char* word) {
+
+	int i;
+	int length = strlen(word);
+
+for (i = 0; i < length / 2; i++) {
+	if (word[i] != word[length - 1 - i]) {
+		return 0;
+	}
+}
+return 1;
+
+}",What is the purpose of the condition 'i < length / 2' in the for loop?,"It ensures the loop only checks the first half of the string against the second half, which is sufficient to determine if the word is a palindrome.","If the function IsPalindrome() is called with the string 'radar', how many times will the condition inside the for-loop be evaluated?","The condition will be evaluated 3 times, corresponding to i values 0, 1, and 2, since the loop runs while i < length/2 (5/2 = 2.5, so i < 2.5).",What change would you make to this function to improve its runtime efficiency for very long strings?,"I would eliminate the redundant strlen() call by calculating the length once and storing it in a variable, then using that variable throughout the function instead of calling strlen() multiple times."
+71,"int IsPalindrome(char *word)
+{
+    int i = 0;
+    int j = strlen(word) - 1;
+    while (i < j) {
+        if (word[i] != word[j]) return 0;
+        i++;
+        j--;
+    }
+    return 1;
+}",What is the purpose of the condition 'if (word[i] != word[j]) return 0;' in the while loop?,"It checks if the characters at the current start and end positions are different, and if so, immediately returns 0 (false) because the word cannot be a palindrome.","If the function is called with the string 'racecar', what are the values of i and j at the start of the third iteration of the while loop?","At the start of the third iteration, i is 2 and j is 4.","How could you modify this function to handle a new test case where the input string might contain uppercase letters, while keeping the core logic intact?","Add a line inside the while loop to convert both word[i] and word[j] to the same case (e.g., using tolower()) before comparing them, ensuring case-insensitive palindrome checks."
+72,"int IsPalindrome(char *word)
+{
+ int length = strlen(word);
+ int left =0;
+ int right = length -1;
+ while (left<right){
+     if (word[left]==word[right]){
+         left++;
+         right--;
+     } else {
+         return 0;
+     }
+     }
+     return 1;
+ }",What is the purpose of the condition 'if (word[left] == word[right])' in the while loop?,It checks if the character at the current left index matches the character at the current right index to verify if those positions are symmetrical in the word.,"If the function IsPalindrome() is called with the string 'racecar', what is the value of the variable 'left' at the moment the while loop condition 'left < right' is evaluated for the final time?",The value of 'left' is 3 at the moment the while loop condition is evaluated for the final time.,How could you modify the IsPalindrome function to make it more runtime efficient by reducing the number of comparisons?,Change the while loop condition from 'left < right' to 'left <= right' to avoid the unnecessary final comparison when the string has an odd number of characters.
+73,"int IsPalindrome(char *word)
+{
+int len = strlen(word);
+    for (int i = 0; i < len / 2; i++) {
+	if (word[i] != word[len - i - 1]){
+	return false;
+	}
+	}
+	return true;
+	
+}",What is the purpose of the condition 'word[i] != word[len - i - 1]' in this code?,"It checks if the character at position i from the start of the string is not equal to the character at the corresponding position i from the end of the string, which would indicate the word is not a palindrome.","If the input string is 'racecar', how many times will the condition inside the for loop (word[i] != word[len - i - 1]) be evaluated before the function returns?","The condition will be evaluated 3 times, once for each iteration of the loop (i=0, i=1, i=2), and then the function will return true after the loop completes.",What change would you make to this function to handle the case where the input string might be in mixed case (both uppercase and lowercase letters) and still correctly identify palindromes?,Convert the entire string to a consistent case (either all lowercase or all uppercase) using tolower() or toupper() from <ctype.h> before performing the palindrome check.
+74,"int IsPalindrome(char *word)
+{
+    int length;
+    int i;
+    length = strlen(word);
+    
+    for(i = 0; i < length; i++)
+    {
+        if(word[i] != word[length - 1 - i])
+        {
+            return 0;
+        }
+    }
+    return 1;
+}",What is the purpose of using 'length - 1 - i' as an index for the word array in this code?,"It calculates the index of the character at the symmetric position from the end of the string, allowing comparison of the first character with the last, the second with the second last, and so on.","If the function is called with the string 'noon', how many times will the condition inside the for loop be evaluated before the function returns?","The condition will be evaluated 2 times before the function returns 1, as the loop checks indices 0 and 1, finds both matching, and then exits after the second iteration when i becomes 2 (which is not less than length 4).",How could you modify the loop condition to make this palindrome check function more runtime efficient?,"Change the loop condition from 'i < length' to 'i < length/2' to only check half the characters, since comparing both halves is redundant."
+75,"int IsPalindrome(char *word)
+{
+    int left = 0;
+    int right = strlen(word)-1;
+    
+    while(left < right){
+        if(word[left] != word[right]){
+            return 0;
+        }
+        left++;
+        right--;
+    }
+    return 1;
+}",What is the purpose of the condition 'left < right' in the while loop?,"It ensures the loop continues only while the left index is less than the right index, allowing the function to check characters from both ends moving inward until they meet or cross.","If the function is called with the string 'racecar', what are the values of 'left' and 'right' at the start of the third iteration of the while loop?","At the start of the third iteration, 'left' is 2 and 'right' is 4.","How could you modify this function to handle a new test case where the input string might contain both uppercase and lowercase letters, while still being considered a palindrome?","Convert both characters to the same case (either uppercase or lowercase) before comparing them in the if statement, using functions like tolower() or toupper() from the ctype.h library."
+76,"void ReverseString(char *str)
+{
+    int l = strlen(str);
+    char newstr[l+1];
+    int m = 0;
+    for (int i = l-1; i >= 0; i--) {
+        newstr[m] = str[i];
+        m++;
+    }
+    newstr[m] = '\0';
+    strcpy(str, newstr);
+}
+
+int IsPalindrome(char *word)
+{
+    char wordrev[100];
+    strcpy(wordrev, word);
+    ReverseString(wordrev);
+    if (strcmp(word, wordrev) == 0) {
+        return 1;
+    } else {
+        return 0;
+    }
+}",What is the purpose of the line 'newstr[m] = '\0';' in the ReverseString function?,It adds a null terminator to the end of the newstr array to properly terminate the reversed string before copying it back.,"If the function IsPalindrome is called with the input string ""radar"", what is the value of wordrev immediately after the call to ReverseString(wordrev) completes?","The value of wordrev will be ""radar"", which is identical to the original input string.",What change would you make to the IsPalindrome function to avoid using a fixed-size buffer for wordrev and improve memory safety?,Replace 'char wordrev[100];' with dynamic memory allocation using 'char *wordrev = malloc(strlen(word) + 1);' to ensure sufficient space for any input string and prevent buffer overflow.
+77,"int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    for (int i = 0; i < length / 2; i++)
+    {
+        if (word[i] != word[length - i - 1])
+        {
+            return 0;
+        }
+    }
+    return 1;
+}",What is the purpose of the condition 'word[i] != word[length - i - 1]' in this function?,"It checks if the character at position i from the start of the string is not equal to the character at the corresponding position i from the end of the string, which would indicate the word is not a palindrome.","If the function is called with the string 'racecar', how many times will the condition inside the for loop be evaluated?","The condition will be evaluated 4 times because the loop runs from i=0 to i=2 (since length=7, so length/2=3, and the loop condition is i < 3).","How could you modify the IsPalindrome function to handle a new test case where the input string might contain both uppercase and lowercase letters, while still being considered a palindrome?",Convert each character to the same case (either all lowercase or all uppercase) using tolower() or toupper() from <ctype.h> before comparing them in the if condition.
+78,"int IsPalindrome(char *word)
+{
+    int i = 0;
+    int j = strlen(word) - 1;
+    
+    while (i < j) 
+    {
+        if (word[i] != word[j]) 
+            return 0;
+            
+        i++;
+        j--;
+    }
+    return 1;
+}",What is the purpose of the condition 'if (word[i] != word[j])' in this function?,"It checks if the characters at the current left and right positions are different, and if so, immediately returns 0 to indicate the word is not a palindrome.","If the function is called with the string 'racecar', what are the values of i and j at the start of the third iteration of the while loop?","At the start of the third iteration, i is 2 and j is 4.","What minor change would you make to this function to handle a new test case where the input string might contain both uppercase and lowercase letters, while still using the existing logic?","Convert each character to the same case (either all lowercase or all uppercase) before comparing them in the if statement, using functions like tolower() or toupper() from <ctype.h>."
+79,"int IsPalindrome(char *word)
+{
+    int left = 0;
+    int right = strlen(word) - 1;
+
+    while (left < right) {
+        if (word[left] != word[right]) {
+            return 0;
+        }
+        left++;
+        right--;
+    }
+    
+    return 1;
+}",What is the purpose of the condition 'left < right' in the while loop?,"It ensures the loop continues only while the left index is less than the right index, stopping when they meet or cross, which means all character pairs have been checked.","If the function is called with the string 'racecar', what are the values of 'left' and 'right' at the start of the third iteration of the while loop?","At the start of the third iteration, 'left' is 2 and 'right' is 4.","How could you modify this function to handle a new test case where the input string might contain uppercase letters, without changing the function's signature?","Add a line inside the while loop to convert both word[left] and word[right] to the same case (e.g., using tolower()) before comparing them, ensuring case-insensitive palindrome checks."
+80,"int IsPalindrome(char *word)
+{
+    int length;
+    length = strlen(word);
+
+    int i = 0;
+    while (i < length/2) {
+        if (word[i] != word[length - 1 - i]) {
+            return 0;
+        }
+    i++;
+    }
+    return 1;
+}",What is the purpose of using 'length - 1 - i' as an index for the word array in this code?,"It calculates the index of the character at the symmetric position from the end of the string, allowing comparison of the first character with the last, the second with the second last, and so on.","If the function is called with the string 'racecar', how many times will the condition inside the while loop be evaluated before the function returns?","The condition will be evaluated 4 times, once for each value of i from 0 to 3, before the function returns 1.",What change would you make to this code to improve its runtime efficiency when checking very long strings?,Store the result of 'length/2' in a variable before the loop to avoid recalculating it in every iteration.
+81,"int IsPalindrome(char *word)
+{
+    	
+	int i = 0;
+	int length = strlen(word);
+	char temp[100];
+
+	// making backwards word
+	while (i < length) {
+		temp[i] = word[length - i - 1]; 
+		i++;
+	}
+
+	// comparing word with backwards word
+	i = 0;
+	while (i < length) {  
+		if (temp[i] != word[i]) {
+			return 0;
+		}
+		i++;
+	}
+	return 1;
+}",What is the purpose of using 'length - i - 1' as an index for the word array in the first while loop?,"It accesses the characters of the original word in reverse order, starting from the last character and moving backwards to the first.","If the function is called with the input string 'radar', what is the value of temp[2] after the first while loop completes?","The value of temp[2] is 'd', which is the third character from the end of the original string 'radar'.",What change would you make to this code to avoid using the temporary array 'temp' and thus improve its memory efficiency?,"Replace the temporary array and comparison loop with a single loop that compares characters directly from the original string, such as comparing word[i] with word[length - i - 1] for each position i from 0 to length/2."
+82,"int IsPalindrome(char *word)
+{int len = strlen(word);
+for (int i = 0; i < len/2; i++) {
+	if (word[i] != word[len - 1 - i]) {
+		return 0;
+		
+	}
+}
+return 1;
+    
+}",What is the purpose of the condition 'word[i] != word[len - 1 - i]' in this code?,It checks if the character at position i from the start of the string is not equal to the character at the corresponding position i from the end of the string.,"If the function is called with the string 'racecar', how many times will the condition inside the for loop be evaluated?","The condition will be evaluated 4 times, as the loop runs for i from 0 to 2 (since len/2 is 7/2 = 3, and the loop condition is i < 3).",What change would you make to this function to handle a new requirement where the function should ignore any non-alphabetic characters (like spaces or punctuation) when checking for a palindrome?,Add logic to skip non-alphabetic characters by modifying the loop to check only alphabetic characters and adjusting the index comparisons accordingly.
+83,"int IsPalindrome(char *word)
+{
+    int left = 0;
+    int right = strlen(word) - 1;
+    while (left < right) {
+        if (word[left] != word[right]) {
+            return 0;
+        }
+        left++;
+        right--;
+    }
+    return 1;
+}",What is the purpose of the condition 'left < right' in the while loop?,"It ensures the loop continues only while the left index is less than the right index, allowing the function to check characters from both ends moving inward until they meet or cross.","If the function is called with the string 'racecar', what are the values of 'left' and 'right' at the start of the third iteration of the while loop?","At the start of the third iteration, 'left' is 2 and 'right' is 4.","How could you modify this function to handle a new test case where the input string might contain both uppercase and lowercase letters, while still being considered a palindrome?","Convert each character to the same case (e.g., lowercase) before comparing them inside the while loop, using a function like tolower() from <ctype.h>."
+84,"int IsPalindrome(char *word)
+{
+    int left = 0;
+    int right = strlen(word) - 1;
+    
+    while (left < right)
+    {
+        if (word[left] != word[right])
+            return 0;
+        left++;
+        right--;
+    }
+    return 1;
+}",What is the purpose of the condition 'left < right' in the while loop?,"It ensures the loop continues only while the left index is less than the right index, stopping when they meet or cross, which means all character pairs have been checked.","If the function is called with the string 'racecar', what are the values of 'left' and 'right' at the start of the third iteration of the while loop?","At the start of the third iteration, 'left' is 2 and 'right' is 4.","How could you modify this function to handle a new test case where the input string might contain both uppercase and lowercase letters, while still being considered a palindrome?","Convert both characters to the same case (either uppercase or lowercase) before comparing them in the if statement, using functions like tolower() from <ctype.h>."
+85,"int IsPalindrome(char *string)
+{
+    int start = 0;
+    int end = strlen(string) - 1;
+    while (start < end)
+    {
+        if (string[start] == string[end])
+        {
+            start++;
+            end--;
+            continue;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    return 1;
+}",What is the purpose of the 'continue' statement inside the while loop in this code?,The 'continue' statement skips the remaining code in the current loop iteration and moves to the next iteration when the characters at the current start and end positions match.,"If the function is called with the string 'noon', how many times will the condition 'string[start] == string[end]' be evaluated as true before the function returns?","The condition will be evaluated as true twice: first when comparing 'n' with 'n', and then when comparing 'o' with 'o'.","What change would you make to this function to handle strings containing spaces or mixed case letters, without altering the core palindrome-checking logic?",Add preprocessing to convert the entire string to lowercase using tolower() and remove non-alphanumeric characters before the while loop begins.
+86,"int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+	for (int i = 0 ; i < length ; i++) {
+		if (word[i] == word[length-i-1]) {
+		}
+		else {
+			return 0;
+		}
+	}
+	return 1;
+}",What is the purpose of the condition 'if (word[i] == word[length-i-1])' in this code?,It checks if the character at position i from the start of the string matches the character at the corresponding position i from the end of the string.,"If the function is called with the string 'noon', how many times will the condition inside the for loop be evaluated?","The condition will be evaluated 4 times, once for each value of i from 0 to 3.",How could you modify the loop condition in the IsPalindrome function to improve its runtime efficiency?,"Change the loop condition from 'i < length' to 'i < length/2' to check only half the characters, since comparing both halves is redundant."
+87,"int IsPalindrome(char *word)
+{
+    int i = 0;
+    int j = strlen(word) - 1;
+
+    while (i < j)
+    {
+        if (word[i] != word[j])
+        {
+            return 0;   
+        }
+
+        i = i + 1;
+        j = j - 1;
+    }
+
+    return 1;   
+}",What is the purpose of the condition 'if (word[i] != word[j])' in this code?,"It checks if the characters at the current left and right positions are different, which would mean the word is not a palindrome.","If the function is called with the string 'racecar', what are the values of i and j at the start of the third iteration of the while loop?","At the start of the third iteration, i is 2 and j is 4.",What minor change would you make to this function to improve its runtime efficiency for very long strings?,"Replace the repeated calls to strlen(word) with a single call at the beginning, storing the result in a variable to avoid recalculating the string length multiple times."
+88,"int IsPalindrome(char *word)
+{
+    int wordstart = 0;
+    int wordend = 0;
+    while (word[wordend] != '\0') {
+        wordend++;
+    }
+    wordend--;
+    
+    while (wordend >= wordstart) {
+        if (word[wordstart] == ' ') {
+            wordstart++;
+        }
+        if (word[wordend] == ' ') {
+            wordend--;
+        }
+        if (word[wordstart] != word[wordend]) {
+            return 0;
+        }
+        wordstart++;
+        wordend--;
+    }
+    return 1;
+}",What is the purpose of the condition 'word[wordend] != '\0'' in the first while loop?,"It checks if the current character is not the null terminator, which marks the end of the string, so the loop can find the last character index of the string.","If the function is called with the input string 'a b a', what are the values of wordstart and wordend immediately after the first while loop completes?","wordstart is 0 and wordend is 4, because the string 'a b a' has characters at indices 0 ('a'), 1 (' '), 2 ('b'), 3 (' '), 4 ('a'), and the null terminator at index 5.","What change would you make to this code to use the strlen() function, as allowed by the problem statement, to improve its style and efficiency?",Replace the first while loop that calculates the string length with 'int wordend = strlen(word) - 1;' to make the code more concise and efficient.
+89,"int IsPalindrome(char *word) {
+
+    //find length (number of REAL characters)
+    int truth = 0;
+    int length = 0;
+    
+    while (word[length] != '\0') {
+        length++;
+    }
+
+    if (length > 1){
+        for (int i=0; i<length; i++) {
+            if (word[i] != word[length - 1 - i]) {
+                truth = 1;
+            }
+        }
+    }   
+    if (length == 1) {
+        truth = 0;
+    }
+
+    if (truth == 1) {
+        return 0;
+    }
+    else 
+    {
+        return 1;
+    }
+
+}",What is the purpose of the condition 'if (word[i] != word[length - 1 - i])' in the for loop?,It checks if the character at position i from the start of the string is different from the character at the corresponding position i from the end of the string.,"If the function is called with the string 'noon', what is the value of the variable 'truth' immediately after the for loop completes?","The value of 'truth' is 0 because all character comparisons in 'noon' are equal, so the condition that sets 'truth' to 1 is never executed.",What change would you make to this code to improve its runtime efficiency by avoiding unnecessary comparisons?,"Add a 'break' statement inside the if condition within the for loop to exit early once a non-matching character pair is found, since one mismatch is sufficient to determine the string is not a palindrome."
+90,"int IsPalindrome(char* word)
+{
+	int len = strlen(word);
+	if (len == 1)
+	{
+		return 1;
+	}
+	for (int i = 0; i < len / 2; i++) 
+	{
+		if (word[i] != word[len - 1 - i])
+		{
+			return 0;
+		}
+	}
+	return 1;
+}",What is the purpose of the condition 'if (word[i] != word[len - 1 - i])' in the for loop?,"It checks if the character at position i from the start of the string is not equal to the character at the corresponding position i from the end of the string, which would indicate the word is not a palindrome.","If the function IsPalindrome() is called with the input string 'radar', how many times will the condition inside the for loop (word[i] != word[len - 1 - i]) be evaluated?","The condition will be evaluated 2 times, once for i=0 and once for i=1, before the loop terminates and returns 1.","What change would you make to this function to handle the case where the input string is empty (i.e., contains only a null terminator) more explicitly, given that the problem states the string will contain at least one character?","No change is necessary because the problem explicitly states the input string will contain at least one character, making the current implementation correct and robust for all valid inputs."
+91,"int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    for (int i = length-1; i>=0; i--)
+    {
+        if (word[i] != word[length-i-1])
+        {
+            return 0;
+        }
+    }
+    return 1;
+}",What is the purpose of the expression 'word[length - i - 1]' in this code?,"It accesses the character in the string that is symmetric to the character at index i, allowing comparison of characters from opposite ends of the string.","If the function is called with the string 'noon', what is the value of the expression 'word[length-i-1]' during the first iteration of the loop when i=3?","The value is 'n', because length is 4, so word[4-3-1] evaluates to word[0], which is the first character 'n'.",What change would make this code more runtime efficient by reducing the number of comparisons needed?,Change the loop condition to 'i >= length/2' to only compare each pair of characters once instead of comparing both halves against each other.
+92,"int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    int j = 0;
+    for(int i = length - 1; i >= length/2; i--){
+        if(word[j] != word[i]){
+            return 0;
+        }
+        j++;
+    }
+    return 1;
+}",What is the purpose of the condition 'i >= length/2' in the for loop?,"It ensures the loop stops at the middle of the string, preventing unnecessary comparisons once the first half has been checked against the second half.","If the function is called with the string 'noon', what is the value of the variable 'i' at the start of the second iteration of the for loop?",The value of 'i' is 2 at the start of the second iteration.,What change would make this code more runtime efficient by reducing the number of comparisons needed?,"Change the loop condition from 'i >= length/2' to 'i > j' to stop comparing once the pointers meet or cross, avoiding redundant checks."
+93,"#include <stdio.h> 
+#include <string.h> 
+
+int IsPalindrome(char *word)
+{
+    int length = strlen(word); 
+    char *first = word; 
+    char *last = word + length -1; 
+
+    while (first < last) 
+    {
+        
+        if (*first != *last)
+        {
+            return 0; 
+        }
+        
+        first++; 
+        last = last -1; 
+        
+    }
+    return 1; 
+}",What is the purpose of the line 'char *last = word + length - 1;' in this code?,"It initializes the pointer 'last' to point to the last character in the string, which is necessary for comparing characters from both ends of the string.","If the function IsPalindrome() is called with the input string 'radar', how many times will the condition in the while loop (*first != *last) be evaluated?","The condition will be evaluated 3 times: once for 'r' vs 'r', once for 'a' vs 'a', and once for 'd' vs 'd' before the pointers meet.",How could you modify the IsPalindrome function to make it more runtime efficient by reducing the number of comparisons?,"Change the while loop condition from 'first < last' to 'first <= last' and remove the last decrement operation, using just 'last--' instead of 'last = last - 1', which reduces the number of pointer operations."
+94,"int IsPalindrome(char *word)
+{
+    int len = strlen(word);
+    for (int i=0; i < strlen(word) / 2; i++) {
+        if (word[i] != word[len - i - 1]) {
+            return 0;
+        }
+    }
+    return 1;
+}",What is the purpose of the expression 'len - i - 1' in the condition 'word[i] != word[len - i - 1]'?,It calculates the index of the character at the symmetric position from the end of the string to compare with the character at index i from the start.,"If the function is called with the string 'noon', how many times will the condition inside the for loop (word[i] != word[len - i - 1]) be evaluated?","The condition will be evaluated 2 times, once for i=0 and once for i=1, since the loop runs for i < strlen(word)/2 (which is 4/2 = 2).",How can the runtime efficiency of the IsPalindrome function be improved by modifying the loop condition?,The loop condition should use 'i < len / 2' instead of 'i < strlen(word) / 2' to avoid recalculating the string length on every iteration.
+95,"#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int length = (int)strlen(word);
+    int palindrome = 1;
+
+    for (int i = 0; i < (int)(length/2); i++){
+        if (word[i] != word[length-i-1]){
+            palindrome = 0;
+        }
+    }
+
+    return  palindrome;
+
+}",What is the purpose of the condition 'if (word[i] != word[length-i-1])' in this code?,It checks if the character at position i from the start of the string is different from the character at the corresponding position i from the end of the string.,"If the function IsPalindrome() is called with the input string 'racecar', how many times will the condition inside the for loop (word[i] != word[length-i-1]) be evaluated?","The condition will be evaluated 3 times, as the loop runs for i from 0 to 2 (inclusive) since the length is 7 and (int)(7/2) is 3.","How could you modify the IsPalindrome function to terminate the loop immediately upon finding a non-matching character pair, rather than continuing to check all remaining pairs?","Add a break statement inside the if block after setting palindrome = 0, which will exit the loop early when a mismatch is found, improving runtime efficiency."
+96,"int IsPalindrome(char* word)
+{
+	int i = 0;
+	int length = strlen(word);
+	for (i = 0; i < length / 2; i++) {
+		if (word[i] != word[length - 1 - i]) {
+			return 0;
+		}
+	}
+	return 1;
+}",What is the purpose of the condition 'word[i] != word[length - 1 - i]' in the for loop?,It checks if the character at the current position from the start of the string is not equal to the character at the corresponding position from the end of the string.,"If the function is called with the string 'radar', how many times will the loop condition 'i < length / 2' be evaluated?","The loop condition will be evaluated 3 times: before the first iteration (i=0), before the second iteration (i=1), and before the third iteration (i=2).","How could you modify the IsPalindrome function to handle a new test case where the input string might contain both uppercase and lowercase letters, while still being considered a palindrome?",Convert each character to the same case (either all lowercase or all uppercase) using tolower() or toupper() from <ctype.h> before comparing them in the if condition.
+97,"int IsPalindrome(char *word)
+{
+    int WordLength = strlen(word);
+    int i = 0;
+    int j = WordLength - 1;
+
+    while (i < j) {
+        if (word[i] != word[j]) {
+            return 0;
+        }
+        i++;
+        j--;
+    }
+    return 1;
+}",What is the purpose of the condition 'if (word[i] != word[j])' in the while loop?,"It checks if the characters at the current left and right positions are not equal, which would mean the word is not a palindrome.","If the function is called with the string 'racecar', what are the values of i and j at the start of the third iteration of the while loop?","At the start of the third iteration, i is 2 and j is 4.",How could you modify this function to ignore non-alphabetic characters (like spaces or punctuation) when checking if the input string is a palindrome?,Add a condition inside the while loop to skip non-alphabetic characters by incrementing i when word[i] is not a letter and decrementing j when word[j] is not a letter before comparing characters.
+98,"int IsPalindrome(char *word)
+{
+    {
+        int left = 0;
+        int right = strlen(word) - 1;
+
+        while (left < right) {
+            if (word[left] != word[right]) {
+                return 0;
+            }
+            left++;
+            right--;
+        }
+        return 1;
+    }
+}",What is the purpose of the condition 'left < right' in the while loop?,"It ensures the loop continues only while the left index is less than the right index, allowing the function to check characters from both ends moving inward until they meet or cross.","If the function IsPalindrome() is called with the input string ""racecar"", how many times will the condition inside the while loop (word[left] != word[right]) be evaluated before the function returns?","The condition will be evaluated 3 times before the function returns 1, as the loop runs for 3 iterations comparing 'r' vs 'r', 'a' vs 'a', and 'c' vs 'c'.","What change would you make to this code to handle a new test case where the input string might contain uppercase letters, without modifying the function's parameters or return type?",Convert each character to lowercase before comparison by adding 'tolower(word[left]) != tolower(word[right])' in the if condition and including the ctype.h header.
+99,"int IsPalindrome(char *word)
+{
+    int n=0,j=0;
+	while (word[n]!='\0') {
+		n++;
+	}
+	for (int i=0;i<n/2;i++) {
+		if (word[i]==word[n-1-i]) {
+			j++;
+		}
+	}
+	if (j==n/2) {
+		return 1;
+	} else {
+		return 0;
+	}
+}",What is the purpose of using 'n-1-i' as an index for the word array in the condition 'if (word[i]==word[n-1-i])'?,"It accesses the character at the symmetric position from the end of the string to compare with the character at position i from the start, enabling the palindrome check.","If the function is called with the string 'noon', what is the value of j after the for loop completes?","The value of j is 2 after the for loop completes because 'noon' has 4 characters and the loop compares the first 2 pairs of characters, both of which match.",What change would you make to this code to improve its runtime efficiency by avoiding the initial while loop?,"Replace the while loop that calculates string length with the strlen() function from string.h, which is more efficient and directly available as stated in the problem statement."
+100,"int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    for (int i = 0; i < length/2; i++)
+    {
+        if (word[i] !=  word[length - i -1])
+        return 0;
+    }
+    return 1;
+}",What is the purpose of the condition 'i < length/2' in the for loop?,"It ensures the loop only checks the first half of the string against the corresponding characters in the second half, which is sufficient to determine if the word is a palindrome.","If the function is called with the string 'racecar', how many times will the condition inside the for loop (word[i] != word[length - i - 1]) be evaluated?","The condition will be evaluated 3 times, as the loop runs for i from 0 to 2 (since length is 7, so length/2 is 3, and the loop condition is i < 3).","What change would you make to this function to handle the case where the input string is empty, given that the problem states the string will contain at least one character?","No change is necessary because the problem explicitly states the input string will contain at least one character, so the function correctly assumes a non-empty string."

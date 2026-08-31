@@ -1,0 +1,7734 @@
+student_code,question_1,question_2,answer_1,answer_2,modified_code_1,modified_code_2
+"int IsPalindrome(char *word)
+{
+    int left = 0;
+    int right = strlen(word) - 1;
+
+    while (left < right) {
+        if (word[left] != word[right]) {
+            return 0; 
+        }
+        left++;
+        right--;
+    }
+
+    return 1; 
+    
+}","If the input word is 'radar', what are the values of 'left' and 'right' immediately before the while loop terminates?","If the input word is 'apple', at which index does the first mismatch occur, and what is the return value of the function?","left = 2, right = 2",Index 0 ('a') and index 4 ('e') mismatch; return value is 0,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int left = 0;
+    int right = strlen(word) - 1;
+
+    while (left < right) {
+        if (word[left] != word[right]) {
+            return 0; 
+        }
+        left++;
+        right--;
+    }
+    printf(""left: %d, right: %d\n"", left, right);
+    return 1; 
+}
+
+int main() {
+    IsPalindrome(""radar"");
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int left = 0;
+    int right = strlen(word) - 1;
+
+    while (left < right) {
+        if (word[left] != word[right]) {
+            printf(""Mismatch at indices %d and %d\n"", left, right);
+            return 0; 
+        }
+        left++;
+        right--;
+    }
+
+    return 1; 
+}
+
+int main() {
+    int result = IsPalindrome(""apple"");
+    printf(""Return value: %d\n"", result);
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int n = strlen(word);
+    for (int i = 0; i < (n / 2); i++) {
+        if (word[i]!=word[n-i-1]) {
+            return 0;
+            break;
+        }
+    }
+    return 1;
+}","If the input word is 'radar', what is the value of the variable 'i' when the loop terminates?","If the input word is 'apple', at which index 'i' does the function first encounter a mismatch and return 0?",2,0,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int n = strlen(word);
+    for (int i = 0; i < (n / 2); i++) {
+        if (word[i]!=word[n-i-1]) {
+            return 0;
+            break;
+        }
+    }
+    return 1;
+}
+
+int main() {
+    char word[] = ""radar"";
+    int n = strlen(word);
+    int i;
+    for (i = 0; i < (n / 2); i++) {
+        if (word[i]!=word[n-i-1]) break;
+    }
+    printf(""%d"", i);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int n = strlen(word);
+    for (int i = 0; i < (n / 2); i++) {
+        if (word[i]!=word[n-i-1]) {
+            printf(""%d"", i);
+            return 0;
+            break;
+        }
+    }
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    
+    for (int i = 0; i < length / 2; i++) {
+        if (word[i] != word[length - 1 - i]) {
+            return 0;
+        }
+    }
+    return 1;
+}","If the input word is 'radar', what is the value of the expression (length - 1 - i) during the first iteration of the loop (when i = 0)?","If the input word is 'apple', at which index 'i' does the function first encounter a mismatch and return 0?",4,0,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    
+    for (int i = 0; i < length / 2; i++) {
+        if (word[i] != word[length - 1 - i]) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int main() {
+    char word[] = ""radar"";
+    int length = strlen(word);
+    int i = 0;
+    printf(""%d"", length - 1 - i);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    
+    for (int i = 0; i < length / 2; i++) {
+        if (word[i] != word[length - 1 - i]) {
+            printf(""%d"", i);
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"#include <string.h>
+#include <stdio.h>
+
+int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    int middle = (length - 1)/2;
+    int counter = 0;
+   
+    if (length <= 1) {
+        return 1;
+    }
+
+    if (length == 2) {
+        if (word[0] == word[1]) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    for (int i = 0; i < middle; i++) {
+        if (word[i] == word[length - 1 - i]) {
+            counter++;
+        }
+    }
+    
+    int ispalindrome = 0;
+    if (counter == middle) {
+        ispalindrome = 1;
+    }
+    return ispalindrome;
+}","If the input word is 'racecar', what is the value of the variable 'middle' and how many times will the for-loop execute?","If the input word is 'noon', which if-statement block is entered first, and what value does the function return?","middle is 3, and the loop will execute 3 times (for i = 0, 1, 2).",The 'if (length == 2)' block is skipped because length is 4; it enters the for-loop and returns 1.,"#include <string.h>
+#include <stdio.h>
+
+int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    int middle = (length - 1)/2;
+    int counter = 0;
+   
+    if (length <= 1) {
+        return 1;
+    }
+
+    if (length == 2) {
+        if (word[0] == word[1]) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    for (int i = 0; i < middle; i++) {
+        if (word[i] == word[length - 1 - i]) {
+            counter++;
+        }
+    }
+    
+    int ispalindrome = 0;
+    if (counter == middle) {
+        ispalindrome = 1;
+    }
+    return ispalindrome;
+}
+
+int main() {
+    char word[] = ""racecar"";
+    int length = strlen(word);
+    int middle = (length - 1)/2;
+    printf(""middle: %d, loop iterations: %d\n"", middle, middle);
+    return 0;
+}","#include <string.h>
+#include <stdio.h>
+
+int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    int middle = (length - 1)/2;
+    int counter = 0;
+   
+    if (length <= 1) {
+        return 1;
+    }
+
+    if (length == 2) {
+        if (word[0] == word[1]) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    for (int i = 0; i < middle; i++) {
+        if (word[i] == word[length - 1 - i]) {
+            counter++;
+        }
+    }
+    
+    int ispalindrome = 0;
+    if (counter == middle) {
+        ispalindrome = 1;
+    }
+    return ispalindrome;
+}
+
+int main() {
+    printf(""%d\n"", IsPalindrome(""noon""));
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int left = 0;
+    int right = (int)strlen(word) - 1;
+    
+    while (left < right) {
+        if (word[left] != word[right]) {
+            return 0;
+        }
+        left++;
+        right--;
+    }
+    return 1;
+}","If the input word is 'radar', what are the values of 'left' and 'right' immediately before the while loop condition is checked for the second time?","If the input word is 'apple', at which index does the function first detect a mismatch and return 0?","left = 1, right = 3",Index 0 ('a') and index 4 ('e'),"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int left = 0;
+    int right = (int)strlen(word) - 1;
+    
+    while (left < right) {
+        if (word[left] != word[right]) {
+            return 0;
+        }
+        left++;
+        right--;
+    }
+    return 1;
+}
+
+int main() {
+    char word[] = ""radar"";
+    int left = 0;
+    int right = (int)strlen(word) - 1;
+    // Simulate first iteration
+    if (word[left] == word[right]) {
+        left++;
+        right--;
+    }
+    printf(""left = %d, right = %d"", left, right);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int left = 0;
+    int right = (int)strlen(word) - 1;
+    
+    while (left < right) {
+        if (word[left] != word[right]) {
+            printf(""Index %d and %d"", left, right);
+            return 0;
+        }
+        left++;
+        right--;
+    }
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    for (int i = 0; i < length/2; i++) {
+        if (word[i] != word[length-i-1]) {
+            return 0;
+        }
+    }
+    return 1;
+}","If the input word is 'radar', what is the value of the variable 'i' when the loop terminates?","For the input word 'apple', at which index 'i' does the function first encounter a mismatch and return 0?",2,0,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    int final_i;
+    for (int i = 0; i < length/2; i++) {
+        if (word[i] != word[length-i-1]) {
+            return 0;
+        }
+        final_i = i;
+    }
+    return 1;
+}
+
+int main() {
+    char word[] = ""radar"";
+    int length = strlen(word);
+    int i = 0;
+    while(i < length/2) { i++; }
+    printf(""%d"", i-1);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    for (int i = 0; i < length/2; i++) {
+        if (word[i] != word[length-i-1]) {
+            printf(""%d"", i);
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+
+int length = strlen(word);
+
+int left = 0;
+int right = length - 1;
+
+while (left < right) 
+{
+    if (word[left] != word[right])
+    
+    {
+        return 0;
+    }
+    
+    left++;
+    right--;
+}
+
+return 1;
+    
+}","If the input word is 'radar', what are the values of 'left' and 'right' at the start of the second iteration of the while loop?","If the input word is 'code', at which iteration of the while loop does the function return 0, and what are the characters being compared at that moment?","left = 1, right = 3",Iteration 1; comparing 'c' and 'e',"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+int length = strlen(word);
+int left = 0;
+int right = length - 1;
+while (left < right) 
+{
+    if (word[left] != word[right])
+    {
+        return 0;
+    }
+    left++;
+    right--;
+}
+return 1;
+}
+
+int main() {
+    char word[] = ""radar"";
+    int length = strlen(word);
+    int left = 0;
+    int right = length - 1;
+    // Simulate first iteration
+    left++;
+    right--;
+    printf(""left = %d, right = %d"", left, right);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+int length = strlen(word);
+int left = 0;
+int right = length - 1;
+while (left < right) 
+{
+    if (word[left] != word[right])
+    {
+        return 0;
+    }
+    left++;
+    right--;
+}
+return 1;
+}
+
+int main() {
+    char word[] = ""code"";
+    int length = strlen(word);
+    int left = 0;
+    int right = length - 1;
+    printf(""Iteration 1; comparing '%c' and '%c'"", word[left], word[right]);
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int length= strlen(word), p=1;
+
+    if (length== 1){
+        return p;
+    }
+    for (int i=0; i<length/2; i++){
+    if(word[i]!=word[length-1-i]){
+        p=0;
+        return p;
+    }
+    }
+    return p;
+}","If the input word is 'radar', what is the value of the loop variable 'i' and the character being compared at word[i] during the second iteration of the for loop?","If the input word is 'apple', at which index 'i' does the function first detect a mismatch and return 0?","i = 1, word[i] = 'a'",i = 0,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int length= strlen(word), p=1;
+
+    if (length== 1){
+        return p;
+    }
+    for (int i=0; i<length/2; i++){
+    if(word[i]!=word[length-1-i]){
+        p=0;
+        return p;
+    }
+    }
+    return p;
+}
+
+int main() {
+    char word[] = ""radar"";
+    int length = strlen(word);
+    int i = 1; // Second iteration
+    printf(""i = %d, word[i] = '%c'\n"", i, word[i]);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int length= strlen(word), p=1;
+
+    if (length== 1){
+        return p;
+    }
+    for (int i=0; i<length/2; i++){
+    if(word[i]!=word[length-1-i]){
+        printf(""%d\n"", i);
+        return 0;
+    }
+    }
+    return p;
+}
+
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"int IsPalindrome(char *word) {
+  int len = strlen(word);
+  for (int i = 0; i < len / 2; i++) {
+    if (word[i] != word[len - i - 1])
+      return 0;
+  }
+  return 1;
+}","If the input word is 'radar', what is the value of the expression (len - i - 1) during the first iteration of the loop (when i = 0)?","For the input word 'apple', at which value of 'i' does the function first encounter the 'if' condition that returns 0?",4,0,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word) {
+  int len = strlen(word);
+  for (int i = 0; i < len / 2; i++) {
+    if (word[i] != word[len - i - 1])
+      return 0;
+  }
+  return 1;
+}
+
+int main() {
+    char word[] = ""radar"";
+    int len = strlen(word);
+    int i = 0;
+    printf(""%d"", len - i - 1);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word) {
+  int len = strlen(word);
+  for (int i = 0; i < len / 2; i++) {
+    if (word[i] != word[len - i - 1])
+      return 0;
+  }
+  return 1;
+}
+
+int main() {
+    char word[] = ""apple"";
+    int len = strlen(word);
+    for (int i = 0; i < len / 2; i++) {
+        if (word[i] != word[len - i - 1]) {
+            printf(""%d"", i);
+            return 0;
+        }
+    }
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int i = 0;
+    int j = 0;
+    int test = 0;
+
+    while (word[i] != '\0') {
+        i++; //counts then number of characters till null ie abcba would be 5
+    }
+    if (i == 1) {
+        return test = 1; //if only one letter, then always true
+    }
+
+
+    for (j = 0; j < i/2; j++) { // from 0 to i/2 and from i to i/2
+        if (word[j] == word [i-j-1]) {
+            test = 1;
+        }
+        else {
+            test = 0;
+            return test;
+        }
+    }
+    return test;
+}","If the input string is 'racecar', what is the value of the variable 'i' after the while loop finishes executing?","If the input string is 'apple', at which index 'j' does the for loop first encounter the 'else' block and return 0?",7,0,"#include <stdio.h>
+
+int IsPalindrome(char *word)
+{
+    int i = 0;
+    int j = 0;
+    int test = 0;
+
+    while (word[i] != '\0') {
+        i++;
+    }
+    if (i == 1) {
+        return test = 1;
+    }
+
+    for (j = 0; j < i/2; j++) {
+        if (word[j] == word [i-j-1]) {
+            test = 1;
+        }
+        else {
+            test = 0;
+            return test;
+        }
+    }
+    return test;
+}
+
+int main() {
+    char word[] = ""racecar"";
+    int i = 0;
+    while (word[i] != '\0') { i++; }
+    printf(""%d"", i);
+    return 0;
+}","#include <stdio.h>
+
+int IsPalindrome(char *word)
+{
+    int i = 0;
+    int j = 0;
+    int test = 0;
+
+    while (word[i] != '\0') {
+        i++;
+    }
+    if (i == 1) {
+        return test = 1;
+    }
+
+    for (j = 0; j < i/2; j++) {
+        if (word[j] == word [i-j-1]) {
+            test = 1;
+        }
+        else {
+            printf(""%d"", j);
+            return test = 0;
+        }
+    }
+    return test;
+}
+
+int main() {
+    char word[] = ""apple"";
+    IsPalindrome(word);
+    return 0;
+}"
+"#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
+
+int IsPalindrome(char *word)
+{
+    int pal = true;
+    
+    for (int i = 0; i <= (strlen(word)-1); i++) {
+        if (word[i] != word[strlen(word)-1-i]) {
+            pal = false;
+        }
+    }
+    return pal;
+}","If the input word is 'racecar', what is the value of the variable 'pal' after the loop finishes its first iteration (i = 0)?","If the input word is 'code', what is the value of 'pal' after the loop iteration where i = 1?",true,false,"#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
+
+int IsPalindrome(char *word)
+{
+    int pal = true;
+    
+    for (int i = 0; i <= (strlen(word)-1); i++) {
+        if (word[i] != word[strlen(word)-1-i]) {
+            pal = false;
+        }
+        if (i == 0) {
+            printf(""%d"", pal);
+            return pal;
+        }
+    }
+    return pal;
+}
+
+int main() {
+    IsPalindrome(""racecar"");
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
+
+int IsPalindrome(char *word)
+{
+    int pal = true;
+    
+    for (int i = 0; i <= (strlen(word)-1); i++) {
+        if (word[i] != word[strlen(word)-1-i]) {
+            pal = false;
+        }
+        if (i == 1) {
+            printf(""%d"", pal);
+            return pal;
+        }
+    }
+    return pal;
+}
+
+int main() {
+    IsPalindrome(""code"");
+    return 0;
+}"
+"int IsPalindrome(char *word) {
+    size_t length = strlen(word);
+    if (length == 1) return 1;
+
+    for (int left = 0; left < length / 2; left++) {
+        int right = length - left - 1;
+        if (word[left] != word[right]) {
+            return 0;
+        }
+    }
+
+    return 1;
+}","If the input word is 'radar', what is the value of the variable 'right' during the first iteration of the for loop?","If the input word is 'apple', at which value of 'left' does the function first return 0?",4,0,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word) {
+    size_t length = strlen(word);
+    if (length == 1) return 1;
+
+    for (int left = 0; left < length / 2; left++) {
+        int right = length - left - 1;
+        if (left == 0) {
+            printf(""%d\n"", right);
+            return 1;
+        }
+        if (word[left] != word[right]) {
+            return 0;
+        }
+    }
+
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""radar"");
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word) {
+    size_t length = strlen(word);
+    if (length == 1) return 1;
+
+    for (int left = 0; left < length / 2; left++) {
+        int right = length - left - 1;
+        if (word[left] != word[right]) {
+            printf(""%d\n"", left);
+            return 0;
+        }
+    }
+
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int stringSize, checkUpperLimit;
+    int i;
+
+    // Determine the size of the string and how many
+    // characters to check.
+    stringSize = strlen(word);
+    checkUpperLimit = stringSize / 2;
+
+    // Check for any cases which make the word not a palindrome
+    for (i = 0; i < checkUpperLimit; i++) {
+        if (word[i] != word[stringSize - i - 1]) {
+            return 0;
+        }
+    }
+
+    // If program makes it this far, word must be a palindrome.
+    return 1;
+}","If the input word is 'radar', what is the value of checkUpperLimit and how many times will the for loop iterate?","If the input word is 'apple', at which value of the loop index 'i' will the function first return 0?","checkUpperLimit is 2, and the loop will iterate 2 times (i = 0 and i = 1).","The function will return 0 when i = 0, because word[0] ('a') is not equal to word[4] ('e').","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int stringSize, checkUpperLimit;
+    int i;
+    stringSize = strlen(word);
+    checkUpperLimit = stringSize / 2;
+    for (i = 0; i < checkUpperLimit; i++) {
+        if (word[i] != word[stringSize - i - 1]) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int main() {
+    char word[] = ""radar"";
+    int stringSize = strlen(word);
+    int checkUpperLimit = stringSize / 2;
+    int iterations = 0;
+    for (int i = 0; i < checkUpperLimit; i++) iterations++;
+    printf(""checkUpperLimit: %d, iterations: %d\n"", checkUpperLimit, iterations);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindromeWithTrace(char *word)
+{
+    int stringSize, checkUpperLimit;
+    int i;
+    stringSize = strlen(word);
+    checkUpperLimit = stringSize / 2;
+    for (i = 0; i < checkUpperLimit; i++) {
+        if (word[i] != word[stringSize - i - 1]) {
+            printf(""%d\n"", i);
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int main() {
+    char word[] = ""apple"";
+    IsPalindromeWithTrace(word);
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int i = 0;
+    int j = strlen(word)-1;
+    while (word[i] == word[j]){
+        i++;
+        j--;
+        if (i == strlen(word)) {
+            return 1;
+        }
+    }
+    return 0;
+}","If the input word is 'racecar', what are the values of i and j immediately before the while loop condition is checked for the third time?","If the input word is 'apple', how many times will the while loop body execute before the function returns?","i = 2, j = 4",0,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int i = 0;
+    int j = strlen(word)-1;
+    while (word[i] == word[j]){
+        i++;
+        j--;
+        if (i == strlen(word)) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+int main() {
+    char word[] = ""racecar"";
+    int i = 0, j = strlen(word)-1;
+    for(int count=0; count<2; count++) {
+        if(word[i] == word[j]) {
+            i++;
+            j--;
+        }
+    }
+    printf(""i = %d, j = %d"", i, j);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int i = 0;
+    int j = strlen(word)-1;
+    while (word[i] == word[j]){
+        i++;
+        j--;
+        if (i == strlen(word)) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+int main() {
+    char word[] = ""apple"";
+    int count = 0;
+    int i = 0, j = strlen(word)-1;
+    while (word[i] == word[j]) {
+        count++;
+        i++;
+        j--;
+        if (i == strlen(word)) break;
+    }
+    printf(""%d"", count);
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int length = 0;
+    
+    while (word[length] != '\0')
+        length++;
+
+    for (int i = 0; i < length / 2; i++)
+        if (word[i] != word[length - i - 1])  
+            return 0;
+    return 1;
+}","If the input string is 'radar', what is the value of the variable 'length' after the while loop finishes executing?","For the input string 'code', what are the values of 'i' and 'length - i - 1' during the first iteration of the for loop?",5,"i = 0, length - i - 1 = 3","#include <stdio.h>
+
+int IsPalindrome(char *word)
+{
+    int length = 0;
+    
+    while (word[length] != '\0')
+        length++;
+
+    for (int i = 0; i < length / 2; i++)
+        if (word[i] != word[length - i - 1])  
+            return 0;
+    return 1;
+}
+
+int main() {
+    char word[] = ""radar"";
+    int length = 0;
+    while (word[length] != '\0') length++;
+    printf(""%d"", length);
+    return 0;
+}","#include <stdio.h>
+
+int IsPalindrome(char *word)
+{
+    int length = 0;
+    
+    while (word[length] != '\0')
+        length++;
+
+    for (int i = 0; i < length / 2; i++)
+        if (word[i] != word[length - i - 1])  
+            return 0;
+    return 1;
+}
+
+int main() {
+    char word[] = ""code"";
+    int length = 0;
+    while (word[length] != '\0') length++;
+    int i = 0;
+    printf(""i = %d, length - i - 1 = %d"", i, length - i - 1);
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int palindromic = 1;
+	int length = strlen(word) - 1;
+	for (int i = 0; i < length; i++) {
+		if (word[i] != word[length - i]) {
+			palindromic = 0;
+		}
+	}
+
+	return palindromic;
+}","If the input word is 'racecar', what is the value of the variable 'length' after it is initialized?","If the input word is 'hello', what is the value of 'palindromic' after the first iteration of the for loop (when i = 0)?",6,0,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int palindromic = 1;
+	int length = strlen(word) - 1;
+	for (int i = 0; i < length; i++) {
+		if (word[i] != word[length - i]) {
+			palindromic = 0;
+		}
+	}
+
+	return palindromic;
+}
+
+int main() {
+    char word[] = ""racecar"";
+    printf(""%d"", (int)strlen(word) - 1);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int palindromic = 1;
+	int length = strlen(word) - 1;
+	for (int i = 0; i < length; i++) {
+		if (word[i] != word[length - i]) {
+			palindromic = 0;
+		}
+	}
+
+	return palindromic;
+}
+
+int main() {
+    char word[] = ""hello"";
+    int palindromic = 1;
+    int length = strlen(word) - 1;
+    if (word[0] != word[length - 0]) {
+        palindromic = 0;
+    }
+    printf(""%d"", palindromic);
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int len = strlen(word);
+    for (int i = 0; i<len/2; i++) {
+        if (word[i] != word[(len-1-i)]) {
+            return 0;
+        }
+    }
+    return 1;
+}","If the input word is 'radar', what is the value of the expression (len-1-i) during the first iteration of the loop (when i = 0)?","For the input word 'apple', at which value of 'i' does the function first encounter the return 0 statement?",4,0,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int len = strlen(word);
+    for (int i = 0; i<len/2; i++) {
+        if (word[i] != word[(len-1-i)]) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int main() {
+    char *word = ""radar"";
+    int len = strlen(word);
+    int i = 0;
+    printf(""%d"", len - 1 - i);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int len = strlen(word);
+    for (int i = 0; i<len/2; i++) {
+        if (word[i] != word[(len-1-i)]) {
+            printf(""%d"", i);
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    int counter = 0;
+for (int i = 1;i<= length;i++)
+{
+    if (word[i-1] == word[length-i])
+    {
+        counter = counter+1;
+    }
+    else if ((word[i-1] != word[length-i]))
+    {
+        counter = counter;
+    }
+    
+    
+}
+if (counter == length)
+{
+    return 1;
+}
+else {
+    return 0;
+}
+
+}","If the input word is 'racecar', what is the value of the variable 'counter' after the for loop finishes executing?","If the input word is 'hello', how many times will the 'else if' block be executed during the loop?",7,4,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    int counter = 0;
+for (int i = 1;i<= length;i++)
+{
+    if (word[i-1] == word[length-i])
+    {
+        counter = counter+1;
+    }
+    else if ((word[i-1] != word[length-i]))
+    {
+        counter = counter;
+    }
+}
+    return counter;
+}
+
+int main() {
+    printf(""%d"", IsPalindrome(""racecar""));
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    int counter = 0;
+    int else_if_count = 0;
+for (int i = 1;i<= length;i++)
+{
+    if (word[i-1] == word[length-i])
+    {
+        counter = counter+1;
+    }
+    else if ((word[i-1] != word[length-i]))
+    {
+        counter = counter;
+        else_if_count++;
+    }
+}
+    return else_if_count;
+}
+
+int main() {
+    printf(""%d"", IsPalindrome(""hello""));
+    return 0;
+}"
+"int IsPalindrome(char* word) {
+	int length = strlen(word);
+
+	int i = 0;
+	int flag = 1;
+	//printf(""i=%d, flag=%d, length=%d, halfway=%d\n"", i, flag, length, floor(length / 2) - 1);
+	while (flag == 1 && i<=floor(length/2)-1) {
+		//printf(""i=%d: %c -- %c\n"", i, word[i], word[length - 1 - i]);
+		if (word[i] != word[length - 1 - i]) {
+			//printf(""%c -- %c\n"", word[i], word[length-1-i]);
+			flag = 0;
+			break;
+		}
+		i++;
+	}
+	return flag;
+}","If the input word is 'radar', what is the value of the variable 'i' immediately after the while loop terminates?","If the input word is 'apple', at which index 'i' does the 'if' condition first evaluate to true, causing the loop to break?",2,0,"#include <stdio.h>
+#include <string.h>
+#include <math.h>
+
+int IsPalindrome(char* word) {
+	int length = strlen(word);
+
+	int i = 0;
+	int flag = 1;
+	while (flag == 1 && i<=floor(length/2)-1) {
+		if (word[i] != word[length - 1 - i]) {
+			flag = 0;
+			break;
+		}
+		i++;
+	}
+    printf(""%d"", i);
+	return flag;
+}
+
+int main() {
+    IsPalindrome(""radar"");
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+#include <math.h>
+
+int IsPalindrome(char* word) {
+	int length = strlen(word);
+
+	int i = 0;
+	int flag = 1;
+	while (flag == 1 && i<=floor(length/2)-1) {
+		if (word[i] != word[length - 1 - i]) {
+			printf(""%d"", i);
+			flag = 0;
+			break;
+		}
+		i++;
+	}
+	return flag;
+}
+
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"int IsPalindrome(char string[]) {
+
+	int is_identical = 0;
+	int string_length = strlen(string);
+
+	char new_string[100];
+
+	for (int i = 0; i < string_length; i++) {
+
+		new_string[i] = string[string_length - 1 - i];
+
+	}
+
+	new_string[string_length] = '\0';
+
+	if (strcmp(string, new_string) == 0) {
+
+		is_identical = 1;
+
+	}
+
+	return is_identical;
+}","If the input string is 'hello', what will be the value of new_string[0] after the first iteration of the for loop?","If the input string is 'racecar', what is the value of string_length and what index is used to place the null terminator in new_string?",o,string_length is 7; the null terminator is placed at index 7.,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char string[]) {
+	int is_identical = 0;
+	int string_length = strlen(string);
+
+	char new_string[100];
+
+	for (int i = 0; i < string_length; i++) {
+
+		new_string[i] = string[string_length - 1 - i];
+
+	}
+
+	new_string[string_length] = '\0';
+
+	if (strcmp(string, new_string) == 0) {
+
+		is_identical = 1;
+
+	}
+
+	return is_identical;
+}
+
+int main() {
+    char test[] = ""hello"";
+    char new_string[100];
+    int string_length = strlen(test);
+    new_string[0] = test[string_length - 1 - 0];
+    printf(""%c"", new_string[0]);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char string[]) {
+	int is_identical = 0;
+	int string_length = strlen(string);
+
+	char new_string[100];
+
+	for (int i = 0; i < string_length; i++) {
+
+		new_string[i] = string[string_length - 1 - i];
+
+	}
+
+	new_string[string_length] = '\0';
+
+	if (strcmp(string, new_string) == 0) {
+
+		is_identical = 1;
+
+	}
+
+	return is_identical;
+}
+
+int main() {
+    char test[] = ""racecar"";
+    int len = strlen(test);
+    printf(""%d, %d"", len, len);
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+   int length = 0;
+    while (word[length] != '\0')
+    {
+        length++;
+    }
+    // printf(""Length = %d\n"", length);
+    
+    
+    // printf(""odd\n"");
+    // printf(""length/2 = %d"", length/2);
+    for (int j = 0; j < (length/2); j++)
+    {
+        // printf(""word[j] == %c\n"", word[j]);
+        // printf(""other = %c\n"", word[length-j-1]);
+        if (word[j] != word[length-j-1])
+        {
+            return 0;
+        }
+    }
+    
+
+  
+
+    //printf(""%d\n"", i/2); // if length =3 prints 1
+
+    return 1; 
+}","If the input string is 'radar', what is the value of the variable 'length' after the while loop finishes executing?","If the input string is 'apple', during the first iteration of the for loop (j = 0), what are the characters being compared by the if statement?",5,word[0] ('a') and word[4] ('e'),"#include <stdio.h>
+
+int IsPalindrome(char *word)
+{
+   int length = 0;
+    while (word[length] != '\0')
+    {
+        length++;
+    }
+    return length;
+}
+
+int main() {
+    char word[] = ""radar"";
+    printf(""%d\n"", IsPalindrome(word));
+    return 0;
+}","#include <stdio.h>
+
+int IsPalindrome(char *word)
+{
+   int length = 0;
+    while (word[length] != '\0')
+    {
+        length++;
+    }
+    for (int j = 0; j < (length/2); j++)
+    {
+        if (j == 0) {
+            printf(""%c and %c\n"", word[j], word[length-j-1]);
+        }
+        if (word[j] != word[length-j-1])
+        {
+            return 0;
+        }
+    }
+    return 1; 
+}
+
+int main() {
+    char word[] = ""apple"";
+    IsPalindrome(word);
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    for (int i = 0; i < (strlen(word)) / 2; i++) {
+		if (word[i] != word[strlen(word) - i - 1]) {
+			return 0;
+		}
+	}
+	return 1;
+}","If the input word is 'radar', what is the value of the expression (strlen(word) - i - 1) during the first iteration of the loop (when i = 0)?","For the input word 'apple', at which index 'i' does the function first encounter a mismatch and return 0?",4,0,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    for (int i = 0; i < (strlen(word)) / 2; i++) {
+		if (word[i] != word[strlen(word) - i - 1]) {
+			return 0;
+		}
+	}
+	return 1;
+}
+
+int main() {
+    char *word = ""radar"";
+    int i = 0;
+    printf(""%d"", (int)strlen(word) - i - 1);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    for (int i = 0; i < (strlen(word)) / 2; i++) {
+		if (word[i] != word[strlen(word) - i - 1]) {
+            printf(""%d"", i);
+			return 0;
+		}
+	}
+	return 1;
+}
+
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+	int palindrome = 0;
+	int length = strlen(word);
+for( int i = 0; i < length; i++) {
+	if(word[i] == word[length - 1 - i]) {
+		palindrome = 1;
+	} else {
+		palindrome = 0;
+		break;
+	}
+}
+  return palindrome;
+}","If the input word is 'racecar', what is the value of the variable 'palindrome' immediately after the first iteration of the for loop (when i = 0)?","If the input word is 'apple', at which index 'i' does the loop terminate due to the 'break' statement?",1,1,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+	int palindrome = 0;
+	int length = strlen(word);
+for( int i = 0; i < length; i++) {
+	if(word[i] == word[length - 1 - i]) {
+		palindrome = 1;
+	} else {
+		palindrome = 0;
+		break;
+	}
+	if(i == 0) { printf(""%d"", palindrome); return palindrome; }
+}
+  return palindrome;
+}
+
+int main() {
+    IsPalindrome(""racecar"");
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+	int palindrome = 0;
+	int length = strlen(word);
+for( int i = 0; i < length; i++) {
+	if(word[i] == word[length - 1 - i]) {
+		palindrome = 1;
+	} else {
+		palindrome = 0;
+		printf(""%d"", i);
+		break;
+	}
+}
+  return palindrome;
+}
+
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int len = strlen(word);
+    int i = 0;
+    for (i = 0; i < len/2; i++) {
+        if (word[i] != word[len - 1 - i]){
+            return 0;
+        }
+    }
+
+    return 1;
+}","If the input word is 'radar', what is the value of the variable 'i' when the loop terminates?","If the input word is 'apple', at which index 'i' does the function first encounter a mismatch and return 0?",2,0,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int len = strlen(word);
+    int i = 0;
+    for (i = 0; i < len/2; i++) {
+        if (word[i] != word[len - 1 - i]){
+            return 0;
+        }
+    }
+
+    return 1;
+}
+
+int main() {
+    char word[] = ""radar"";
+    int len = strlen(word);
+    int i = 0;
+    for (i = 0; i < len/2; i++) {
+        if (word[i] != word[len - 1 - i]) break;
+    }
+    printf(""%d"", i);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int len = strlen(word);
+    int i = 0;
+    for (i = 0; i < len/2; i++) {
+        if (word[i] != word[len - 1 - i]){
+            printf(""%d"", i);
+            return 0;
+        }
+    }
+
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int length = 0;
+    char reverse[100] = """";
+
+
+    while (word[length] != '\0')
+    {
+        length++;
+    }
+    
+
+    for (int i = 0; i < length; i++)
+    {
+        reverse[i] = word[length - 1 - i];
+    }
+    reverse[length] = '\0';
+
+
+    for (int j = 0; j < length; j++)
+    {
+        if (reverse[j] != word[j])
+        {
+            return 0;
+        }
+    }
+
+    
+    return 1;
+}","If the input word is 'racecar', what is the value of the variable 'length' after the first while loop finishes executing?","If the input word is 'hello', what will be the contents of the 'reverse' array immediately after the first for loop and the null-terminator assignment?",7,olleh,"#include <stdio.h>
+
+int IsPalindrome(char *word)
+{
+    int length = 0;
+    char reverse[100] = """";
+
+    while (word[length] != '\0')
+    {
+        length++;
+    }
+    
+    printf(""%d"", length);
+    return length;
+}
+
+int main() {
+    IsPalindrome(""racecar"");
+    return 0;
+}","#include <stdio.h>
+
+int IsPalindrome(char *word)
+{
+    int length = 0;
+    char reverse[100] = """";
+
+    while (word[length] != '\0')
+    {
+        length++;
+    }
+    
+    for (int i = 0; i < length; i++)
+    {
+        reverse[i] = word[length - 1 - i];
+    }
+    reverse[length] = '\0';
+
+    printf(""%s"", reverse);
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""hello"");
+    return 0;
+}"
+"int IsPalindrome(char* word) {
+	if (strlen(word) == 1) {
+		return 1;
+	}
+	for (int i = 0; i < strlen(word)/2; i++) {
+		if (!(word[i] == word[strlen(word) - i - 1])) {
+			return 0;
+		}
+	}
+	return 1;
+}","If the input word is 'radar', what is the value of the expression (strlen(word) - i - 1) during the first iteration of the for loop (when i = 0)?","For the input word 'apple', at which value of the loop index 'i' does the function first encounter the return 0 statement?",4,0,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char* word) {
+	if (strlen(word) == 1) {
+		return 1;
+	}
+	for (int i = 0; i < strlen(word)/2; i++) {
+		if (!(word[i] == word[strlen(word) - i - 1])) {
+			return 0;
+		}
+	}
+	return 1;
+}
+
+int main() {
+    char word[] = ""radar"";
+    int i = 0;
+    printf(""%d"", (int)strlen(word) - i - 1);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char* word) {
+	if (strlen(word) == 1) {
+		return 1;
+	}
+	for (int i = 0; i < strlen(word)/2; i++) {
+		if (!(word[i] == word[strlen(word) - i - 1])) {
+			printf(""%d"", i);
+			return 0;
+		}
+	}
+	return 1;
+}
+
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"#include <stdio.h>
+#include <string.h>
+int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    int isPalidrome = 0;
+    int opposite = length - 1;
+    int counter = 0;
+    
+    for (int i = 0; i < length/2; i++) {
+        if (word[i] == word[opposite]) {
+            counter++;
+        }
+        opposite--;
+    }
+    
+    if (counter == length/2) {
+        isPalidrome = 1;
+    }
+    
+    return isPalidrome;
+}","If the input word is 'radar', what is the value of the variable 'counter' immediately after the for-loop finishes executing?","If the input word is 'apple', what is the value of the variable 'opposite' during the second iteration of the for-loop (when i = 1)?",2,3,"#include <stdio.h>
+#include <string.h>
+int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    int isPalidrome = 0;
+    int opposite = length - 1;
+    int counter = 0;
+    
+    for (int i = 0; i < length/2; i++) {
+        if (word[i] == word[opposite]) {
+            counter++;
+        }
+        opposite--;
+    }
+    
+    if (counter == length/2) {
+        isPalidrome = 1;
+    }
+    
+    return counter;
+}
+
+int main() {
+    printf(""%d"", IsPalindrome(""radar""));
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    int isPalidrome = 0;
+    int opposite = length - 1;
+    int counter = 0;
+    
+    for (int i = 0; i < length/2; i++) {
+        if (i == 1) {
+            printf(""%d"", opposite);
+            return 0;
+        }
+        if (word[i] == word[opposite]) {
+            counter++;
+        }
+        opposite--;
+    }
+    
+    if (counter == length/2) {
+        isPalidrome = 1;
+    }
+    
+    return isPalidrome;
+}
+
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+	int length = strlen(word);
+	char org[100];
+	strcpy(org, word);
+	
+	
+	for (int i = 0; i < (length/2); i++)
+	
+	{
+		char temp = org[i];
+		org[i] = org[length - 1 - i];
+		org[length -1 - i] = temp;
+				
+	}
+	
+	int result = strcmp(org, word);
+	
+	if (result == 0) {
+		return 1;
+	} 
+	else {
+		return 0;
+	}
+		
+	
+	
+}","If the input word is 'radar', what is the value of the variable 'length' and how many times will the for-loop execute?","If the input word is 'code', what will be the contents of the 'org' array immediately after the for-loop finishes executing?",length is 5; the loop executes 2 times (5/2 = 2).,The 'org' array will contain 'edoc'.,"#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+	int length = strlen(word);
+	char org[100];
+	strcpy(org, word);
+	
+	
+	for (int i = 0; i < (length/2); i++)
+	
+	{
+		char temp = org[i];
+		org[i] = org[length - 1 - i];
+		org[length -1 - i] = temp;
+			
+	}
+	
+	int result = strcmp(org, word);
+	
+	if (result == 0) {
+		return 1;
+	} 
+	else {
+		return 0;
+	}
+		
+	
+	
+}
+
+int main() {
+    char word[] = ""radar"";
+    int length = strlen(word);
+    int iterations = length / 2;
+    printf(""length: %d, iterations: %d\n"", length, iterations);
+    return 0;
+}","#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+	int length = strlen(word);
+	char org[100];
+	strcpy(org, word);
+	
+	
+	for (int i = 0; i < (length/2); i++)
+	
+	{
+		char temp = org[i];
+		org[i] = org[length - 1 - i];
+		org[length -1 - i] = temp;
+			
+	}
+    printf(""%s\n"", org);
+	int result = strcmp(org, word);
+	
+	if (result == 0) {
+		return 1;
+	} 
+	else {
+		return 0;
+	}
+		
+	
+	
+}
+
+int main() {
+    char word[] = ""code"";
+    IsPalindrome(word);
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int length=strlen(word);
+    for (int i=0; i<length/2; i++) {
+        if (word[i]!=word[length-1-i]) {
+            return 0;
+        }
+    }
+    return 1;
+}","If the input word is 'radar', what is the value of the variable 'i' when the loop terminates?","For the input word 'apple', at which index 'i' does the function first encounter a mismatch and return 0?",2,0,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int length=strlen(word);
+    int final_i;
+    for (int i=0; i<length/2; i++) {
+        if (word[i]!=word[length-1-i]) {
+            return 0;
+        }
+        final_i = i;
+    }
+    return 1;
+}
+
+int main() {
+    char word[] = ""radar"";
+    int length = strlen(word);
+    int i = 0;
+    while(i < length/2) { i++; }
+    printf(""%d"", i-1);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int length=strlen(word);
+    for (int i=0; i<length/2; i++) {
+        if (word[i]!=word[length-1-i]) {
+            printf(""%d"", i);
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+ size_t length = strlen(word);
+ int halfsize = length/2;
+ 
+ 
+ for (int i = 0; i< halfsize; i++){
+  if (word[i] != word[length -1 -i]) {
+   return 0;
+  }
+}
+return 1;
+}","If the input word is 'radar', what is the value of 'halfsize' and how many times will the for-loop execute?","If the input word is 'apple', at which index 'i' will the if-condition (word[i] != word[length - 1 - i]) first evaluate to true?","halfsize is 2, and the loop will execute 2 times (for i = 0 and i = 1).","The condition first evaluates to true at index i = 0, because 'a' != 'e'.","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+ size_t length = strlen(word);
+ int halfsize = length/2;
+ 
+ 
+ for (int i = 0; i< halfsize; i++){
+  if (word[i] != word[length -1 -i]) {
+   return 0;
+  }
+}
+return 1;
+}
+
+int main() {
+    char word[] = ""radar"";
+    size_t length = strlen(word);
+    int halfsize = length/2;
+    int count = 0;
+    for (int i = 0; i < halfsize; i++) count++;
+    printf(""halfsize: %d, iterations: %d\n"", halfsize, count);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+ size_t length = strlen(word);
+ int halfsize = length/2;
+ 
+ 
+ for (int i = 0; i< halfsize; i++){
+  if (word[i] != word[length -1 -i]) {
+   printf(""%d\n"", i);
+   return 0;
+  }
+}
+return 1;
+}
+
+int main() {
+    char word[] = ""apple"";
+    IsPalindrome(word);
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    for (int i = 0; i < length/2; i++) {
+        if (word[i] != word[length - i - 1]) {
+            return 0;
+        }
+    }
+    return 1;
+    
+}","If the input word is 'radar', what is the value of the expression (length - i - 1) during the first iteration of the loop (when i = 0)?","For the input word 'apple', at which value of 'i' does the function first encounter the 'if' condition that evaluates to true, causing it to return 0?",4,0,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    for (int i = 0; i < length/2; i++) {
+        if (word[i] != word[length - i - 1]) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int main() {
+    char *word = ""radar"";
+    int length = strlen(word);
+    int i = 0;
+    printf(""%d"", length - i - 1);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    for (int i = 0; i < length/2; i++) {
+        if (word[i] != word[length - i - 1]) {
+            printf(""%d"", i);
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int i;
+    int length = strlen(word);
+            if(length == 1)
+            {
+            return 1;
+            }
+
+    for(i=0; i < length/2; i++)
+    {
+        if (word[i] != word[length - 1 - i])
+        {
+            return 0;
+        }
+
+    }
+    return 1;
+}","If the input word is 'radar', what is the value of the variable 'i' when the loop terminates?","If the input word is 'apple', at which index 'i' does the function first encounter a mismatch and return 0?",2,0,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int i;
+    int length = strlen(word);
+            if(length == 1)
+            {
+            return 1;
+            }
+
+    for(i=0; i < length/2; i++)
+    {
+        if (word[i] != word[length - 1 - i])
+        {
+            return 0;
+        }
+
+    }
+    return 1;
+}
+
+int main() {
+    char word[] = ""radar"";
+    int i;
+    int length = strlen(word);
+    for(i=0; i < length/2; i++) {
+        if (word[i] != word[length - 1 - i]) break;
+    }
+    printf(""%d"", i);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int i;
+    int length = strlen(word);
+            if(length == 1)
+            {
+            return 1;
+            }
+
+    for(i=0; i < length/2; i++)
+    {
+        if (word[i] != word[length - 1 - i])
+        {
+            return 0;
+        }
+
+    }
+    return 1;
+}
+
+int main() {
+    char word[] = ""apple"";
+    int length = strlen(word);
+    for(int i=0; i < length/2; i++) {
+        if (word[i] != word[length - 1 - i]) {
+            printf(""%d"", i);
+            return 0;
+        }
+    }
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+	
+	int length = strlen(word);
+	int i;
+	
+	for(i=0 ; i<length/2 ; i++){
+		
+		if(word[i] != word[length-i-1]){
+			return 0;
+		}
+	
+	}
+	
+	return 1;
+
+}","If the input word is 'radar', what is the value of the variable 'i' when the loop terminates?","If the input word is 'apple', at which index 'i' does the function first encounter a mismatch and return 0?",2,0,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+	int length = strlen(word);
+	int i;
+	
+	for(i=0 ; i<length/2 ; i++){
+		
+		if(word[i] != word[length-i-1]){
+			return 0;
+		}
+	
+	}
+	
+	return 1;
+}
+
+int main() {
+    char word[] = ""radar"";
+    int length = strlen(word);
+    int i;
+    for(i=0 ; i<length/2 ; i++) {
+        if(word[i] != word[length-i-1]) break;
+    }
+    printf(""%d"", i);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+	int length = strlen(word);
+	int i;
+	
+	for(i=0 ; i<length/2 ; i++){
+		
+		if(word[i] != word[length-i-1]){
+			return 0;
+		}
+	
+	}
+	
+	return 1;
+}
+
+int main() {
+    char word[] = ""apple"";
+    int length = strlen(word);
+    for(int i=0 ; i<length/2 ; i++) {
+        if(word[i] != word[length-i-1]) {
+            printf(""%d"", i);
+            return 0;
+        }
+    }
+    return 0;
+}"
+"int IsPalindrome(char str[]) {
+	int left = 0;
+	int right = strlen(str) - 1;
+
+	while (left < right) {
+		if (str[left] != str[right]) {
+			return 0;
+		}
+
+		left++;
+		right--;
+	}
+
+	return 1;
+}","If the input string is 'radar', what are the values of 'left' and 'right' at the start of the second iteration of the while loop?","If the input string is 'apple', at which index does the function first detect a mismatch and return 0?","left = 1, right = 3",Index 0 ('a') and index 4 ('e'),"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char str[]) {
+	int left = 0;
+	int right = strlen(str) - 1;
+
+	while (left < right) {
+		if (str[left] != str[right]) {
+			return 0;
+		}
+
+		left++;
+		right--;
+	}
+
+	return 1;
+}
+
+int main() {
+	char str[] = ""radar"";
+	int left = 0, right = strlen(str) - 1;
+	// Simulate first iteration
+	left++; right--;
+	printf(""left = %d, right = %d"", left, right);
+	return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char str[]) {
+	int left = 0;
+	int right = strlen(str) - 1;
+
+	while (left < right) {
+		if (str[left] != str[right]) {
+			printf(""Index %d and %d"", left, right);
+			return 0;
+		}
+
+		left++;
+		right--;
+	}
+
+	return 1;
+}
+
+int main() {
+	char str[] = ""apple"";
+	IsPalindrome(str);
+	return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+
+    char reverse[100];
+    for (int i = 0; i < length; i++) {
+        reverse[length-i-1] = word[i];
+    }
+    reverse[length] = '\0';
+
+    if (strcmp(reverse, word) == 0) {
+        return 1;
+    }
+    return 0;
+}","If the input word is 'cat', what is the value of reverse[0] after the for loop finishes executing?","During the first iteration of the for loop (i = 0) with the input word 'hello', which index of the reverse array is being assigned a value, and what is that value?",'c',Index 4 is assigned 'h',"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+
+    char reverse[100];
+    for (int i = 0; i < length; i++) {
+        reverse[length-i-1] = word[i];
+    }
+    reverse[length] = '\0';
+
+    if (strcmp(reverse, word) == 0) {
+        return 1;
+    }
+    return 0;
+}
+
+int main() {
+    char word[] = ""cat"";
+    int length = strlen(word);
+    char reverse[100];
+    for (int i = 0; i < length; i++) {
+        reverse[length-i-1] = word[i];
+    }
+    reverse[length] = '\0';
+    printf(""%c"", reverse[0]);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+
+    char reverse[100];
+    for (int i = 0; i < length; i++) {
+        reverse[length-i-1] = word[i];
+    }
+    reverse[length] = '\0';
+
+    if (strcmp(reverse, word) == 0) {
+        return 1;
+    }
+    return 0;
+}
+
+int main() {
+    char word[] = ""hello"";
+    int length = strlen(word);
+    char reverse[100];
+    int i = 0;
+    reverse[length-i-1] = word[i];
+    printf(""Index %d is assigned %c"", length-i-1, reverse[length-i-1]);
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{   int wordLength = strlen(word);
+    for (int i = wordLength -1; i >= 0; i--)
+    {
+        if (word[i]  !=  word[wordLength - 1 - i])
+        {
+            return 0;
+        }
+    }
+    return 1;
+    
+}","If the input word is 'racecar', what is the value of the expression (wordLength - 1 - i) during the first iteration of the loop?","If the input word is 'apple', at which value of the loop index 'i' does the function first return 0?",0,4,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int wordLength = strlen(word);
+    for (int i = wordLength -1; i >= 0; i--)
+    {
+        if (i == wordLength - 1) {
+            printf(""%d\n"", wordLength - 1 - i);
+            return 1;
+        }
+        if (word[i]  !=  word[wordLength - 1 - i])
+        {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""racecar"");
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int wordLength = strlen(word);
+    for (int i = wordLength -1; i >= 0; i--)
+    {
+        if (word[i]  !=  word[wordLength - 1 - i])
+        {
+            printf(""%d\n"", i);
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    for (int i=0; i < length/2; i++){
+        if (word[i] != word[length-i-1])
+        {
+            return 0;
+        }
+    }
+    return 1;
+}","If the input word is 'radar', what is the value of length-i-1 during the first iteration of the loop (when i = 0)?","For the input word 'apple', at which value of i does the function first return 0?",4,0,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    for (int i=0; i < length/2; i++){
+        if (word[i] != word[length-i-1])
+        {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int main() {
+    char *word = ""radar"";
+    int length = strlen(word);
+    int i = 0;
+    printf(""%d"", length - i - 1);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    for (int i=0; i < length/2; i++){
+        if (word[i] != word[length-i-1])
+        {
+            printf(""%d"", i);
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"int IsPalindrome(char *word) {
+    int length = strlen(word);
+
+    for (int i = 0; i < length; i++) {
+        if (word[i] != word[(length-1) - i]) {
+            return 0;
+        }
+    }
+
+    return 1;
+}","If the input word is 'racecar', what is the value of the expression (length-1) - i during the second iteration of the loop (when i = 1)?","If the input word is 'apple', at which index i does the function first encounter a mismatch and return 0?",5,1,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word) {
+    int length = strlen(word);
+
+    for (int i = 0; i < length; i++) {
+        if (i == 1) {
+            printf(""%d\n"", (length-1) - i);
+            return 1;
+        }
+        if (word[i] != word[(length-1) - i]) {
+            return 0;
+        }
+    }
+
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""racecar"");
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word) {
+    int length = strlen(word);
+
+    for (int i = 0; i < length; i++) {
+        if (word[i] != word[(length-1) - i]) {
+            printf(""%d\n"", i);
+            return 0;
+        }
+    }
+
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int len = strlen(word);
+    
+    for (int i = 0; i<len/2; i++){
+
+        if(word[i] != word[len-1-i]){
+
+            return 0;
+        }
+
+    }
+    return 1;
+}","If the input word is 'radar', what is the value of the expression (len-1-i) during the first iteration of the loop (when i = 0)?","If the input word is 'apple', at which value of 'i' does the function first encounter the 'return 0' statement?",4,0,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int len = strlen(word);
+    
+    for (int i = 0; i<len/2; i++){
+
+        if(word[i] != word[len-1-i]){
+
+            return 0;
+        }
+
+    }
+    return 1;
+}
+
+int main() {
+    char word[] = ""radar"";
+    int len = strlen(word);
+    int i = 0;
+    printf(""%d"", len - 1 - i);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int len = strlen(word);
+    
+    for (int i = 0; i<len/2; i++){
+
+        if(word[i] != word[len-1-i]){
+            printf(""%d"", i);
+            return 0;
+        }
+
+    }
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"int IsPalindrome(char* word)
+{
+	char temp[100];
+	int len = strlen(word);
+	for (int i = 0; i < len; i++) {
+		temp[i] = word[len - 1 - i];
+	}
+	temp[len] = '\0';
+	return (strcmp(temp, word) == 0);
+
+}","If the input word is 'cat', what is the value of temp[0] after the first iteration of the for loop?","For the input word 'racecar', what is the value of the variable 'len' and what is the index of the last character assigned to temp inside the loop?",'t',"len is 7, and the last index assigned is 6.","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char* word)
+{
+	char temp[100];
+	int len = strlen(word);
+	for (int i = 0; i < len; i++) {
+		temp[i] = word[len - 1 - i];
+	}
+	temp[len] = '\0';
+	return (strcmp(temp, word) == 0);
+}
+
+int main() {
+    char word[] = ""cat"";
+    char temp[100];
+    int len = strlen(word);
+    temp[0] = word[len - 1 - 0];
+    printf(""%c"", temp[0]);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char* word)
+{
+	char temp[100];
+	int len = strlen(word);
+	for (int i = 0; i < len; i++) {
+		temp[i] = word[len - 1 - i];
+	}
+	temp[len] = '\0';
+	return (strcmp(temp, word) == 0);
+}
+
+int main() {
+    char word[] = ""racecar"";
+    int len = strlen(word);
+    printf(""%d, %d"", len, len - 1);
+    return 0;
+}"
+"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word) {
+    int L = strlen(word);
+    
+    for  (int i = 0; i<L/2; i++) {
+        if (word[i] != word[L -1 -i]) {
+            return 0;
+        }
+    }
+    
+    return 1;
+}","If the input word is 'radar', what is the value of L and how many times will the for loop iterate before the function returns?","If the input word is 'apple', at which index i does the if condition (word[i] != word[L - 1 - i]) first evaluate to true?","L is 5, and the loop will iterate 2 times (i=0 and i=1).","The condition first evaluates to true at index i = 0, because 'a' != 'e'.","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word) {
+    int L = strlen(word);
+    
+    for  (int i = 0; i<L/2; i++) {
+        if (word[i] != word[L -1 -i]) {
+            return 0;
+        }
+    }
+    
+    return 1;
+}
+
+int main() {
+    char word[] = ""radar"";
+    int L = strlen(word);
+    int iterations = 0;
+    for (int i = 0; i < L/2; i++) { iterations++; }
+    printf(""L: %d, Iterations: %d\n"", L, iterations);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word) {
+    int L = strlen(word);
+    
+    for  (int i = 0; i<L/2; i++) {
+        if (word[i] != word[L -1 -i]) {
+            printf(""%d\n"", i);
+            return 0;
+        }
+    }
+    
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    size_t finalnum = strlen(word);
+    int end = finalnum;
+    for (int i = 0; i < finalnum; i++) {
+        if (word[i] != word[end-1-i]) {
+            return 0;
+        }
+    }
+    return 1;
+}","If the input word is 'racecar', what is the value of the expression 'end-1-i' during the second iteration of the loop (when i = 1)?","If the input word is 'apple', at which value of 'i' will the function first encounter the 'return 0' statement?",5,0,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    size_t finalnum = strlen(word);
+    int end = finalnum;
+    for (int i = 0; i < finalnum; i++) {
+        if (i == 1) {
+            printf(""%d\n"", end-1-i);
+            return 0;
+        }
+        if (word[i] != word[end-1-i]) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""racecar"");
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    size_t finalnum = strlen(word);
+    int end = finalnum;
+    for (int i = 0; i < finalnum; i++) {
+        if (word[i] != word[end-1-i]) {
+            printf(""%d\n"", i);
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+   
+
+   for (int i = 0; i<strlen(word); i++){
+    if (word[i] != word[strlen(word)-1-i]){
+        return 0;
+    }
+   }
+   return 1;
+
+}","If the input word is 'racecar', what is the value of the expression word[strlen(word)-1-i] during the first iteration of the loop (when i = 0)?","If the input word is 'apple', at which index (value of i) will the function first encounter the 'if' condition that evaluates to true and return 0?",'r',0,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+   for (int i = 0; i<strlen(word); i++){
+    if (word[i] != word[strlen(word)-1-i]){
+        return 0;
+    }
+   }
+   return 1;
+}
+
+int main() {
+    char word[] = ""racecar"";
+    int i = 0;
+    printf(""%c"", word[strlen(word)-1-i]);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+   for (int i = 0; i<strlen(word); i++){
+    if (word[i] != word[strlen(word)-1-i]){
+        return 0;
+    }
+   }
+   return 1;
+}
+
+int main() {
+    char word[] = ""apple"";
+    for (int i = 0; i < strlen(word); i++) {
+        if (word[i] != word[strlen(word)-1-i]) {
+            printf(""%d"", i);
+            return 0;
+        }
+    }
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    for (int i=0; i<length; i++) {
+        if (word[i]!= word[length-i-1]) {
+            return 0;
+        }
+    }
+    return 1;
+}","If the input word is 'racecar', what is the value of length-i-1 during the first iteration of the loop (when i = 0)?","If the input word is 'apple', at which index i does the function first encounter a mismatch and return 0?",6,0,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    for (int i=0; i<length; i++) {
+        if (i == 0) {
+            printf(""%d"", length-i-1);
+            return 0;
+        }
+        if (word[i]!= word[length-i-1]) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""racecar"");
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    for (int i=0; i<length; i++) {
+        if (word[i]!= word[length-i-1]) {
+            printf(""%d"", i);
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int i;
+    int length = strlen(word);
+    
+    for (i = 0; i < length/2; i++) {
+        if (word[i] != word[length - 1 - i]) {
+            return 0;
+        }
+    }
+    return 1;
+}","If the input word is 'radar', what is the value of the variable 'i' when the loop terminates?","If the input word is 'apple', at which index 'i' does the function first encounter a mismatch and return 0?",2,0,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int i;
+    int length = strlen(word);
+    
+    for (i = 0; i < length/2; i++) {
+        if (word[i] != word[length - 1 - i]) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int main() {
+    char word[] = ""radar"";
+    int length = strlen(word);
+    int i;
+    for (i = 0; i < length/2; i++) {
+        if (word[i] != word[length - 1 - i]) break;
+    }
+    printf(""%d"", i);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int i;
+    int length = strlen(word);
+    
+    for (i = 0; i < length/2; i++) {
+        if (word[i] != word[length - 1 - i]) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int main() {
+    char word[] = ""apple"";
+    int length = strlen(word);
+    int i;
+    for (i = 0; i < length/2; i++) {
+        if (word[i] != word[length - 1 - i]) {
+            printf(""%d"", i);
+            return 0;
+        }
+    }
+    return 0;
+}"
+"int IsPalindrome(char* word)
+{
+	int length = strlen(word)-1;
+
+	for (int i = 0; i <= length / 2; i++) {
+
+		if (word[i] != word[length - i]) {
+
+			return 0;
+		}
+	}
+
+	return 1;
+
+}","If the input word is 'radar', what is the value of 'length' and what is the value of 'i' during the final iteration of the loop?","If the input word is 'apple', at which index 'i' does the function first encounter a mismatch and return 0?","length = 4, i = 2",i = 0,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char* word)
+{
+	int length = strlen(word)-1;
+
+	for (int i = 0; i <= length / 2; i++) {
+
+		if (word[i] != word[length - i]) {
+
+			return 0;
+		}
+	}
+
+	return 1;
+}
+
+int main() {
+    char word[] = ""radar"";
+    int length = strlen(word) - 1;
+    int final_i = length / 2;
+    printf(""length = %d, i = %d"", length, final_i);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindromeModified(char* word)
+{
+	int length = strlen(word)-1;
+
+	for (int i = 0; i <= length / 2; i++) {
+
+		if (word[i] != word[length - i]) {
+
+			printf(""i = %d"", i);
+			return 0;
+		}
+	}
+
+	return 1;
+}
+
+int main() {
+    char word[] = ""apple"";
+    IsPalindromeModified(word);
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+   int length;
+	for (int i = 0; word[i] != '\0'; i++) {
+		length = i;
+	   }
+	   if (length%2 == 0) {
+		   for (int i = 0; i <= length/2; i++) {
+			   if (word[i] != word[length - i]) {
+				   return 0;
+			   }
+		   }
+		return 1;	   
+   }
+				   
+		else {
+			for (int i = 0; i <= (length-1)/2; i++) {
+			   if (word[i] != word[length - i]) {
+				   return 0;
+			   }		
+			}
+		return 1; 
+		    
+	}
+}","If the input string is 'racecar', what is the final value of the variable 'length' after the first for-loop finishes executing?","When calling IsPalindrome(""noon""), what is the value of 'word[length - i]' during the first iteration of the loop (where i = 0)?",6,'\0' (the null terminator),"#include <stdio.h>
+int IsPalindrome(char *word)
+{
+   int length;
+	for (int i = 0; word[i] != '\0'; i++) {
+		length = i;
+   }
+   printf(""%d"", length);
+   return 0;
+}
+int main() {
+    IsPalindrome(""racecar"");
+    return 0;
+}","#include <stdio.h>
+int IsPalindrome(char *word)
+{
+   int length;
+	for (int i = 0; word[i] != '\0'; i++) {
+		length = i;
+   }
+   if (length%2 == 0) {
+		   for (int i = 0; i <= length/2; i++) {
+			   if (i == 0) printf(""%c"", word[length - i]);
+			   if (word[i] != word[length - i]) {
+				   return 0;
+			   }
+		   }
+		return 1;	   
+   }
+		else {
+			for (int i = 0; i <= (length-1)/2; i++) {
+			   if (word[i] != word[length - i]) {
+				   return 0;
+			   }
+		}
+		return 1; 
+		    
+	}
+}
+int main() {
+    IsPalindrome(""noon"");
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+	int length=(int)strlen(word);
+	int i;
+	for (i=0;i<(length/2);i++){
+		if (word[i]!=word[length-1-i]){
+			return 0;
+		}
+	}
+	return 1;
+}","If the input word is 'radar', what is the value of the variable 'i' when the loop terminates?","For the input word 'apple', at which index 'i' does the function first encounter a mismatch and return 0?",2,0,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+	int length=(int)strlen(word);
+	int i;
+	for (i=0;i<(length/2);i++){
+		if (word[i]!=word[length-1-i]){
+			return 0;
+		}
+	}
+	return 1;
+}
+
+int main() {
+    char word[] = ""radar"";
+    int length = (int)strlen(word);
+    int i;
+    for (i=0; i<(length/2); i++) {
+        if (word[i] != word[length-1-i]) break;
+    }
+    printf(""%d"", i);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+	int length=(int)strlen(word);
+	int i;
+	for (i=0;i<(length/2);i++){
+		if (word[i]!=word[length-1-i]){
+			return 0;
+		}
+	}
+	return 1;
+}
+
+int main() {
+    char word[] = ""apple"";
+    int length = (int)strlen(word);
+    int i;
+    for (i=0; i<(length/2); i++) {
+        if (word[i] != word[length-1-i]) {
+            printf(""%d"", i);
+            return 0;
+        }
+    }
+    return 0;
+}"
+"int IsPalindrome(char *word) {
+    int left = 0;
+    int right = strlen(word) - 1;
+
+    while (left < right) {
+        if (word[left] != word[right]) {
+            return 0;  // not a palindrome
+        }
+        left++;
+        right--;
+    }
+
+    return 1;  // is a palindrome
+}","If the input word is 'radar', what are the values of 'left' and 'right' at the start of the second iteration of the while loop?","If the input word is 'apple', at which index does the function first detect a mismatch and return 0?","left = 1, right = 3",Index 0 ('a') and index 4 ('e'),"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word) {
+    int left = 0;
+    int right = strlen(word) - 1;
+
+    while (left < right) {
+        if (word[left] != word[right]) {
+            return 0;  // not a palindrome
+        }
+        left++;
+        right--;
+    }
+
+    return 1;  // is a palindrome
+}
+
+int main() {
+    char word[] = ""radar"";
+    int left = 0;
+    int right = strlen(word) - 1;
+    // Simulate first iteration
+    left++;
+    right--;
+    printf(""left = %d, right = %d"", left, right);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word) {
+    int left = 0;
+    int right = strlen(word) - 1;
+
+    while (left < right) {
+        if (word[left] != word[right]) {
+            printf(""Index %d and %d"", left, right);
+            return 0;  // not a palindrome
+        }
+        left++;
+        right--;
+    }
+
+    return 1;  // is a palindrome
+}
+
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int left = 0;
+    int right = strlen(word) - 1;
+
+    while (left < right) {
+        if (word[left] != word[right]) {
+            return 0;
+        }
+        left++;
+        right--;
+    }
+    return 1;
+}","If the input word is 'radar', what are the values of 'left' and 'right' immediately before the while loop condition is checked for the second time?","If the input word is 'apple', at which index does the function first detect a mismatch and return 0?","left = 1, right = 3",Index 0 ('a') and index 4 ('e'),"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int left = 0;
+    int right = strlen(word) - 1;
+
+    while (left < right) {
+        if (word[left] != word[right]) {
+            return 0;
+        }
+        left++;
+        right--;
+        if (left == 1) {
+            printf(""left = %d, right = %d\n"", left, right);
+            return 1;
+        }
+    }
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""radar"");
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int left = 0;
+    int right = strlen(word) - 1;
+
+    while (left < right) {
+        if (word[left] != word[right]) {
+            printf(""Index %d and %d\n"", left, right);
+            return 0;
+        }
+        left++;
+        right--;
+    }
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"int IsPalindrome(char* word)
+{
+	int i = 0;
+	int length = strlen(word);
+	
+
+	if (word[i] != word[length-1]) {
+		return 0;
+	}
+	else if (word[i+1] != word[length-2]) {
+		return 0;
+	}
+	else {
+		return 1;
+	}
+}","If the input word is 'radar', what are the values of word[i] and word[length-1] when the first if-statement is evaluated?","If the input word is 'apple', which return statement is executed and what is the returned value?",word[i] is 'r' and word[length-1] is 'r'.,The first return statement is executed and returns 0.,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char* word)
+{
+	int i = 0;
+	int length = strlen(word);
+
+	if (word[i] != word[length-1]) {
+		return 0;
+	}
+	else if (word[i+1] != word[length-2]) {
+		return 0;
+	}
+	else {
+		return 1;
+	}
+}
+
+int main() {
+    char word[] = ""radar"";
+    int i = 0;
+    int length = strlen(word);
+    printf(""%c %c"", word[i], word[length-1]);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char* word)
+{
+	int i = 0;
+	int length = strlen(word);
+
+	if (word[i] != word[length-1]) {
+		return 0;
+	}
+	else if (word[i+1] != word[length-2]) {
+		return 0;
+	}
+	else {
+		return 1;
+	}
+}
+
+int main() {
+    char word[] = ""apple"";
+    printf(""%d"", IsPalindrome(word));
+    return 0;
+}"
+"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+	int start = 0;
+	int end = strlen(word) - 1;
+
+	while (start < end) {
+		if (word[start] != word[end]) {
+			return 0;
+		}
+		start++;
+		end--;
+	}
+	return 1;
+}","If the input word is 'radar', what are the values of 'start' and 'end' immediately before the while loop terminates?","If the input word is 'apple', at which index does the first mismatch occur, and what are the characters being compared at that moment?","start = 2, end = 2",Index 0 and 4; characters 'a' and 'e',"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+	int start = 0;
+	int end = strlen(word) - 1;
+
+	while (start < end) {
+		if (word[start] != word[end]) {
+			return 0;
+		}
+		start++;
+		end--;
+	}
+	printf(""start: %d, end: %d\n"", start, end);
+	return 1;
+}
+
+int main() {
+	IsPalindrome(""radar"");
+	return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+	int start = 0;
+	int end = strlen(word) - 1;
+
+	while (start < end) {
+		if (word[start] != word[end]) {
+			printf(""Mismatch at indices %d and %d: %c vs %c\n"", start, end, word[start], word[end]);
+			return 0;
+		}
+		start++;
+		end--;
+	}
+	return 1;
+}
+
+int main() {
+	IsPalindrome(""apple"");
+	return 0;
+}"
+"#include <stdbool.h>
+
+int IsPalindrome(char *word)
+{
+    int stringLength = strlen(word);
+    bool flag = true;
+    int i = 0;
+    while (flag && i < stringLength / 2) {
+        if (word[i] != word[stringLength - 1 - i]) {
+            flag = false;
+        }
+        i++;
+    }
+    
+    if (flag) {
+        return 1;
+    }
+    else {
+        return 0;
+    }
+}","If the input word is 'radar', what is the value of the variable 'i' when the while loop terminates?","If the input word is 'apple', at which index 'i' does the 'flag' variable first change to false?",2,0,"#include <stdio.h>
+#include <stdbool.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int stringLength = strlen(word);
+    bool flag = true;
+    int i = 0;
+    while (flag && i < stringLength / 2) {
+        if (word[i] != word[stringLength - 1 - i]) {
+            flag = false;
+        }
+        i++;
+    }
+    printf(""%d\n"", i);
+    if (flag) {
+        return 1;
+    }
+    else {
+        return 0;
+    }
+}
+
+int main() {
+    IsPalindrome(""radar"");
+    return 0;
+}","#include <stdio.h>
+#include <stdbool.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int stringLength = strlen(word);
+    bool flag = true;
+    int i = 0;
+    while (flag && i < stringLength / 2) {
+        if (word[i] != word[stringLength - 1 - i]) {
+            printf(""%d\n"", i);
+            flag = false;
+        }
+        i++;
+    }
+    if (flag) {
+        return 1;
+    }
+    else {
+        return 0;
+    }
+}
+
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    for (int i = 0; i < length; i++) {
+        if (word[i] != word[length - 1 - i]) {
+            return 0;
+        }
+    }
+    return 1;
+}","If the input word is 'radar', what is the value of the expression (length - 1 - i) during the second iteration of the loop (when i = 1)?","If the input word is 'code', at which value of 'i' will the function first encounter the 'return 0' statement?",3,0,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    for (int i = 0; i < length; i++) {
+        if (i == 1) {
+            printf(""%d"", length - 1 - i);
+            return 0;
+        }
+        if (word[i] != word[length - 1 - i]) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""radar"");
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    for (int i = 0; i < length; i++) {
+        if (word[i] != word[length - 1 - i]) {
+            printf(""%d"", i);
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""code"");
+    return 0;
+}"
+"int IsPalindrome(char* word)
+{
+	int len = strlen(word);
+	for (int i = 0; i < len/2; i++) {
+		if (word[i] != word[len-i-1]) {
+			return(0);
+		}
+	}
+	return(1);
+}","If the input word is 'radar', what is the value of the variable 'i' when the loop terminates?","If the input word is 'apple', at which index 'i' does the function first encounter a mismatch and return 0?",2,0,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char* word)
+{
+	int len = strlen(word);
+	for (int i = 0; i < len/2; i++) {
+		if (word[i] != word[len-i-1]) {
+			return(0);
+		}
+	}
+	return(1);
+}
+
+int main() {
+    char word[] = ""radar"";
+    int len = strlen(word);
+    int i;
+    for (i = 0; i < len/2; i++) {
+        if (word[i] != word[len-i-1]) break;
+    }
+    printf(""%d"", i);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char* word)
+{
+	int len = strlen(word);
+	for (int i = 0; i < len/2; i++) {
+		if (word[i] != word[len-i-1]) {
+			return(0);
+		}
+	}
+	return(1);
+}
+
+int main() {
+    char word[] = ""apple"";
+    int len = strlen(word);
+    for (int i = 0; i < len/2; i++) {
+        if (word[i] != word[len-i-1]) {
+            printf(""%d"", i);
+            return 0;
+        }
+    }
+    return 0;
+}"
+"int IsPalindrome(char* word) {
+	int count;
+	count = 2;
+	if (word[strlen(word)-1] != word[0]) {
+		return 0; // check if last letter = first letter
+	}
+	for (int i = 1; i < strlen(word); i++) {
+		if (word[i] != word[strlen(word) - count]) {
+			return 0;
+		}
+		count++;
+	}
+	return 1;
+
+}","If the input word is 'radar', what is the value of 'count' when the loop finishes its first iteration (i = 1)?","If the input word is 'apple', which line of code causes the function to return 0 immediately?",3,The if statement checking if the last letter equals the first letter (word[strlen(word)-1] != word[0]),"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char* word) {
+	int count;
+	count = 2;
+	if (word[strlen(word)-1] != word[0]) {
+		return 0; // check if last letter = first letter
+	}
+	for (int i = 1; i < strlen(word); i++) {
+		if (word[i] != word[strlen(word) - count]) {
+			return 0;
+		}
+		count++;
+	}
+	return 1;
+}
+
+int main() {
+    char word[] = ""radar"";
+    int count = 2;
+    if (word[strlen(word)-1] == word[0]) {
+        for (int i = 1; i < strlen(word); i++) {
+            if (word[i] != word[strlen(word) - count]) break;
+            count++;
+            if (i == 1) { printf(""%d"", count); return 0; }
+        }
+    }
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char* word) {
+	int count;
+	count = 2;
+	if (word[strlen(word)-1] != word[0]) {
+		return 0; // check if last letter = first letter
+	}
+	for (int i = 1; i < strlen(word); i++) {
+		if (word[i] != word[strlen(word) - count]) {
+			return 0;
+		}
+		count++;
+	}
+	return 1;
+}
+
+int main() {
+    char word[] = ""apple"";
+    if (word[strlen(word)-1] != word[0]) {
+        printf(""Returns 0 at first if statement"");
+    } else {
+        printf(""Proceeds to loop"");
+    }
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int strlength = strlen(word);
+    for(int i=0; i<=strlength;i++){
+        if (word[i] != word[strlength-i-1]){
+            return 0;
+        }
+    }
+    return 1;
+}","If the input word is 'racecar', what is the value of strlength and what is the value of word[strlength-i-1] during the first iteration (i=0)?",What happens when the loop index 'i' reaches the value of 'strlength'? Which characters are being compared in the if-statement?,"strlength is 7; word[strlength-i-1] is word[6], which is 'r'.","The code compares word[strlength] (the null terminator '\0') with word[-1], which is an out-of-bounds memory access.","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int strlength = strlen(word);
+    for(int i=0; i<=strlength;i++){
+        if (word[i] != word[strlength-i-1]){
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int main() {
+    char *word = ""racecar"";
+    int strlength = strlen(word);
+    printf(""strlength: %d, word[strlength-0-1]: %c\n"", strlength, word[strlength-0-1]);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int strlength = strlen(word);
+    for(int i=0; i<=strlength;i++){
+        if (word[i] != word[strlength-i-1]){
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int main() {
+    char *word = ""aba"";
+    int strlength = strlen(word);
+    printf(""Comparing word[%d] and word[%d]\n"", strlength, strlength - strlength - 1);
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int length = 0;
+    while (word[length] != '\0')
+        length++;
+
+    int a = 0; // start of char array
+    int b = length - 1; // length of char array
+
+    while (a < b) {
+        if (word[a] != word[b]) 
+            return 0;
+        a++;
+        b--;
+        }
+            return 1;
+    }","If the input string is 'radar', what are the values of the variables 'a' and 'b' immediately before the while loop condition (a < b) is checked for the second time?","If the input string is 'code', at which iteration of the while loop does the function return 0, and what are the characters being compared at that moment?","a = 1, b = 3",Iteration 1; comparing 'c' (word[0]) and 'e' (word[3]),"#include <stdio.h>
+int IsPalindrome(char *word)
+{
+    int length = 0;
+    while (word[length] != '\0')
+        length++;
+
+    int a = 0; // start of char array
+    int b = length - 1; // length of char array
+
+    while (a < b) {
+        if (word[a] != word[b]) 
+            return 0;
+        a++;
+        b--;
+        }
+            return 1;
+    }
+
+int main() {
+    char word[] = ""radar"";
+    int length = 0;
+    while (word[length] != '\0') length++;
+    int a = 0;
+    int b = length - 1;
+    // Simulate first iteration
+    if (word[a] != word[b]) {}
+    a++;
+    b--;
+    printf(""a = %d, b = %d"", a, b);
+    return 0;
+}","#include <stdio.h>
+int IsPalindrome(char *word)
+{
+    int length = 0;
+    while (word[length] != '\0')
+        length++;
+
+    int a = 0; // start of char array
+    int b = length - 1; // length of char array
+
+    while (a < b) {
+        if (word[a] != word[b]) 
+            return 0;
+        a++;
+        b--;
+        }
+            return 1;
+    }
+
+int main() {
+    char word[] = ""code"";
+    int length = 0;
+    while (word[length] != '\0') length++;
+    int a = 0;
+    int b = length - 1;
+    printf(""Iteration 1; comparing '%c' and '%c'"", word[a], word[b]);
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int left = 0;
+    int right = strlen(word) -1;
+
+    while(left < right)
+    {
+        if(word[left] != word[right])
+        {
+            return 0;
+        }
+        left++;
+        right--;
+    }
+    return 1;
+}","If the input word is 'radar', what are the values of 'left' and 'right' immediately before the while loop terminates?","If the input word is 'apple', at which index does the function first detect a mismatch and return 0?","left = 2, right = 2",Index 0 ('a') and index 4 ('e'),"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int left = 0;
+    int right = strlen(word) -1;
+
+    while(left < right)
+    {
+        if(word[left] != word[right])
+        {
+            return 0;
+        }
+        left++;
+        right--;
+    }
+    printf(""left: %d, right: %d\n"", left, right);
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""radar"");
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int left = 0;
+    int right = strlen(word) -1;
+
+    while(left < right)
+    {
+        if(word[left] != word[right])
+        {
+            printf(""Mismatch at indices %d and %d\n"", left, right);
+            return 0;
+        }
+        left++;
+        right--;
+    }
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int length= strlen(word);
+    for (int i=0; i<length/2; i++){
+        if(word[i] != word[length-i-1]){
+            return 0;
+        }
+    }
+    return 1;
+}","If the input word is 'radar', what is the value of the variable 'i' during the final iteration of the for loop before the function returns 1?","If the input word is 'apple', at which index 'i' does the if-condition (word[i] != word[length-i-1]) first evaluate to true?",1,0,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int length= strlen(word);
+    for (int i=0; i<length/2; i++){
+        if(word[i] != word[length-i-1]){
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int main() {
+    char word[] = ""radar"";
+    int length = strlen(word);
+    int last_i = -1;
+    for (int i=0; i<length/2; i++) {
+        last_i = i;
+    }
+    printf(""%d"", last_i);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int length= strlen(word);
+    for (int i=0; i<length/2; i++){
+        if(word[i] != word[length-i-1]){
+            printf(""%d"", i);
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int main() {
+    char word[] = ""apple"";
+    IsPalindrome(word);
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int left = 0;
+    int right = strlen(word) - 1;
+
+    while (left < right) 
+    {
+        if (word[left] != word[right]) 
+        {
+            return 0;
+        }
+        left++;
+        right--;
+    }
+    return 1;
+}","If the input word is 'radar', what are the values of 'left' and 'right' at the start of the second iteration of the while loop?","If the input word is 'apple', at which index does the function first detect a mismatch and return 0?","left = 1, right = 3",Index 0 ('a') and index 4 ('e'),"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int left = 0;
+    int right = strlen(word) - 1;
+
+    while (left < right) 
+    {
+        if (word[left] != word[right]) 
+        {
+            return 0;
+        }
+        left++;
+        right--;
+    }
+    return 1;
+}
+
+int main() {
+    char word[] = ""radar"";
+    int left = 0;
+    int right = strlen(word) - 1;
+    // Simulate first iteration
+    left++;
+    right--;
+    printf(""left = %d, right = %d"", left, right);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int left = 0;
+    int right = strlen(word) - 1;
+
+    while (left < right) 
+    {
+        if (word[left] != word[right]) 
+        {
+            printf(""Index %d and %d"", left, right);
+            return 0;
+        }
+        left++;
+        right--;
+    }
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    	int left = 0;
+	int right = 0;
+	while (word[right] != '\0') {
+		right++;
+	}
+	right--; 
+	while (left < right) {
+		if (word[left] != word[right]) {
+			return 0; 
+		}
+		left++;
+		right--;
+	}
+	return 1; 
+}","If the input string is 'radar', what is the value of the variable 'right' immediately after the first while loop finishes executing?","For the input string 'apple', at which index values of 'left' and 'right' does the function first encounter a mismatch and return 0?",4,"left = 0, right = 4","#include <stdio.h>
+
+int IsPalindrome(char *word)
+{
+    int left = 0;
+    int right = 0;
+    while (word[right] != '\0') {
+        right++;
+    }
+    printf(""%d\n"", right - 1);
+    right--; 
+    while (left < right) {
+        if (word[left] != word[right]) {
+            return 0; 
+        }
+        left++;
+        right--;
+    }
+    return 1; 
+}
+
+int main() {
+    IsPalindrome(""radar"");
+    return 0;
+}","#include <stdio.h>
+
+int IsPalindrome(char *word)
+{
+    int left = 0;
+    int right = 0;
+    while (word[right] != '\0') {
+        right++;
+    }
+    right--; 
+    while (left < right) {
+        if (word[left] != word[right]) {
+            printf(""left = %d, right = %d\n"", left, right);
+            return 0; 
+        }
+        left++;
+        right--;
+    }
+    return 1; 
+}
+
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int len = strlen(word);
+	
+	for (int i = 0; i <= len/2; i++) {
+		if (word[i] != word[len - 1 - i]){
+			return 0;
+		}
+	}
+	return 1;
+}","If the input word is 'radar', what is the value of the expression (len - 1 - i) during the first iteration of the loop (when i = 0)?","For the input word 'apple', at which value of 'i' does the function first encounter the 'return 0' statement?",4,0,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int len = strlen(word);
+	
+	for (int i = 0; i <= len/2; i++) {
+		if (word[i] != word[len - 1 - i]){
+			return 0;
+		}
+	}
+	return 1;
+}
+
+int main() {
+    char word[] = ""radar"";
+    int len = strlen(word);
+    int i = 0;
+    printf(""%d"", len - 1 - i);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int len = strlen(word);
+	
+	for (int i = 0; i <= len/2; i++) {
+		if (word[i] != word[len - 1 - i]){
+            printf(""%d"", i);
+			return 0;
+		}
+	}
+	return 1;
+}
+
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int left= 0;
+    int right = strlen(word) - 1;
+}","If the input string 'word' is ""radar"", what is the initial value assigned to the variable 'right'?","What is the value of 'left' immediately after it is initialized, regardless of the input string?",4,0,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int left= 0;
+    int right = strlen(word) - 1;
+    return right;
+}
+
+int main() {
+    printf(""%d"", IsPalindrome(""radar""));
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int left= 0;
+    int right = strlen(word) - 1;
+    return left;
+}
+
+int main() {
+    printf(""%d"", IsPalindrome(""hello""));
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    int palindrome = 1;
+        for (int i = 0; i < (length / 2); i++) {
+            if (word[i] != word[length -1 -i]) {
+                palindrome = 0;
+                break;
+            }
+        }
+        if (palindrome == 1) {
+            return 1;
+        }
+        else {
+            return 0;
+    }
+    
+}","If the input word is 'radar', what is the value of the variable 'i' when the for-loop terminates?","If the input word is 'apple', at which index 'i' does the 'if' condition (word[i] != word[length - 1 - i]) first evaluate to true?",2,0,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    int palindrome = 1;
+        for (int i = 0; i < (length / 2); i++) {
+            if (word[i] != word[length -1 -i]) {
+                palindrome = 0;
+                break;
+            }
+        }
+        if (palindrome == 1) {
+            return 1;
+        }
+        else {
+            return 0;
+    }
+}
+
+int main() {
+    char word[] = ""radar"";
+    int length = strlen(word);
+    int i;
+    for (i = 0; i < (length / 2); i++) {
+        if (word[i] != word[length - 1 - i]) break;
+    }
+    printf(""%d"", i);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    int palindrome = 1;
+        for (int i = 0; i < (length / 2); i++) {
+            if (word[i] != word[length -1 -i]) {
+                palindrome = 0;
+                break;
+            }
+        }
+        if (palindrome == 1) {
+            return 1;
+        }
+        else {
+            return 0;
+    }
+}
+
+int main() {
+    char word[] = ""apple"";
+    int length = strlen(word);
+    for (int i = 0; i < (length / 2); i++) {
+        if (word[i] != word[length - 1 - i]) {
+            printf(""%d"", i);
+            return 0;
+        }
+    }
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    int check = 1;
+    for (int i = 0; i < length / 2; i++) {
+	    if (!(word[i] == word[length - 1 - i])) {
+		check = 0;
+        }
+    }
+    return check;
+    
+}","If the input word is 'radar', what is the value of the variable 'i' during the final iteration of the for loop?","If the input word is 'apple', at which index 'i' does the 'check' variable first change its value to 0?",1,0,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    int check = 1;
+    int last_i = 0;
+    for (int i = 0; i < length / 2; i++) {
+        last_i = i;
+	    if (!(word[i] == word[length - 1 - i])) {
+		check = 0;
+        }
+    }
+    printf(""%d"", last_i);
+    return check;
+}
+
+int main() {
+    IsPalindrome(""radar"");
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    int check = 1;
+    for (int i = 0; i < length / 2; i++) {
+	    if (!(word[i] == word[length - 1 - i])) {
+		printf(""%d"", i);
+		check = 0;
+		return check;
+        }
+    }
+    return check;
+}
+
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+
+    int left = 0;
+    int right = length - 1;
+
+    while (left < right) {
+        if (word[left] != word[right]) {
+            return 0;
+        }
+        left++;
+        right--;
+    }
+    return 1;
+    
+}","If the input word is 'radar', what are the values of 'left' and 'right' at the start of the second iteration of the while loop?","If the input word is 'apple', at which index does the function first detect a mismatch and return 0?","left = 1, right = 3",Index 0 ('a') and index 4 ('e'),"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    int left = 0;
+    int right = length - 1;
+    int iter = 0;
+    while (left < right) {
+        if (iter == 1) {
+            printf(""left = %d, right = %d\n"", left, right);
+            return 0;
+        }
+        if (word[left] != word[right]) {
+            return 0;
+        }
+        left++;
+        right--;
+        iter++;
+    }
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""radar"");
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    int left = 0;
+    int right = length - 1;
+    while (left < right) {
+        if (word[left] != word[right]) {
+            printf(""Index %d and %d\n"", left, right);
+            return 0;
+        }
+        left++;
+        right--;
+    }
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    int check = 1;
+    int i = 0;
+    while (i <= length/2) {
+        if (word[i] != word[length - 1 - i]){
+            check = 0;
+            break;
+        }
+        i++;
+    }
+    return check;
+}","If the input word is 'radar', what is the value of the variable 'i' when the while loop terminates?","If the input word is 'apple', at which index 'i' does the if condition first evaluate to true, causing the loop to break?",3,0,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    int check = 1;
+    int i = 0;
+    while (i <= length/2) {
+        if (word[i] != word[length - 1 - i]){
+            check = 0;
+            break;
+        }
+        i++;
+    }
+    return i;
+}
+
+int main() {
+    printf(""%d"", IsPalindrome(""radar""));
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    int check = 1;
+    int i = 0;
+    while (i <= length/2) {
+        if (word[i] != word[length - 1 - i]){
+            return i;
+        }
+        i++;
+    }
+    return check;
+}
+
+int main() {
+    printf(""%d"", IsPalindrome(""apple""));
+    return 0;
+}"
+"int IsPalindrome(char *word) { 
+	int length = strlen(word);
+	for (int i = 0; i < length/2; i++) {
+		if (word[i]!=word[length-1-i]) {
+			return 0;
+		}
+	}
+	return 1;
+}","If the input word is 'radar', what is the value of the variable 'i' when the loop terminates?","If the input word is 'apple', at which index 'i' does the function first encounter a mismatch and return 0?",2,0,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word) {
+	int length = strlen(word);
+	for (int i = 0; i < length/2; i++) {
+		if (word[i]!=word[length-1-i]) {
+			return 0;
+		}
+	}
+	return 1;
+}
+
+int main() {
+    char word[] = ""radar"";
+    int length = strlen(word);
+    int i;
+    for (i = 0; i < length/2; i++) {
+        if (word[i]!=word[length-1-i]) break;
+    }
+    printf(""%d"", i);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word) {
+	int length = strlen(word);
+	for (int i = 0; i < length/2; i++) {
+		if (word[i]!=word[length-1-i]) {
+			return 0;
+		}
+	}
+	return 1;
+}
+
+int main() {
+    char word[] = ""apple"";
+    int length = strlen(word);
+    for (int i = 0; i < length/2; i++) {
+        if (word[i]!=word[length-1-i]) {
+            printf(""%d"", i);
+            return 0;
+        }
+    }
+    return 0;
+}"
+"#define CRT_SECURE_NO_WARNINGS
+#include <string.h>
+
+int IsPalindrome(char* word) {
+
+	int i;
+	int length = strlen(word);
+
+for (i = 0; i < length / 2; i++) {
+	if (word[i] != word[length - 1 - i]) {
+		return 0;
+	}
+}
+return 1;
+
+}","If the input word is 'radar', what is the value of the variable 'i' when the loop terminates?","If the input word is 'apple', at which index 'i' does the function first encounter a mismatch and return 0?",2,0,"#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char* word) {
+	int i;
+	int length = strlen(word);
+
+for (i = 0; i < length / 2; i++) {
+	if (word[i] != word[length - 1 - i]) {
+		return 0;
+	}
+}
+return 1;
+}
+
+int main() {
+    char word[] = ""radar"";
+    int i = 0, length = strlen(word);
+    for (i = 0; i < length / 2; i++) {
+        if (word[i] != word[length - 1 - i]) break;
+    }
+    printf(""%d"", i);
+    return 0;
+}","#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char* word) {
+	int i;
+	int length = strlen(word);
+
+for (i = 0; i < length / 2; i++) {
+	if (word[i] != word[length - 1 - i]) {
+		return 0;
+	}
+}
+return 1;
+}
+
+int main() {
+    char word[] = ""apple"";
+    int length = strlen(word);
+    for (int i = 0; i < length / 2; i++) {
+        if (word[i] != word[length - 1 - i]) {
+            printf(""%d"", i);
+            return 0;
+        }
+    }
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int i = 0;
+    int j = strlen(word) - 1;
+    while (i < j) {
+        if (word[i] != word[j]) return 0;
+        i++;
+        j--;
+    }
+    return 1;
+}","If the input word is 'radar', what are the values of i and j at the start of the second iteration of the while loop?","If the input word is 'code', at which iteration of the while loop does the function return 0, and what are the characters being compared at that moment?","i = 1, j = 3",Iteration 1; comparing 'c' and 'e',"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int i = 0;
+    int j = strlen(word) - 1;
+    while (i < j) {
+        if (word[i] != word[j]) return 0;
+        i++;
+        j--;
+    }
+    return 1;
+}
+
+int main() {
+    char word[] = ""radar"";
+    int i = 0;
+    int j = strlen(word) - 1;
+    // Simulate first iteration
+    if (word[i] == word[j]) {
+        i++;
+        j--;
+    }
+    printf(""i = %d, j = %d"", i, j);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int i = 0;
+    int j = strlen(word) - 1;
+    while (i < j) {
+        if (word[i] != word[j]) return 0;
+        i++;
+        j--;
+    }
+    return 1;
+}
+
+int main() {
+    char word[] = ""code"";
+    int i = 0;
+    int j = strlen(word) - 1;
+    int iteration = 1;
+    while (i < j) {
+        if (word[i] != word[j]) {
+            printf(""Iteration %d; comparing '%c' and '%c'"", iteration, word[i], word[j]);
+            return 0;
+        }
+        i++;
+        j--;
+        iteration++;
+    }
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+ int length = strlen(word);
+ int left =0;
+ int right = length -1;
+ while (left<right){
+     if (word[left]==word[right]){
+         left++;
+         right--;
+     } else {
+         return 0;
+     }
+     }
+     return 1;
+ }","If the input word is 'radar', what are the values of the variables 'left' and 'right' immediately before the while loop terminates?","If the input word is 'code', at which iteration of the while loop does the function return 0, and what are the characters being compared at that moment?","left = 2, right = 2",Iteration 1; comparing 'c' (word[0]) and 'e' (word[3]),"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+ int length = strlen(word);
+ int left =0;
+ int right = length -1;
+ while (left<right){
+     if (word[left]==word[right]){
+         left++;
+         right--;
+     } else {
+         return 0;
+     }
+     }
+     return 1;
+ }
+
+int main() {
+    char word[] = ""radar"";
+    int length = strlen(word);
+    int left = 0;
+    int right = length - 1;
+    while (left < right) {
+        if (word[left] == word[right]) {
+            left++;
+            right--;
+        }
+    }
+    printf(""left = %d, right = %d"", left, right);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+ int length = strlen(word);
+ int left =0;
+ int right = length -1;
+ while (left<right){
+     if (word[left]==word[right]){
+         left++;
+         right--;
+     } else {
+         printf(""Iteration 1; comparing '%c' and '%c'"", word[left], word[right]);
+         return 0;
+     }
+     }
+     return 1;
+ }
+
+int main() {
+    IsPalindrome(""code"");
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+int len = strlen(word);
+    for (int i = 0; i < len / 2; i++) {
+	if (word[i] != word[len - i - 1]){
+	return false;
+	}
+	}
+	return true;
+	
+}","If the input word is 'radar', what is the value of the expression (len - i - 1) during the first iteration of the loop (when i = 0)?","For the input word 'apple', at which index 'i' does the function first encounter a mismatch and return false?",4,0,"#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
+
+int IsPalindrome(char *word)
+{
+int len = strlen(word);
+    for (int i = 0; i < len / 2; i++) {
+	if (word[i] != word[len - i - 1]){
+	return false;
+	}
+	}
+	return true;
+
+}
+
+int main() {
+    char *word = ""radar"";
+    int len = strlen(word);
+    int i = 0;
+    printf(""%d"", len - i - 1);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
+
+int IsPalindrome(char *word)
+{
+int len = strlen(word);
+    for (int i = 0; i < len / 2; i++) {
+	if (word[i] != word[len - i - 1]){
+	printf(""%d"", i);
+	return false;
+	}
+	}
+	return true;
+
+}
+
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int length;
+    int i;
+    length = strlen(word);
+    
+    for(i = 0; i < length; i++)
+    {
+        if(word[i] != word[length - 1 - i])
+        {
+            return 0;
+        }
+    }
+    return 1;
+}","If the input word is 'racecar', what is the value of the expression (length - 1 - i) during the second iteration of the loop (when i = 1)?","If the input word is 'apple', at which value of 'i' does the function first encounter the 'return 0' statement?",5,0,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int length;
+    int i;
+    length = strlen(word);
+    
+    for(i = 0; i < length; i++)
+    {
+        if(i == 1) {
+            printf(""%d"", length - 1 - i);
+            return 1;
+        }
+        if(word[i] != word[length - 1 - i])
+        {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""racecar"");
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int length;
+    int i;
+    length = strlen(word);
+    
+    for(i = 0; i < length; i++)
+    {
+        if(word[i] != word[length - 1 - i])
+        {
+            printf(""%d"", i);
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int left = 0;
+    int right = strlen(word)-1;
+    
+    while(left < right){
+        if(word[left] != word[right]){
+            return 0;
+        }
+        left++;
+        right--;
+    }
+    return 1;
+}","If the input word is 'radar', what are the values of 'left' and 'right' immediately before the while loop condition is checked for the third time?","If the input word is 'apple', at which index does the function first detect a mismatch and return 0?","left = 2, right = 2",Index 0 ('a') and index 4 ('e'),"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int left = 0;
+    int right = strlen(word)-1;
+    
+    while(left < right){
+        if(word[left] != word[right]){
+            return 0;
+        }
+        left++;
+        right--;
+    }
+    return 1;
+}
+
+int main() {
+    char word[] = ""radar"";
+    int left = 0;
+    int right = strlen(word)-1;
+    int count = 0;
+    while(left < right) {
+        count++;
+        if(count == 2) {
+            left++;
+            right--;
+        }
+        if(count == 3) break;
+        left++;
+        right--;
+    }
+    printf(""left = %d, right = %d"", left, right);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int left = 0;
+    int right = strlen(word)-1;
+    
+    while(left < right){
+        if(word[left] != word[right]){
+            printf(""Index %d and index %d"", left, right);
+            return 0;
+        }
+        left++;
+        right--;
+    }
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"void ReverseString(char *str)
+{
+    int l = strlen(str);
+    char newstr[l+1];
+    int m = 0;
+    for (int i = l-1; i >= 0; i--) {
+        newstr[m] = str[i];
+        m++;
+    }
+    newstr[m] = '\0';
+    strcpy(str, newstr);
+}
+
+int IsPalindrome(char *word)
+{
+    char wordrev[100];
+    strcpy(wordrev, word);
+    ReverseString(wordrev);
+    if (strcmp(word, wordrev) == 0) {
+        return 1;
+    } else {
+        return 0;
+    }
+}","In the ReverseString function, what is the value of the variable 'm' immediately after the for loop finishes executing for the input string 'hello'?","In the IsPalindrome function, what is the content of the 'wordrev' array immediately after the call to ReverseString(wordrev) when the input 'word' is 'cat'?",5,tac,"#include <stdio.h>
+#include <string.h>
+
+void ReverseString(char *str)
+{
+    int l = strlen(str);
+    char newstr[l+1];
+    int m = 0;
+    for (int i = l-1; i >= 0; i--) {
+        newstr[m] = str[i];
+        m++;
+    }
+    printf(""%d\n"", m);
+    newstr[m] = '\0';
+    strcpy(str, newstr);
+}
+
+int main() {
+    char test[] = ""hello"";
+    ReverseString(test);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+void ReverseString(char *str)
+{
+    int l = strlen(str);
+    char newstr[l+1];
+    int m = 0;
+    for (int i = l-1; i >= 0; i--) {
+        newstr[m] = str[i];
+        m++;
+    }
+    newstr[m] = '\0';
+    strcpy(str, newstr);
+}
+
+int IsPalindrome(char *word)
+{
+    char wordrev[100];
+    strcpy(wordrev, word);
+    ReverseString(wordrev);
+    printf(""%s\n"", wordrev);
+    if (strcmp(word, wordrev) == 0) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
+int main() {
+    IsPalindrome(""cat"");
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    for (int i = 0; i < length / 2; i++)
+    {
+        if (word[i] != word[length - i - 1])
+        {
+            return 0;
+        }
+    }
+    return 1;
+}","If the input word is 'radar', what is the value of the expression (length - i - 1) during the first iteration of the loop (when i = 0)?","For the input word 'apple', at which index 'i' does the function first encounter a mismatch and return 0?",4,0,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    for (int i = 0; i < length / 2; i++)
+    {
+        if (i == 0) printf(""%d\n"", length - i - 1);
+        if (word[i] != word[length - i - 1])
+        {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""radar"");
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    for (int i = 0; i < length / 2; i++)
+    {
+        if (word[i] != word[length - i - 1])
+        {
+            printf(""%d\n"", i);
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int i = 0;
+    int j = strlen(word) - 1;
+    
+    while (i < j) 
+    {
+        if (word[i] != word[j]) 
+            return 0;
+            
+        i++;
+        j--;
+    }
+    return 1;
+}","If the input word is 'radar', what are the values of i and j immediately before the while loop condition is checked for the third time?","If the input word is 'code', at which iteration of the while loop does the function return 0, and what are the characters being compared at that moment?","i = 2, j = 2",Iteration 1; comparing 'c' and 'e',"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int i = 0;
+    int j = strlen(word) - 1;
+    
+    while (i < j) 
+    {
+        if (word[i] != word[j]) 
+            return 0;
+            
+        i++;
+        j--;
+    }
+    return 1;
+}
+
+int main() {
+    char word[] = ""radar"";
+    int i = 0;
+    int j = strlen(word) - 1;
+    int count = 0;
+    while (i < j) {
+        count++;
+        if (count == 3) break;
+        if (word[i] != word[j]) break;
+        i++;
+        j--;
+    }
+    printf(""i = %d, j = %d"", i, j);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int i = 0;
+    int j = strlen(word) - 1;
+    
+    while (i < j) 
+    {
+        if (word[i] != word[j]) 
+            return 0;
+            
+        i++;
+        j--;
+    }
+    return 1;
+}
+
+int main() {
+    char word[] = ""code"";
+    int i = 0;
+    int j = strlen(word) - 1;
+    int iteration = 1;
+    while (i < j) {
+        if (word[i] != word[j]) {
+            printf(""Iteration %d; comparing '%c' and '%c'"", iteration, word[i], word[j]);
+            return 0;
+        }
+        i++;
+        j--;
+        iteration++;
+    }
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int left = 0;
+    int right = strlen(word) - 1;
+
+    while (left < right) {
+        if (word[left] != word[right]) {
+            return 0;
+        }
+        left++;
+        right--;
+    }
+    
+    return 1;
+}","If the input word is 'radar', what are the values of 'left' and 'right' at the start of the second iteration of the while loop?","If the input word is 'apple', at which index does the function first detect a mismatch and return 0?","left = 1, right = 3",Index 0 ('a') and index 4 ('e'),"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int left = 0;
+    int right = strlen(word) - 1;
+
+    while (left < right) {
+        if (word[left] != word[right]) {
+            return 0;
+        }
+        left++;
+        right--;
+    }
+    
+    return 1;
+}
+
+int main() {
+    char word[] = ""radar"";
+    int left = 0;
+    int right = strlen(word) - 1;
+    // Simulate first iteration
+    left++;
+    right--;
+    printf(""left = %d, right = %d"", left, right);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int left = 0;
+    int right = strlen(word) - 1;
+
+    while (left < right) {
+        if (word[left] != word[right]) {
+            printf(""Index %d and %d"", left, right);
+            return 0;
+        }
+        left++;
+        right--;
+    }
+    
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int length;
+    length = strlen(word);
+
+    int i = 0;
+    while (i < length/2) {
+        if (word[i] != word[length - 1 - i]) {
+            return 0;
+        }
+    i++;
+    }
+    return 1;
+}","If the input word is 'radar', what is the value of the variable 'i' when the while loop terminates?","If the input word is 'apple', at which index 'i' does the function first encounter a mismatch and return 0?",2,0,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int length;
+    length = strlen(word);
+
+    int i = 0;
+    while (i < length/2) {
+        if (word[i] != word[length - 1 - i]) {
+            return 0;
+        }
+    i++;
+    }
+    printf(""%d\n"", i);
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""radar"");
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int length;
+    length = strlen(word);
+
+    int i = 0;
+    while (i < length/2) {
+        if (word[i] != word[length - 1 - i]) {
+            printf(""%d\n"", i);
+            return 0;
+        }
+    i++;
+    }
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    	
+	int i = 0;
+	int length = strlen(word);
+	char temp[100];
+
+	// making backwards word
+	while (i < length) {
+		temp[i] = word[length - i - 1]; 
+		i++;
+	}
+
+	// comparing word with backwards word
+	i = 0;
+	while (i < length) {  
+		if (temp[i] != word[i]) {
+			return 0;
+		}
+		i++;
+	}
+	return 1;
+}","If the input word is 'cat', what will be the contents of the temp array after the first while loop finishes executing?","For the input word 'racecar', how many times will the second while loop iterate before the function returns a value?","temp[0] = 't', temp[1] = 'a', temp[2] = 'c'",7,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int i = 0;
+    int length = strlen(word);
+    char temp[100];
+
+    while (i < length) {
+        temp[i] = word[length - i - 1]; 
+        i++;
+    }
+
+    for(int j=0; j<length; j++) printf(""%c"", temp[j]);
+    return 0;
+}
+
+int main() {
+    IsPalindrome(""cat"");
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int i = 0;
+    int length = strlen(word);
+    char temp[100];
+    int count = 0;
+
+    while (i < length) {
+        temp[i] = word[length - i - 1]; 
+        i++;
+    }
+
+    i = 0;
+    while (i < length) {
+        count++;
+        if (temp[i] != word[i]) {
+            break;
+        }
+        i++;
+    }
+    printf(""%d"", count);
+    return 0;
+}
+
+int main() {
+    IsPalindrome(""racecar"");
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{int len = strlen(word);
+for (int i = 0; i < len/2; i++) {
+	if (word[i] != word[len - 1 - i]) {
+		return 0;
+		
+	}
+}
+return 1;
+    
+}","If the input word is 'radar', what is the value of the variable 'i' when the loop terminates?","For the input word 'apple', at which index 'i' does the function first encounter a mismatch and return 0?",2,0,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+int len = strlen(word);
+int final_i;
+for (int i = 0; i < len/2; i++) {
+	if (word[i] != word[len - 1 - i]) {
+		return 0;
+		
+	}
+    final_i = i;
+}
+    printf(""%d"", final_i + 1);
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""radar"");
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+int len = strlen(word);
+for (int i = 0; i < len/2; i++) {
+	if (word[i] != word[len - 1 - i]) {
+		printf(""%d"", i);
+		return 0;
+		
+	}
+}
+return 1;
+}
+
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int left = 0;
+    int right = strlen(word) - 1;
+    while (left < right) {
+        if (word[left] != word[right]) {
+            return 0;
+        }
+        left++;
+        right--;
+    }
+    return 1;
+}","If the input word is 'radar', what are the values of 'left' and 'right' at the start of the second iteration of the while loop?","If the input word is 'apple', at which index does the function first detect a mismatch and return 0?","left = 1, right = 3",Index 0 ('a') and index 4 ('e'),"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int left = 0;
+    int right = strlen(word) - 1;
+    while (left < right) {
+        if (word[left] != word[right]) {
+            return 0;
+        }
+        left++;
+        right--;
+    }
+    return 1;
+}
+
+int main() {
+    char word[] = ""radar"";
+    int left = 0;
+    int right = strlen(word) - 1;
+    // Simulate first iteration
+    left++;
+    right--;
+    printf(""left = %d, right = %d"", left, right);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int left = 0;
+    int right = strlen(word) - 1;
+    while (left < right) {
+        if (word[left] != word[right]) {
+            printf(""Index %d and %d"", left, right);
+            return 0;
+        }
+        left++;
+        right--;
+    }
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int left = 0;
+    int right = strlen(word) - 1;
+    
+    while (left < right)
+    {
+        if (word[left] != word[right])
+            return 0;
+        left++;
+        right--;
+    }
+    return 1;
+}","If the input word is 'radar', what are the values of 'left' and 'right' at the start of the second iteration of the while loop?","If the input word is 'apple', at which index does the function first detect a mismatch and return 0?","left = 1, right = 3",Index 0 ('a') and index 4 ('e'),"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int left = 0;
+    int right = strlen(word) - 1;
+    
+    while (left < right)
+    {
+        if (word[left] != word[right])
+            return 0;
+        left++;
+        right--;
+        if (left == 1) {
+            printf(""left = %d, right = %d\n"", left, right);
+            return 1;
+        }
+    }
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""radar"");
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int left = 0;
+    int right = strlen(word) - 1;
+    
+    while (left < right)
+    {
+        if (word[left] != word[right]) {
+            printf(""Index %d and %d\n"", left, right);
+            return 0;
+        }
+        left++;
+        right--;
+    }
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"int IsPalindrome(char *string)
+{
+    int start = 0;
+    int end = strlen(string) - 1;
+    while (start < end)
+    {
+        if (string[start] == string[end])
+        {
+            start++;
+            end--;
+            continue;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    return 1;
+}","If the input string is 'radar', what are the values of 'start' and 'end' immediately before the while loop terminates?","If the input string is 'apple', at which index of the string does the function first encounter a mismatch and return 0?","start = 2, end = 2",Index 0 (comparing 'a' and 'e'),"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *string)
+{
+    int start = 0;
+    int end = strlen(string) - 1;
+    while (start < end)
+    {
+        if (string[start] == string[end])
+        {
+            start++;
+            end--;
+            continue;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    printf(""start: %d, end: %d\n"", start, end);
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""radar"");
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *string)
+{
+    int start = 0;
+    int end = strlen(string) - 1;
+    while (start < end)
+    {
+        if (string[start] == string[end])
+        {
+            start++;
+            end--;
+            continue;
+        }
+        else
+        {
+            printf(""Mismatch at index: %d\n"", start);
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+	for (int i = 0 ; i < length ; i++) {
+		if (word[i] == word[length-i-1]) {
+		}
+		else {
+			return 0;
+		}
+	}
+	return 1;
+}","If the input word is 'racecar', what is the value of length-i-1 during the first iteration of the loop (when i = 0)?","If the input word is 'apple', at which value of i does the function first execute the 'return 0' statement?",6,0,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+	for (int i = 0 ; i < length ; i++) {
+		if (word[i] == word[length-i-1]) {
+		}
+		else {
+			return 0;
+		}
+	}
+	return 1;
+}
+
+int main() {
+    char *word = ""racecar"";
+    int length = strlen(word);
+    int i = 0;
+    printf(""%d"", length - i - 1);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+	for (int i = 0 ; i < length ; i++) {
+		if (word[i] == word[length-i-1]) {
+		}
+		else {
+            printf(""%d"", i);
+			return 0;
+		}
+	}
+	return 1;
+}
+
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int i = 0;
+    int j = strlen(word) - 1;
+
+    while (i < j)
+    {
+        if (word[i] != word[j])
+        {
+            return 0;   
+        }
+
+        i = i + 1;
+        j = j - 1;
+    }
+
+    return 1;   
+}","If the input word is 'radar', what are the values of i and j at the start of the second iteration of the while loop?","If the input word is 'code', at which iteration of the while loop does the function return 0, and what are the characters being compared at that moment?","i = 1, j = 3",Iteration 1; comparing 'c' and 'e',"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int i = 0;
+    int j = strlen(word) - 1;
+
+    while (i < j)
+    {
+        if (word[i] != word[j])
+        {
+            return 0;   
+        }
+
+        i = i + 1;
+        j = j - 1;
+    }
+
+    return 1;   
+}
+
+int main() {
+    char word[] = ""radar"";
+    int i = 0, j = strlen(word) - 1;
+    // Simulate first iteration
+    i = i + 1; j = j - 1;
+    printf(""i = %d, j = %d"", i, j);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int i = 0;
+    int j = strlen(word) - 1;
+
+    while (i < j)
+    {
+        if (word[i] != word[j])
+        {
+            return 0;   
+        }
+
+        i = i + 1;
+        j = j - 1;
+    }
+
+    return 1;   
+}
+
+int main() {
+    char word[] = ""code"";
+    int i = 0, j = strlen(word) - 1;
+    printf(""Iteration 1; comparing '%c' and '%c'"", word[i], word[j]);
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int wordstart = 0;
+    int wordend = 0;
+    while (word[wordend] != '\0') {
+        wordend++;
+    }
+    wordend--;
+    
+    while (wordend >= wordstart) {
+        if (word[wordstart] == ' ') {
+            wordstart++;
+        }
+        if (word[wordend] == ' ') {
+            wordend--;
+        }
+        if (word[wordstart] != word[wordend]) {
+            return 0;
+        }
+        wordstart++;
+        wordend--;
+    }
+    return 1;
+}","If the input string is 'racecar', what is the value of wordend immediately after the first while loop finishes executing?","If the input string is ' a ', trace the second while loop. How many times does the line 'wordstart++' execute before the function returns?",6,2,"#include <stdio.h>
+
+int IsPalindrome(char *word)
+{
+    int wordstart = 0;
+    int wordend = 0;
+    while (word[wordend] != '\0') {
+        wordend++;
+    }
+    wordend--;
+    
+    while (wordend >= wordstart) {
+        if (word[wordstart] == ' ') {
+            wordstart++;
+        }
+        if (word[wordend] == ' ') {
+            wordend--;
+        }
+        if (word[wordstart] != word[wordend]) {
+            return 0;
+        }
+        wordstart++;
+        wordend--;
+    }
+    return 1;
+}
+
+int main() {
+    char word[] = ""racecar"";
+    int wordend = 0;
+    while (word[wordend] != '\0') {
+        wordend++;
+    }
+    wordend--;
+    printf(""%d"", wordend);
+    return 0;
+}","#include <stdio.h>
+
+int IsPalindrome(char *word)
+{
+    int wordstart = 0;
+    int wordend = 0;
+    int count = 0;
+    while (word[wordend] != '\0') {
+        wordend++;
+    }
+    wordend--;
+    
+    while (wordend >= wordstart) {
+        if (word[wordstart] == ' ') {
+            wordstart++;
+            count++;
+        }
+        if (word[wordend] == ' ') {
+            wordend--;
+        }
+        if (word[wordstart] != word[wordend]) {
+            return 0;
+        }
+        wordstart++;
+        wordend--;
+        count++;
+    }
+    return 1;
+}
+
+int main() {
+    char word[] = "" a "";
+    // To track the specific line 'wordstart++', we modify the function slightly to count it
+    int wordstart = 0, wordend = 0, count = 0;
+    while (word[wordend] != '\0') wordend++;
+    wordend--;
+    while (wordend >= wordstart) {
+        if (word[wordstart] == ' ') { wordstart++; count++; }
+        if (word[wordend] == ' ') { wordend--; }
+        if (word[wordstart] != word[wordend]) break;
+        wordstart++; wordend--; count++;
+    }
+    printf(""%d"", count);
+    return 0;
+}"
+"int IsPalindrome(char *word) {
+
+    //find length (number of REAL characters)
+    int truth = 0;
+    int length = 0;
+    
+    while (word[length] != '\0') {
+        length++;
+    }
+
+    if (length > 1){
+        for (int i=0; i<length; i++) {
+            if (word[i] != word[length - 1 - i]) {
+                truth = 1;
+            }
+        }
+    }   
+    if (length == 1) {
+        truth = 0;
+    }
+
+    if (truth == 1) {
+        return 0;
+    }
+    else 
+    {
+        return 1;
+    }
+
+}","If the input word is 'racecar', what is the value of the variable 'length' after the while loop finishes executing?","If the input word is 'code', what is the value of the variable 'truth' after the for loop completes its iterations?",7,1,"#include <stdio.h>
+
+int IsPalindrome(char *word) {
+    int truth = 0;
+    int length = 0;
+    while (word[length] != '\0') {
+        length++;
+    }
+    if (length > 1){
+        for (int i=0; i<length; i++) {
+            if (word[i] != word[length - 1 - i]) {
+                truth = 1;
+            }
+        }
+    }
+    if (length == 1) {
+        truth = 0;
+    }
+    if (truth == 1) {
+        return 0;
+    }
+    else 
+    {
+        return 1;
+    }
+}
+
+int main() {
+    char word[] = ""racecar"";
+    int length = 0;
+    while (word[length] != '\0') { length++; }
+    printf(""%d"", length);
+    return 0;
+}","#include <stdio.h>
+
+int IsPalindrome(char *word) {
+    int truth = 0;
+    int length = 0;
+    while (word[length] != '\0') {
+        length++;
+    }
+    if (length > 1){
+        for (int i=0; i<length; i++) {
+            if (word[i] != word[length - 1 - i]) {
+                truth = 1;
+            }
+        }
+    }
+    if (length == 1) {
+        truth = 0;
+    }
+    if (truth == 1) {
+        return 0;
+    }
+    else 
+    {
+        return 1;
+    }
+}
+
+int main() {
+    char word[] = ""code"";
+    int truth = 0;
+    int length = 0;
+    while (word[length] != '\0') { length++; }
+    if (length > 1){
+        for (int i=0; i<length; i++) {
+            if (word[i] != word[length - 1 - i]) {
+                truth = 1;
+            }
+        }
+    }
+    printf(""%d"", truth);
+    return 0;
+}"
+"int IsPalindrome(char* word)
+{
+	int len = strlen(word);
+	if (len == 1)
+	{
+		return 1;
+	}
+	for (int i = 0; i < len / 2; i++) 
+	{
+		if (word[i] != word[len - 1 - i])
+		{
+			return 0;
+		}
+	}
+	return 1;
+}","If the input word is 'radar', what is the value of the variable 'i' when the loop terminates?","For the input word 'apple', at which index 'i' does the function first encounter a mismatch and return 0?",2,0,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char* word)
+{
+	int len = strlen(word);
+	if (len == 1)
+	{
+		return 1;
+	}
+	for (int i = 0; i < len / 2; i++) 
+	{
+		if (word[i] != word[len - 1 - i])
+		{
+			return 0;
+		}
+	}
+	return 1;
+}
+
+int main() {
+    char word[] = ""radar"";
+    int len = strlen(word);
+    int i;
+    for (i = 0; i < len / 2; i++) {
+        if (word[i] != word[len - 1 - i]) break;
+    }
+    printf(""%d"", i);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char* word)
+{
+	int len = strlen(word);
+	if (len == 1)
+	{
+		return 1;
+	}
+	for (int i = 0; i < len / 2; i++) 
+	{
+		if (word[i] != word[len - 1 - i])
+		{
+			return 0;
+		}
+	}
+	return 1;
+}
+
+int main() {
+    char word[] = ""apple"";
+    int len = strlen(word);
+    for (int i = 0; i < len / 2; i++) {
+        if (word[i] != word[len - 1 - i]) {
+            printf(""%d"", i);
+            return 0;
+        }
+    }
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    for (int i = length-1; i>=0; i--)
+    {
+        if (word[i] != word[length-i-1])
+        {
+            return 0;
+        }
+    }
+    return 1;
+}","If the input word is 'racecar', what is the value of word[length-i-1] during the first iteration of the loop (when i = 6)?","If the input word is 'apple', at which value of 'i' will the function first return 0?","word[0], which is 'r'",i = 4 (since word[4] 'e' is compared to word[0] 'a'),"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    for (int i = length-1; i>=0; i--)
+    {
+        if (word[i] != word[length-i-1])
+        {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int main() {
+    char word[] = ""racecar"";
+    int length = strlen(word);
+    int i = length - 1;
+    printf(""%c"", word[length-i-1]);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    for (int i = length-1; i>=0; i--)
+    {
+        if (word[i] != word[length-i-1])
+        {
+            printf(""%d"", i);
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    int j = 0;
+    for(int i = length - 1; i >= length/2; i--){
+        if(word[j] != word[i]){
+            return 0;
+        }
+        j++;
+    }
+    return 1;
+}","If the input word is 'radar', what are the values of i and j during the first iteration of the for loop?","If the input word is 'apple', at which iteration of the loop (1st, 2nd, etc.) does the function return 0?","i = 4, j = 0",1st iteration,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    int j = 0;
+    for(int i = length - 1; i >= length/2; i--){
+        if(word[j] != word[i]){
+            return 0;
+        }
+        j++;
+    }
+    return 1;
+}
+
+int main() {
+    char word[] = ""radar"";
+    int length = strlen(word);
+    int i = length - 1;
+    int j = 0;
+    printf(""i = %d, j = %d\n"", i, j);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    int j = 0;
+    int iteration = 0;
+    for(int i = length - 1; i >= length/2; i--){
+        iteration++;
+        if(word[j] != word[i]){
+            printf(""%dst iteration\n"", iteration);
+            return 0;
+        }
+        j++;
+    }
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"#include <stdio.h> 
+#include <string.h> 
+
+int IsPalindrome(char *word)
+{
+    int length = strlen(word); 
+    char *first = word; 
+    char *last = word + length -1; 
+
+    while (first < last) 
+    {
+        
+        if (*first != *last)
+        {
+            return 0; 
+        }
+        
+        first++; 
+        last = last -1; 
+        
+    }
+    return 1; 
+}","If the input string is 'radar', what are the memory addresses (relative to the start of the string) that the pointers 'first' and 'last' point to during the second iteration of the while loop?","If the input string is 'apple', at which character comparison does the function first return 0?",first points to index 1 ('a') and last points to index 3 ('a').,It returns 0 when comparing the first character 'a' with the last character 'e'.,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    char *first = word;
+    char *last = word + length -1;
+
+    int iteration = 0;
+    while (first < last)
+    {
+        iteration++;
+        if (iteration == 2) {
+            printf(""first: %ld, last: %ld\n"", (first - word), (last - word));
+            return 1;
+        }
+        if (*first != *last)
+        {
+            return 0;
+        }
+        first++;
+        last = last -1;
+    }
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""radar"");
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    char *first = word;
+    char *last = word + length -1;
+
+    while (first < last)
+    {
+        if (*first != *last)
+        {
+            printf(""Comparing %c and %c\n"", *first, *last);
+            return 0;
+        }
+        first++;
+        last = last -1;
+    }
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int len = strlen(word);
+    for (int i=0; i < strlen(word) / 2; i++) {
+        if (word[i] != word[len - i - 1]) {
+            return 0;
+        }
+    }
+    return 1;
+}","If the input word is 'radar', what is the value of the expression (len - i - 1) during the first iteration of the loop (when i = 0)?","For the input word 'apple', at which value of 'i' does the function first encounter the 'if' condition that returns 0?",4,0,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int len = strlen(word);
+    for (int i=0; i < strlen(word) / 2; i++) {
+        if (word[i] != word[len - i - 1]) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int main() {
+    char *word = ""radar"";
+    int len = strlen(word);
+    int i = 0;
+    printf(""%d"", len - i - 1);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int len = strlen(word);
+    for (int i=0; i < strlen(word) / 2; i++) {
+        if (word[i] != word[len - i - 1]) {
+            printf(""%d"", i);
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int length = (int)strlen(word);
+    int palindrome = 1;
+
+    for (int i = 0; i < (int)(length/2); i++){
+        if (word[i] != word[length-i-1]){
+            palindrome = 0;
+        }
+    }
+
+    return  palindrome;
+
+}","If the input word is 'radar', what is the value of the variable 'i' during the final iteration of the for loop?","If the input word is 'apple', at which index 'i' does the condition (word[i] != word[length-i-1]) first evaluate to true?",1,0,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int length = (int)strlen(word);
+    int palindrome = 1;
+    int last_i = 0;
+
+    for (int i = 0; i < (int)(length/2); i++){
+        last_i = i;
+        if (word[i] != word[length-i-1]){
+            palindrome = 0;
+        }
+    }
+
+    printf(""%d"", last_i);
+    return  palindrome;
+}
+
+int main() {
+    IsPalindrome(""radar"");
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int length = (int)strlen(word);
+    int palindrome = 1;
+
+    for (int i = 0; i < (int)(length/2); i++){
+        if (word[i] != word[length-i-1]){
+            printf(""%d"", i);
+            return 0;
+        }
+    }
+
+    return  palindrome;
+}
+
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"int IsPalindrome(char* word)
+{
+	int i = 0;
+	int length = strlen(word);
+	for (i = 0; i < length / 2; i++) {
+		if (word[i] != word[length - 1 - i]) {
+			return 0;
+		}
+	}
+	return 1;
+}","If the input word is 'radar', what is the value of the variable 'i' when the loop terminates?","If the input word is 'apple', at which index 'i' does the function first encounter a mismatch and return 0?",2,0,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char* word)
+{
+	int i = 0;
+	int length = strlen(word);
+	for (i = 0; i < length / 2; i++) {
+		if (word[i] != word[length - 1 - i]) {
+			return 0;
+		}
+	}
+	return 1;
+}
+
+int main() {
+    char word[] = ""radar"";
+    int i = 0;
+    int length = strlen(word);
+    for (i = 0; i < length / 2; i++) {
+        if (word[i] != word[length - 1 - i]) break;
+    }
+    printf(""%d"", i);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char* word)
+{
+	int i = 0;
+	int length = strlen(word);
+	for (i = 0; i < length / 2; i++) {
+		if (word[i] != word[length - 1 - i]) {
+			return 0;
+		}
+	}
+	return 1;
+}
+
+int main() {
+    char word[] = ""apple"";
+    int length = strlen(word);
+    for (int i = 0; i < length / 2; i++) {
+        if (word[i] != word[length - 1 - i]) {
+            printf(""%d"", i);
+            return 0;
+        }
+    }
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int WordLength = strlen(word);
+    int i = 0;
+    int j = WordLength - 1;
+
+    while (i < j) {
+        if (word[i] != word[j]) {
+            return 0;
+        }
+        i++;
+        j--;
+    }
+    return 1;
+}","If the input word is 'radar', what are the values of i and j at the start of the second iteration of the while loop?","If the input word is 'apple', at which index i does the function first detect a mismatch and return 0?","i = 1, j = 3",i = 0,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int WordLength = strlen(word);
+    int i = 0;
+    int j = WordLength - 1;
+
+    while (i < j) {
+        if (word[i] != word[j]) {
+            return 0;
+        }
+        i++;
+        j--;
+    }
+    return 1;
+}
+
+int main() {
+    char word[] = ""radar"";
+    int WordLength = strlen(word);
+    int i = 0;
+    int j = WordLength - 1;
+    // Simulate first iteration
+    if (word[i] == word[j]) { i++; j--; }
+    printf(""i = %d, j = %d"", i, j);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int WordLength = strlen(word);
+    int i = 0;
+    int j = WordLength - 1;
+
+    while (i < j) {
+        if (word[i] != word[j]) {
+            printf(""%d"", i);
+            return 0;
+        }
+        i++;
+        j--;
+    }
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    {
+        int left = 0;
+        int right = strlen(word) - 1;
+
+        while (left < right) {
+            if (word[left] != word[right]) {
+                return 0;
+            }
+            left++;
+            right--;
+        }
+        return 1;
+    }
+}","If the input word is 'radar', what are the values of 'left' and 'right' immediately before the while loop terminates?","If the input word is 'apple', at which index does the first mismatch occur, and what are the characters being compared at that moment?","left = 2, right = 2",Index 0 and 4; characters 'a' and 'e',"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    {
+        int left = 0;
+        int right = strlen(word) - 1;
+
+        while (left < right) {
+            if (word[left] != word[right]) {
+                return 0;
+            }
+            left++;
+            right--;
+        }
+        printf(""left: %d, right: %d\n"", left, right);
+        return 1;
+    }
+}
+
+int main() {
+    IsPalindrome(""radar"");
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    {
+        int left = 0;
+        int right = strlen(word) - 1;
+
+        while (left < right) {
+            if (word[left] != word[right]) {
+                printf(""Mismatch at indices %d and %d: %c vs %c\n"", left, right, word[left], word[right]);
+                return 0;
+            }
+            left++;
+            right--;
+        }
+        return 1;
+    }
+}
+
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int n=0,j=0;
+	while (word[n]!='\0') {
+		n++;
+	}
+	for (int i=0;i<n/2;i++) {
+		if (word[i]==word[n-1-i]) {
+			j++;
+		}
+	}
+	if (j==n/2) {
+		return 1;
+	} else {
+		return 0;
+	}
+}","If the input string is 'radar', what is the value of the variable 'n' after the while loop finishes executing?","If the input string is 'apple', how many times will the 'j++' statement be executed during the for loop?",5,0,"#include <stdio.h>
+int IsPalindrome(char *word)
+{
+    int n=0,j=0;
+	while (word[n]!='\0') {
+		n++;
+	}
+    printf(""%d"", n);
+    return 0;
+}
+int main() {
+    IsPalindrome(""radar"");
+    return 0;
+}","#include <stdio.h>
+int IsPalindrome(char *word)
+{
+    int n=0,j=0;
+	while (word[n]!='\0') {
+		n++;
+	}
+	for (int i=0;i<n/2;i++) {
+		if (word[i]==word[n-1-i]) {
+			j++;
+		}
+	}
+    printf(""%d"", j);
+    return 0;
+}
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    for (int i = 0; i < length/2; i++)
+    {
+        if (word[i] !=  word[length - i -1])
+        return 0;
+    }
+    return 1;
+}","If the input word is 'radar', what is the value of the expression (length - i - 1) during the first iteration of the loop (when i = 0)?","For the input word 'apple', at which value of 'i' does the function first encounter the return 0 statement?",4,0,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    for (int i = 0; i < length/2; i++)
+    {
+        if (word[i] !=  word[length - i -1])
+        return 0;
+    }
+    return 1;
+}
+
+int main() {
+    char word[] = ""radar"";
+    int length = strlen(word);
+    int i = 0;
+    printf(""%d"", length - i - 1);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    for (int i = 0; i < length/2; i++)
+    {
+        if (word[i] !=  word[length - i -1])
+        return 0;
+    }
+    return 1;
+}
+
+int main() {
+    char word[] = ""apple"";
+    int length = strlen(word);
+    for (int i = 0; i < length/2; i++) {
+        if (word[i] != word[length - i - 1]) {
+            printf(""%d"", i);
+            return 0;
+        }
+    }
+    return 0;
+}"
+"int IsPalindrome(char *word){
+    for(int i = 0; i<(int)strlen(word); i++){
+        if (word[i] != word[strlen(word) - i - 1]){
+            return 0;
+        }
+    }
+    return 1;
+}","If the input word is 'racecar', what is the value of the expression (strlen(word) - i - 1) during the second iteration of the loop (when i = 1)?","If the input word is 'apple', at which index 'i' does the function first encounter a mismatch and return 0?",5,0,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word){
+    for(int i = 0; i<(int)strlen(word); i++){
+        if (word[i] != word[strlen(word) - i - 1]){
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int main() {
+    char word[] = ""racecar"";
+    int i = 1;
+    printf(""%d"", (int)strlen(word) - i - 1);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word){
+    for(int i = 0; i<(int)strlen(word); i++){
+        if (word[i] != word[strlen(word) - i - 1]){
+            return i; // Modified to return the index for tracing
+        }
+    }
+    return 1;
+}
+
+int main() {
+    printf(""%d"", IsPalindrome(""apple""));
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+int length;
+length = strlen(word);
+int j = length - 1;
+int i;
+int pl = 1;
+for (i = 0; i < length;i++){
+	if (word[i] != word[j]){
+	pl = 0;
+	}
+	j--;
+}
+if (length == 1) {
+	pl = 1;
+}
+	return pl;
+}","If the input word is 'racecar', what is the value of the variable 'j' during the second iteration of the for loop (when i = 1)?","If the input word is 'apple', what is the value of the variable 'pl' immediately after the first iteration of the for loop (when i = 0)?",5,0,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+int length;
+length = strlen(word);
+int j = length - 1;
+int i;
+int pl = 1;
+for (i = 0; i < length;i++){
+	if (word[i] != word[j]){
+	pl = 0;
+	}
+	j--;
+}
+if (length == 1) {
+	pl = 1;
+}
+	return pl;
+}
+
+int main() {
+    char word[] = ""racecar"";
+    int length = strlen(word);
+    int j = length - 1;
+    int i = 0;
+    // Simulate first iteration
+    i++; j--;
+    // Simulate second iteration start
+    printf(""%d"", j);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+int length;
+length = strlen(word);
+int j = length - 1;
+int i;
+int pl = 1;
+for (i = 0; i < length;i++){
+	if (word[i] != word[j]){
+	pl = 0;
+	}
+	j--;
+}
+if (length == 1) {
+	pl = 1;
+}
+	return pl;
+}
+
+int main() {
+    char word[] = ""apple"";
+    int length = strlen(word);
+    int j = length - 1;
+    int pl = 1;
+    if (word[0] != word[j]) {
+        pl = 0;
+    }
+    printf(""%d"", pl);
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int i = 0;
+    int length = 0;
+
+    while (word[i] != '\0'){
+        length++;
+        i++;
+    }
+
+    for (int i = 0; i <= length/2; i++){
+        if (word[i] != word[length-1]){
+            return 0;
+        }
+        length--;
+    }
+
+    return 1;
+}","If the input word is 'radar', what is the value of the variable 'length' immediately after the first while loop finishes executing?","During the first iteration of the for loop with the input 'apple', what are the indices of the two characters being compared in the if statement?",5,0 and 4,"#include <stdio.h>
+
+int IsPalindrome(char *word)
+{
+    int i = 0;
+    int length = 0;
+
+    while (word[i] != '\0'){
+        length++;
+        i++;
+    }
+
+    printf(""%d"", length);
+    return length;
+
+    for (int i = 0; i <= length/2; i++){
+        if (word[i] != word[length-1]){
+            return 0;
+        }
+        length--;
+    }
+
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""radar"");
+    return 0;
+}","#include <stdio.h>
+
+int IsPalindrome(char *word)
+{
+    int i = 0;
+    int length = 0;
+
+    while (word[i] != '\0'){
+        length++;
+        i++;
+    }
+
+    for (int i = 0; i <= length/2; i++){
+        printf(""%d and %d"", i, length-1);
+        if (word[i] != word[length-1]){
+            return 0;
+        }
+        length--;
+    }
+
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int i = 0;
+    while (word[i] != '\0'){
+        i++;
+    }
+
+    int length = i - 1;
+
+    for(i = 0; i < length; i++){
+        if (word[i] != word[length - i]){
+            return 0;
+        }
+    }
+    return 1;
+}","If the input string is ""racecar"", what is the value of the variable 'length' after the first while loop finishes executing?","If the input string is ""hello"", what is the value of 'i' when the function first returns 0?",6,0,"#include <stdio.h>
+
+int IsPalindrome(char *word)
+{
+    int i = 0;
+    while (word[i] != '\0'){
+        i++;
+    }
+
+    int length = i - 1;
+    printf(""%d"", length);
+    return 0; // Stop further execution for tracing
+}
+
+int main() {
+    IsPalindrome(""racecar"");
+    return 0;
+}","#include <stdio.h>
+
+int IsPalindrome(char *word)
+{
+    int i = 0;
+    while (word[i] != '\0'){
+        i++;
+    }
+
+    int length = i - 1;
+
+    for(i = 0; i < length; i++){
+        if (word[i] != word[length - i]){
+            printf(""%d"", i);
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""hello"");
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    size_t length = strlen(word);
+    for  (int i = 0; i < length; i++) {
+        if (word[i] != word[length - i - 1]) {
+            return 0; 
+        }
+    }
+    return 1;
+}","If the input word is 'racecar', what is the value of the expression (length - i - 1) during the second iteration of the loop (when i = 1)?","If the input word is 'apple', at which index (value of i) does the function first encounter a mismatch and return 0?",5,0,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    size_t length = strlen(word);
+    for  (int i = 0; i < length; i++) {
+        if (i == 1) {
+            printf(""%zu"", length - i - 1);
+            return 1;
+        }
+        if (word[i] != word[length - i - 1]) {
+            return 0; 
+        }
+    }
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""racecar"");
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    size_t length = strlen(word);
+    for  (int i = 0; i < length; i++) {
+        if (word[i] != word[length - i - 1]) {
+            printf(""%d"", i);
+            return 0; 
+        }
+    }
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"int IsPalindrome(char* word)
+{
+	int len = strlen(word);
+	for (int i = 0; i < (len / 2); i++) {
+		if (word[i] != word[len - 1 - i]) {
+			return 0;
+		}
+	}
+	return 1;
+}","If the input word is 'radar', what is the value of the expression (len - 1 - i) during the first iteration of the loop (when i = 0)?","If the input word is 'apple', at which index 'i' does the function first encounter a mismatch and return 0?",4,0,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char* word)
+{
+	int len = strlen(word);
+	for (int i = 0; i < (len / 2); i++) {
+		if (word[i] != word[len - 1 - i]) {
+			return 0;
+		}
+	}
+	return 1;
+}
+
+int main() {
+    char word[] = ""radar"";
+    int len = strlen(word);
+    int i = 0;
+    printf(""%d"", len - 1 - i);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindromeWithTrace(char* word)
+{
+	int len = strlen(word);
+	for (int i = 0; i < (len / 2); i++) {
+		if (word[i] != word[len - 1 - i]) {
+			printf(""%d"", i);
+			return 0;
+		}
+	}
+	return 1;
+}
+
+int main() {
+    char word[] = ""apple"";
+    IsPalindromeWithTrace(word);
+    return 0;
+}"
+"#include <stdio.h>
+# include<string.h>
+int IsPalindrome(char *word)
+{
+int i = 0;
+int k = 0;
+    while(word[i] != '\0'){
+        i++;
+    }
+for (int j = i-1; j>=0; j--){
+    if (word[j] != word[k]){
+        return 0;
+    }
+    k++;
+}
+return 1;
+}","If the input string is 'racecar', what is the value of the variable 'i' immediately after the while loop finishes executing?","If the input string is 'hello', at which index 'j' does the function first encounter a mismatch and return 0?",7,4,"#include <stdio.h>
+#include <string.h>
+int IsPalindrome(char *word)
+{
+int i = 0;
+int k = 0;
+    while(word[i] != '\0'){
+        i++;
+    }
+for (int j = i-1; j>=0; j--){
+    if (word[j] != word[k]){
+        return 0;
+    }
+    k++;
+}
+return 1;
+}
+
+int main() {
+    char word[] = ""racecar"";
+    int i = 0;
+    while(word[i] != '\0') i++;
+    printf(""%d"", i);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+int IsPalindrome(char *word)
+{
+int i = 0;
+int k = 0;
+    while(word[i] != '\0'){
+        i++;
+    }
+for (int j = i-1; j>=0; j--){
+    if (word[j] != word[k]){
+        printf(""%d"", j);
+        return 0;
+    }
+    k++;
+}
+return 1;
+}
+
+int main() {
+    char word[] = ""hello"";
+    IsPalindrome(word);
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+   int left=0;
+   int right=strlen(word)-1;
+   
+   while(left<right) {
+       if (word[left] != word[right]) {
+           return 0;
+       }
+       left++;
+       right--;
+   }
+   return 1;
+}","If the input word is 'radar', what are the values of 'left' and 'right' immediately before the while loop condition is checked for the third time?","If the input word is 'apple', at which index does the function first detect a mismatch and return 0?","left = 2, right = 2",Index 0 ('a') and index 4 ('e'),"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+   int left=0;
+   int right=strlen(word)-1;
+   
+   while(left<right) {
+       if (word[left] != word[right]) {
+           return 0;
+       }
+       left++;
+       right--;
+   }
+   return 1;
+}
+
+int main() {
+    char word[] = ""radar"";
+    int left=0, right=strlen(word)-1;
+    int count = 0;
+    while(left < right) {
+        count++;
+        if(count == 2) break;
+        left++;
+        right--;
+    }
+    printf(""left = %d, right = %d"", left + 1, right - 1);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+   int left=0;
+   int right=strlen(word)-1;
+   
+   while(left<right) {
+       if (word[left] != word[right]) {
+           printf(""Index %d and %d"", left, right);
+           return 0;
+       }
+       left++;
+       right--;
+   }
+   return 1;
+}
+
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int leftPointer = 0;
+    int rightPointer = strlen(word) - 1;
+
+    while (leftPointer < rightPointer) {
+        if (word[leftPointer] != word[rightPointer]) {
+            return 0;
+        }
+        leftPointer++;
+        rightPointer--;
+    }
+    return 1;
+}","If the input word is 'radar', what are the values of leftPointer and rightPointer at the start of the second iteration of the while loop?","If the input word is 'apple', at which index does the function first detect a mismatch and return 0?","leftPointer = 1, rightPointer = 3",Index 0 ('a') and Index 4 ('e'),"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int leftPointer = 0;
+    int rightPointer = strlen(word) - 1;
+
+    while (leftPointer < rightPointer) {
+        if (word[leftPointer] != word[rightPointer]) {
+            return 0;
+        }
+        leftPointer++;
+        rightPointer--;
+    }
+    return 1;
+}
+
+int main() {
+    char word[] = ""radar"";
+    int lp = 0, rp = strlen(word) - 1;
+    while (lp < rp) {
+        if (word[lp] != word[rp]) break;
+        lp++;
+        rp--;
+        if (lp == 1) {
+            printf(""leftPointer = %d, rightPointer = %d\n"", lp, rp);
+            return 0;
+        }
+    }
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int leftPointer = 0;
+    int rightPointer = strlen(word) - 1;
+
+    while (leftPointer < rightPointer) {
+        if (word[leftPointer] != word[rightPointer]) {
+            printf(""Index %d and Index %d\n"", leftPointer, rightPointer);
+            return 0;
+        }
+        leftPointer++;
+        rightPointer--;
+    }
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"int IsPalindrome(char* word)
+{
+	int length;
+	length = strlen(word);
+	if (length == 1) {
+		return 1;
+	}
+
+	int j;
+	j = length - 1;
+
+	for (int i = 0; i < j; i++) {
+		if (word[i] != word[j]){
+			return 0;
+		}
+		j--;
+	}
+	return 1;
+}","If the input word is 'radar', what are the values of i and j during the second iteration of the for loop?","If the input word is 'apple', at which index i does the function first encounter a mismatch and return 0?","i = 1, j = 3",i = 0,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char* word)
+{
+	int length;
+	length = strlen(word);
+	if (length == 1) {
+		return 1;
+	}
+
+	int j;
+	j = length - 1;
+
+	for (int i = 0; i < j; i++) {
+		if (word[i] != word[j]){
+			return 0;
+		}
+		j--;
+	}
+	return 1;
+}
+
+int main() {
+    char word[] = ""radar"";
+    int length = strlen(word);
+    int j = length - 1;
+    int i = 0;
+    // Simulate first iteration
+    i++; j--;
+    // Second iteration values
+    printf(""i = %d, j = %d"", i, j);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char* word)
+{
+	int length;
+	length = strlen(word);
+	if (length == 1) {
+		return 1;
+	}
+
+	int j;
+	j = length - 1;
+
+	for (int i = 0; i < j; i++) {
+		if (word[i] != word[j]){
+			printf(""%d"", i);
+			return 0;
+		}
+		j--;
+	}
+	return 1;
+}
+
+int main() {
+    char word[] = ""apple"";
+    IsPalindrome(word);
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int len = strlen(word);
+
+    for (int i = 0; i < (len / 2); i++) {
+        if (word[i] != word[len - 1 - i]) return 0;
+    }
+    return 1;
+}","If the input word is 'radar', what is the value of the expression (len - 1 - i) during the first iteration of the loop (when i = 0)?","For the input word 'apple', at which value of 'i' does the function first encounter a mismatch and return 0?",4,0,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int len = strlen(word);
+
+    for (int i = 0; i < (len / 2); i++) {
+        if (word[i] != word[len - 1 - i]) return 0;
+    }
+    return 1;
+}
+
+int main() {
+    char word[] = ""radar"";
+    int len = strlen(word);
+    int i = 0;
+    printf(""%d"", len - 1 - i);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int len = strlen(word);
+
+    for (int i = 0; i < (len / 2); i++) {
+        if (word[i] != word[len - 1 - i]) {
+            printf(""%d"", i);
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"int IsPalindrome(char word[]){
+
+    int IsSame, length;
+    char flipword[100];
+    length = strlen(word);
+    strcpy(flipword, word);
+    for (int i=0; i<(length/2); i++) {
+    char temp = flipword[i];
+    flipword[i] = flipword[length - 1 - i];
+    flipword[length - 1 - i] = temp;
+    }
+    IsSame = strcmp(word, flipword);
+    if (IsSame == 0){
+    return 1;
+    }
+    else {
+        return 0;
+    }
+}","If the input word is 'radar', what is the value of flipword after the for loop finishes executing?","If the input word is 'hello', what is the value of the variable IsSame after the strcmp function is called?",radar,A non-zero value (since 'hello' and 'olleh' are not identical),"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char word[]){
+    int IsSame, length;
+    char flipword[100];
+    length = strlen(word);
+    strcpy(flipword, word);
+    for (int i=0; i<(length/2); i++) {
+    char temp = flipword[i];
+    flipword[i] = flipword[length - 1 - i];
+    flipword[length - 1 - i] = temp;
+    }
+    printf(""%s\n"", flipword);
+    IsSame = strcmp(word, flipword);
+    if (IsSame == 0){
+    return 1;
+    }
+    else {
+        return 0;
+    }
+}
+
+int main() {
+    char word[] = ""radar"";
+    IsPalindrome(word);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char word[]){
+    int IsSame, length;
+    char flipword[100];
+    length = strlen(word);
+    strcpy(flipword, word);
+    for (int i=0; i<(length/2); i++) {
+    char temp = flipword[i];
+    flipword[i] = flipword[length - 1 - i];
+    flipword[length - 1 - i] = temp;
+    }
+    IsSame = strcmp(word, flipword);
+    printf(""%d\n"", IsSame);
+    if (IsSame == 0){
+    return 1;
+    }
+    else {
+        return 0;
+    }
+}
+
+int main() {
+    char word[] = ""hello"";
+    IsPalindrome(word);
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int left = 0;
+    int right = strlen(word) - 1;
+
+    while (left < right) {
+        if (word[left] != word[right]) {
+            return 0; // not a palindrome
+        }
+        left++;
+        right--;
+    }
+    return 1; // is a palindrome
+}","If the input word is 'radar', what are the values of 'left' and 'right' at the start of the second iteration of the while loop?","If the input word is 'apple', at which index does the function first detect a mismatch and return 0?","left = 1, right = 3",Index 0 ('a') and index 4 ('e'),"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int left = 0;
+    int right = strlen(word) - 1;
+
+    while (left < right) {
+        if (word[left] != word[right]) {
+            return 0; // not a palindrome
+        }
+        left++;
+        right--;
+    }
+    return 1; // is a palindrome
+}
+
+int main() {
+    char word[] = ""radar"";
+    int left = 0;
+    int right = strlen(word) - 1;
+    // Simulate first iteration
+    left++;
+    right--;
+    printf(""left = %d, right = %d"", left, right);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int left = 0;
+    int right = strlen(word) - 1;
+
+    while (left < right) {
+        if (word[left] != word[right]) {
+            printf(""Index %d and %d"", left, right);
+            return 0; // not a palindrome
+        }
+        left++;
+        right--;
+    }
+    return 1; // is a palindrome
+}
+
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    if (strlen(word) == 0) {
+        return 0;
+    } 
+
+    for (int i = 0; i < strlen(word)/2; i++) {
+        if (word[i] != word[strlen(word) - i - 1]) {
+            return 0;
+        } 
+    }
+    return 1; 
+}","If the input string 'word' is ""racecar"", what is the value of the loop counter 'i' when the function finally returns 1?","If the input string 'word' is ""hello"", at which index 'i' does the function first detect a mismatch and return 0?",3,0,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    if (strlen(word) == 0) {
+        return 0;
+    }
+
+    for (int i = 0; i < strlen(word)/2; i++) {
+        if (word[i] != word[strlen(word) - i - 1]) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int main() {
+    char word[] = ""racecar"";
+    int i = 0;
+    int len = strlen(word);
+    while (i < len/2) {
+        if (word[i] != word[len - i - 1]) break;
+        i++;
+    }
+    printf(""%d"", i);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    if (strlen(word) == 0) {
+        return 0;
+    }
+
+    for (int i = 0; i < strlen(word)/2; i++) {
+        if (word[i] != word[strlen(word) - i - 1]) {
+            printf(""%d"", i);
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""hello"");
+    return 0;
+}"
+"int IsPalindrome(char* word)
+{
+	int length = strlen(word);
+	for (int i = 0; i < length / 2; i++) {
+		if (word[i] != word[length - 1 - i])
+			return 0;
+	}
+	return 1;
+
+}","If the input word is 'radar', what is the value of the expression (length - 1 - i) during the first iteration of the loop (when i = 0)?","If the input word is 'apple', at which index (value of i) does the function first encounter a mismatch and return 0?",4,0,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char* word)
+{
+	int length = strlen(word);
+	for (int i = 0; i < length / 2; i++) {
+		if (word[i] != word[length - 1 - i])
+		return 0;
+	}
+	return 1;
+}
+
+int main() {
+    char word[] = ""radar"";
+    int length = strlen(word);
+    int i = 0;
+    printf(""%d"", length - 1 - i);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindromeWithTrace(char* word)
+{
+	int length = strlen(word);
+	for (int i = 0; i < length / 2; i++) {
+		if (word[i] != word[length - 1 - i]) {
+			printf(""%d"", i);
+			return 0;
+		}
+	}
+	return 1;
+}
+
+int main() {
+    char word[] = ""apple"";
+    IsPalindromeWithTrace(word);
+    return 0;
+}"
+"int IsPalindrome(char* word)
+{
+	int result = 1;
+	int l = strlen(word);
+	char copy[100];
+	strcpy(copy, word);
+	int j = 0;
+	
+	for (int i = l - 1; i >= 0; i--)
+	{
+		copy[j] = word[i];
+		j++;
+	}
+
+	if (strcmp(word, copy) != 0)
+	{
+		result = 0;
+	}
+
+	return result;
+
+}","If the input word is 'cat', what will be the contents of the 'copy' array immediately after the for loop finishes executing, but before the strcmp call?",What is the value of the variable 'j' after the for loop completes if the input word is 'radar'?,"The array 'copy' will contain 'tac', but it will not be null-terminated.",5,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char* word)
+{
+	int result = 1;
+	int l = strlen(word);
+	char copy[100];
+	strcpy(copy, word);
+	int j = 0;
+	
+	for (int i = l - 1; i >= 0; i--)
+	{
+		copy[j] = word[i];
+		j++;
+	}
+
+    printf(""%s\n"", copy);
+	if (strcmp(word, copy) != 0)
+	{
+		result = 0;
+	}
+
+	return result;
+}
+
+int main() {
+    IsPalindrome(""cat"");
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char* word)
+{
+	int result = 1;
+	int l = strlen(word);
+	char copy[100];
+	strcpy(copy, word);
+	int j = 0;
+	
+	for (int i = l - 1; i >= 0; i--)
+	{
+		copy[j] = word[i];
+		j++;
+	}
+
+    printf(""%d\n"", j);
+	if (strcmp(word, copy) != 0)
+	{
+		result = 0;
+	}
+
+	return result;
+}
+
+int main() {
+    IsPalindrome(""radar"");
+    return 0;
+}"
+"int IsPalindrome(char *String)
+{
+    int Length = 0;
+    while (String[Length] != '\0')
+    {
+        Length++;
+    }
+    int Even = Length;
+    if (Even % 2)
+    {
+        Even--;
+    }
+    for (int Index = 0; Index < Even / 2; Index++)
+    {
+        if (String[Index] != String[Length - Index - 1])
+        {
+            return 0;
+        }
+    }
+    return 1;
+}","If the input string is 'radar', what is the value of the variable 'Even' after the if-statement block executes?","For the input string 'apple', during the first iteration of the for-loop (Index = 0), which two characters are being compared in the if-statement?",4,String[0] ('a') and String[4] ('e'),"#include <stdio.h>
+
+int IsPalindrome(char *String)
+{
+    int Length = 0;
+    while (String[Length] != '\0')
+    {
+        Length++;
+    }
+    int Even = Length;
+    if (Even % 2)
+    {
+        Even--;
+    }
+    for (int Index = 0; Index < Even / 2; Index++)
+    {
+        if (String[Index] != String[Length - Index - 1])
+        {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int main() {
+    char str[] = ""radar"";
+    int Length = 0;
+    while (str[Length] != '\0') Length++;
+    int Even = Length;
+    if (Even % 2) Even--;
+    printf(""%d"", Even);
+    return 0;
+}","#include <stdio.h>
+
+int IsPalindrome(char *String)
+{
+    int Length = 0;
+    while (String[Length] != '\0')
+    {
+        Length++;
+    }
+    int Even = Length;
+    if (Even % 2)
+    {
+        Even--;
+    }
+    for (int Index = 0; Index < Even / 2; Index++)
+    {
+        if (String[Index] != String[Length - Index - 1])
+        {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int main() {
+    char str[] = ""apple"";
+    int Length = 0;
+    while (str[Length] != '\0') Length++;
+    printf(""%c and %c"", str[0], str[Length - 0 - 1]);
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int a = 0;
+    int b = strlen(word) - 1;
+    while (a < b) {
+        if (word[a] != word[b]) {
+            return 0;
+        } 
+        a++;
+        b-- ;
+    } 
+    return 1;
+}","If the input word is 'radar', what are the values of the variables 'a' and 'b' immediately before the while loop condition is checked for the third time?","If the input word is 'apple', at which index 'a' does the function first encounter a mismatch and return 0?","a = 2, b = 2",a = 0,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int a = 0;
+    int b = strlen(word) - 1;
+    int count = 0;
+    while (a < b) {
+        count++;
+        if (count == 3) {
+            printf(""a = %d, b = %d\n"", a, b);
+            return 1;
+        }
+        if (word[a] != word[b]) {
+            return 0;
+        }
+        a++;
+        b-- ;
+    }
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""radar"");
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int a = 0;
+    int b = strlen(word) - 1;
+    while (a < b) {
+        if (word[a] != word[b]) {
+            printf(""%d\n"", a);
+            return 0;
+        }
+        a++;
+        b-- ;
+    }
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""apple"");
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+     
+    int left = 0;
+    int right = length - 1;
+    
+    while (left < right) {
+         if (word[left] != word[right]) {
+            return 0; 
+        }
+        
+        left++;
+        right--;
+    }
+     return 1;
+}","If the input word is 'radar', what are the values of 'left' and 'right' at the start of the second iteration of the while loop?","If the input word is 'code', at which iteration of the while loop does the function return 0, and what are the characters being compared at that moment?","left = 1, right = 3",Iteration 1; comparing 'c' and 'e',"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    int left = 0;
+    int right = length - 1;
+    int iteration = 0;
+    while (left < right) {
+         iteration++;
+         if (iteration == 2) {
+             printf(""left = %d, right = %d\n"", left, right);
+             return 1;
+         }
+        if (word[left] != word[right]) {
+            return 0; 
+        }
+        left++;
+        right--;
+    }
+     return 1;
+}
+
+int main() {
+    IsPalindrome(""radar"");
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    int left = 0;
+    int right = length - 1;
+    int iteration = 0;
+    while (left < right) {
+         iteration++;
+         if (word[left] != word[right]) {
+            printf(""Iteration %d; comparing '%c' and '%c'\n"", iteration, word[left], word[right]);
+            return 0; 
+        }
+        left++;
+        right--;
+    }
+     return 1;
+}
+
+int main() {
+    IsPalindrome(""code"");
+    return 0;
+}"
+"int IsPalindrome(char *word)
+{
+    int l = 0 , V=1; 
+    while (word[l] != '\0'){
+        l++ ; 
+    }
+    for(int j=0; j<l ;j++){
+        if(word[j] != word[l-1-j]){
+            V = 0 ; 
+        }
+    }
+return V;
+}","If the input string is 'racecar', what is the value of the variable 'l' after the while loop finishes executing?","If the input string is 'code', what is the value of 'V' after the first iteration of the for loop (when j = 0)?",7,0,"#include <stdio.h>
+
+int IsPalindrome(char *word)
+{
+    int l = 0 , V=1; 
+    while (word[l] != '\0'){
+        l++ ; 
+    }
+    for(int j=0; j<l ;j++){
+        if(word[j] != word[l-1-j]){
+            V = 0 ; 
+        }
+    }
+return V;
+}
+
+int main() {
+    char word[] = ""racecar"";
+    int l = 0;
+    while (word[l] != '\0') { l++; }
+    printf(""%d"", l);
+    return 0;
+}","#include <stdio.h>
+
+int IsPalindrome(char *word)
+{
+    int l = 0 , V=1; 
+    while (word[l] != '\0'){
+        l++ ; 
+    }
+    for(int j=0; j<l ;j++){
+        if(word[j] != word[l-1-j]){
+            V = 0 ; 
+        }
+    }
+return V;
+}
+
+int main() {
+    char word[] = ""code"";
+    int l = 0, V = 1;
+    while (word[l] != '\0') { l++; }
+    if(word[0] != word[l-1-0]) { V = 0; }
+    printf(""%d"", V);
+    return 0;
+}"
+"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char* word){
+    int left = 0;
+    int right = strlen(word) - 1;
+    
+    while (left < right){
+        if (word[left] != word[right]){
+            return 0;
+        }
+        left++;
+        right--;
+    }
+    return 1;
+}","If the input word is 'radar', what are the values of 'left' and 'right' immediately before the while loop terminates?","If the input word is 'code', at which iteration of the while loop does the function return 0, and what are the characters being compared at that moment?","left = 2, right = 2",Iteration 1; comparing 'c' and 'e',"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char* word){
+    int left = 0;
+    int right = strlen(word) - 1;
+    
+    while (left < right){
+        if (word[left] != word[right]){
+            return 0;
+        }
+        left++;
+        right--;
+    }
+    printf(""left = %d, right = %d\n"", left, right);
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""radar"");
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char* word){
+    int left = 0;
+    int right = strlen(word) - 1;
+    int iter = 0;
+    
+    while (left < right){
+        iter++;
+        if (word[left] != word[right]){
+            printf(""Iteration %d; comparing '%c' and '%c'\n"", iter, word[left], word[right]);
+            return 0;
+        }
+        left++;
+        right--;
+    }
+    return 1;
+}
+
+int main() {
+    IsPalindrome(""code"");
+    return 0;
+}"
+"int IsPalindrome(char *word){
+    for(int i = 0; i < strlen(word)/(double)2; i++){
+        if(word[i] != word[strlen(word)-1-i]){
+            return 0;
+        }
+    }
+    return 1;
+}","If the input word is 'radar', what is the value of the loop counter 'i' when the function returns 1?","If the input word is 'apple', at which index 'i' does the if-statement first evaluate to true, causing the function to return 0?",3,0,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word){
+    for(int i = 0; i < strlen(word)/(double)2; i++){
+        if(word[i] != word[strlen(word)-1-i]){
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int main() {
+    char word[] = ""radar"";
+    int i = 0;
+    int len = strlen(word);
+    while(i < len/(double)2) {
+        if(word[i] != word[len-1-i]) break;
+        i++;
+    }
+    printf(""%d"", i);
+    return 0;
+}","#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word){
+    for(int i = 0; i < strlen(word)/(double)2; i++){
+        if(word[i] != word[strlen(word)-1-i]){
+            return 0;
+        }
+    }
+    return 1;
+}
+
+int main() {
+    char word[] = ""apple"";
+    for(int i = 0; i < strlen(word)/(double)2; i++){
+        if(word[i] != word[strlen(word)-1-i]){
+            printf(""%d"", i);
+            return 0;
+        }
+    }
+    return 0;
+}"

@@ -1,0 +1,42 @@
+Generate a concise, introductory programming classroom-friendly short-answer question that deeply probes a student's understanding of their own code with respect to a given Bloom's taxonomy level and corresponding description, targeting a specific aspect of the code (e.g., a particular line, construct, or logical element).  
+Accept the following required inputs:
+- Student's code (as a string; do not modify or execute).
+- The problem statement provided to the student (as context).
+- A single Bloom's taxonomy level.
+- The description for the specific Bloom's taxonomy level.
+
+**Task details:**
+1. Carefully and silently review the student's code in the context of the problem statement.
+2. Silently identify a critical, conceptually important, or potentially misunderstood element or construct in the code that offers a strong opportunity to probe the specified Bloom's taxonomy level per its description.
+3. Silently ensure that the question is concise, precise, introductory programming classroom-friendly short-answer question targeting the given Bloom’s level and specifically pointing out a part of the given code.
+4. Silently ensure the question does not require code-writing, nor line-by-line code trace as the answer, nor depend on the code's final output.
+5. Silently ensure the resulting question has a single correct answer and question specifically ask for that answer.
+6. Output only valid JSON with exactly these keys (as plain text values):
+   - "question": [question as one or two sentences. only single question. don't ask two questions]
+   - "answer": [one or two sentences; the correct answer to the question]
+
+**Formatting requirements:**  
+- Output pure JSON only, using only the keys "question" and "answer".
+- Do not include explanations, code snippets, or any other output.
+
+**Example input:**  
+- code: `for i in range(len(lst)): lst[i] = lst[i]*2`
+- problem_statement: "Write code that doubles every element in a list."
+- bloom_level: "Understand"
+- bloom_desc: "explain the purpose or intent of syntax, keywords, or language rules without executing it manually line by line."
+
+**Example output:**
+{
+  "question": "What is the role of 'lst[i] = lst[i]*2' in this code?",
+  "answer": "It updates the element in the index i of the list by multiplying its value by two."
+}
+
+**Edge cases to consider:**
+- If multiple meaningful target areas exist, prioritize a conceptually important or commonly misunderstood point.
+- If the code is trivial or the context is unclear, ask about the most unique or essential construct in the code.
+
+---
+
+**Important reminder:**  
+- Only output valid JSON with "question" and "answer" fields, as described above.
+- The question must never explicitly reference the final output of the code or require code-writing, but must probe understanding of the code’s mechanics or reasoning as tailored to the specified Bloom's level.

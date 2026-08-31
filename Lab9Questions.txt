@@ -1,0 +1,184 @@
+CodeRunner questions:
+
+================================
+Welcome to Lab 9!
+================================
+Q1) Write a function called Censor() which takes three inputs: a string, an integer called “left”, and an integer called “right”.  The function should replace all characters that lie between index positions “left” and “right” (inclusive) in the string with the character ‘X’.  You can assume that the value of “left” is less than the value of “right”, and both values refer to valid index positions within the string.
+
+char censor[100] = "ENGGEN131";
+Censor(censor, 6, 8);
+printf("%s\n", censor);
+=>
+ENGGENXXX
+================================
+Q2) A palindrome is a word that reads exactly the same from left to right or from right to left (an example is “noon”).  Write a function called IsPalindrome() which takes a string as input, and returns 1 (i.e. true) if that string is a palindrome and 0 (i.e. false) otherwise.  You can assume that all characters in the string will be in lower case, and the input string will contain at least one character. NOTE: You can assume that the <string.h> header file is included, and therefore you can use the strlen() function
+
+char word[100] = "a";
+printf("%d", IsPalindrome(word));
+=>	
+1
+
+char word[100] = "abbc";
+printf("%d", IsPalindrome(word));
+=>
+0
+================================
+Q3) A phrase consists of a sequence of words which are separated by one or more space characters.  For this task, you must write a function which takes a single string as input representing a phrase, and capitalises the first character in each word in the phrase.  Only lower case alphabetic characters (that is, ‘a’ - ‘z’) should be capitalised.  A word may be composed of numeric, alphabetic or punctuation characters.  You can assume the input string will have at least one character.  NOTE: Lower case 'a' has the ASCII code 97.  Lower case 'z' has the ASCII code 122.  Upper case 'A' has the ASCII code 65.  You may find it useful to define a helper function to convert a character to upper case
+
+char phrase[100] = "god of nations at thy feet";
+Capitalise(phrase);
+printf("%s", phrase);
+=>
+God Of Nations At Thy Feet
+
+char phrase[100] = "zzzzz";
+Capitalise(phrase);
+printf("%s", phrase);
+=>
+Zzzzz
+================================
+Q4) Sometimes people use two underscore characters to emphasise certain words within a sentence.  For example, consider the following sentence:
+
+    This is a _really_ fun lab!
+
+In this case, the two underscore characters are used to emphasise the word “really”.  Another way that this emphasis could have occurred is using capital letters (instead of the underscore characters):
+
+    This is a REALLY fun lab!
+
+The advantage of this second approach is that the string is shorter - it uses two fewer characters!  Define a function called Emphasise() that is passed one string input.  You can assume that the string will contain exactly two underscore characters.  The function should modify the input string by converting all alphabetic characters (i.e. ‘a’-‘z’) between the two underscore characters to upper case.  In addition, the underscore characters should no longer appear in the resulting string.  
+
+Function prototype declaration:
+
+    void Emphasise(char* word)
+
+Assumptions:
+
+    You can assume there will be exactly two underscore characters somewhere in the input string.  Only lowercase alphabetic characters (‘a’-‘z’) should be capitalized.
+
+Example:
+
+    char wordsA[MAX_ARRAY_SIZE] = "this is a _good_ question!";
+    char wordsB[MAX_ARRAY_SIZE] = "It is _over 9000_!";
+    char wordsC[MAX_ARRAY_SIZE] = "_Nothing to see here_";
+
+    Emphasise(wordsA);
+    Emphasise(wordsB);
+    Emphasise(wordsC);
+
+    printf("%s\n", wordsA);
+    printf("%s\n", wordsB);
+    printf("%s\n", wordsC);
+
+
+Expected output:
+
+    this is a GOOD question!
+    It is OVER 9000!
+    NOTHING TO SEE HERE
+================================
+Q5) A reflection tasks (ignore)
+Q6) A reflection tasks (ignore)
+Q7) A reflection tasks (ignore)
+================================
+Q8) OPTIONAL CHALLENGE TASK
+
+This is an optional exercise - it is ungraded, but provides useful practice if you would like a slightly more challenging exercise to try... good luck!
+
+
+For this task, you should write a function that removes any "unnecessary" space characters in a string.  A space character is "unnecessary" if it appears next to another space character.  In other words, if there is more than one space character in a row, anywhere in the string, the idea is to 'collapse' these so that just a single space character remains. 
+
+Define a function called RemoveSpaces() which is passed a string as input. You should modify the string by removing space characters such that no two space characters remain in a row.
+Function prototype declaration:
+
+    void RemoveSpaces(char *name)
+
+Assumptions:
+
+    You can assume the length of the string will be at least 1. You cannot assume an upper length for the string. Your function should work with strings of any length. This means you cannot define a temporary array to store the resulting string (as you don’t know how much space to allocate). See the note on “Array allocation” above. (HINT: a helper function, that removes the character at a given index position, might be very useful!)
+
+Example:
+
+   char nameA[100] = "The          Champ";
+   char nameB[100] = "    I     AM     THE     GREATEST       ";
+   char nameC[100] = "Therearenospaceshereatall";
+
+   RemoveSpaces(nameA);
+   RemoveSpaces(nameB);
+   RemoveSpaces(nameC);
+
+   printf("Name A = [%s]\n", nameA);
+   printf("Name B = [%s]\n", nameB);
+   printf("Name C = [%s]\n", nameC);
+
+
+Expected output:
+
+   Name A = [The Champ]
+   Name B = [ I AM THE GREATEST ]
+   Name C = [Therearenospaceshereatall]
+================================
+Q9) OPTIONAL CHALLENGE TASK
+
+This is a challenge exercise - it is ungraded, but optional practice if you would like a slightly more difficult exercise to try... good luck!
+
+Let’s say that we have the following 6 data values representing frequencies of some measurement:
+
+            3, 1, 2, 0, 4, 1
+
+and we now would like to plot these on a histogram.  We could do this easily using many graphical plotting programs such as Excel. 
+
+We could also represent the same data using a textual representation, where the bars are represented by “X” characters:
+
+         X  
+     X   X 
+     X X X
+     XXX XX
+
+And to make this look a little nicer, we could surround the bars with a border of ‘*’ characters:
+
+     ********
+     *    X * 
+     *X   X *
+     *X X X *
+     *XXX XX*
+     ********
+
+Define a function called Histogram() that takes an array of integers representing the data to be plotted, and generates a string (representing the histogram) in precisely the format described above.  Please take note of the following:
+
+    each line of text in the string ends with a new line (‘\n’) except for the very last line
+    there must be no extra space characters anywhere at the beginning or end of a line
+
+The Histogram() function should take three input values.  The second and third input values represent the data to be plotted.  This is stored as an array of integers, and the number of elements in the array.  The first input to the function is the string into which you should store the resulting histogram.  
+
+int values1[10] = {1, 0, 3, 1, 2, 4, 5, 6, 2, 2};
+int values2[3] = {1, 0, 1};
+char formatted[1000];
+char example[1000] = "*****\n*X X*\n*****";
+
+Histogram(formatted, values1, 10);
+printf("%s\n\n", formatted);
+
+Histogram(formatted, values2, 3);
+printf("%s\n", formatted);
+if (strcmp(example, formatted) == 0) {
+    printf("This matches EXACTLY and is correct");
+}
+=>
+************
+*       X  *
+*      XX  *
+*     XXX  *
+*  X  XXX  *
+*  X XXXXXX*
+*X XXXXXXXX*
+************
+
+*****
+*X X*
+*****
+This matches EXACTLY and is correct
+================================
+Q10) In your opinion, how difficult did you find this lab?
+================================
+Q11) Do you have any comments about this lab?
+================================

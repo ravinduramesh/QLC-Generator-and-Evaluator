@@ -37,15 +37,15 @@ LEVEL_PERMUTATIONS = list(itertools.permutations([level for level, _ in TARGET_L
 LEVEL_DESCRIPTIONS = {level: description for level, description in TARGET_LEVELS}
 
 EVALUATION_FIELDS = {
-    "correctness": bool,
-    "answer_correctness": bool,
-    "answer_completeness": bool,
-    "grammatical": bool,
-    "clarity": bool,
-    "course_content_relevance": bool,
-    "learner_code_relevance": int,
-    "cs1_difficulty": int,
-    "bloom_level": str,
+    "Correctness": bool,
+    "AnswerCorrectness": bool,
+    "AnswerCompleteness": bool,
+    "Grammatical": bool,
+    "Clarity": bool,
+    "RelevanceToCourseContent": bool,
+    "RelevanceToLearnerCode": int,
+    "AppropriatenessOfDifficultyForCS1": int,
+    "RevisedBloomsTaxonomyLevel": str,
 }
 VALID_BLOOM_LEVELS = {"Remember", "Understand", "Apply", "Analyse", "Evaluate", "Create"}
 
@@ -251,33 +251,77 @@ def build_question_evaluation_prompt(
     student_code: str,
     question: str,
     answer: str,
-    intended_level: str,
-    problem_statement: str = "A palindrome is a word that reads exactly the same from left to right or from right to left (an example is “noon”). Write a function called IsPalindrome() which takes a string as input, and returns 1 (i.e. true) if that string is a palindrome and 0 (i.e. false) otherwise.",
 ) -> list[dict[str, str]]:
     system_prompt = """
-Evaluate one generated question and answer against the supplied student code and problem statement. Treat the problem statement as the delivered course content. Return only valid JSON with exactly these keys:
+Evaluate a question and answer pair generated about a student's code using the provided rubric. Carefully read the student's source code, the generated question, and its answer. For each rubric criterion below, provide a judgment. Before producing your final evaluation, explicitly reason through and justify each decision, considering any nuances, ambiguities, or edge cases. After justifying your reasoning for each, provide your findings as a structured JSON object.
+
+If any rubric field could be interpreted ambiguously (e.g., revised Bloom's taxonomy), reflect on possible options and explain your logic before reaching a final conclusion. All individual field conclusions and ratings must come after their associated reasoning.
+
+Continue evaluating and justifying each rubric field until all are completed. Only after all reasoning, supply your JSON output at the very end.
+
+Rubric fields to evaluate:
+- Correctness: Is the question factually accurate, complete, and free of falsehoods? (Boolean)
+- Answer's Correctness: Is the answer to the question factually correct? (Boolean)
+- Answer's Completeness: Does the answer fully address the question, especially if multiple possible aspects exist? (Boolean)
+- Grammatical: Is the question grammatically correct? (Boolean)
+- Clarity: Is the question clear and unambiguous? (Boolean)
+- Relevance to course content: Can the question be answered solely from course content? (Boolean)
+- Relevance to learner code: Does the question engage directly with aspects of the provided code (syntax, semantics, bugs, etc.)? (1-5 scale, with 5 = maximal relevance)
+- Appropriateness of difficulty for CS1: Is the question suitable for an introductory programming course (CS1)? (1-5 scale, with 3 as average difficulty)
+- Revised Bloom's Taxonomy Level: What cognitive process does the question primarily assess? (Remember, Understand, Apply, Analyse, Evaluate, Create — string)
+
+Respond only with your evaluation and the required JSON object.
+
+**Output format:**
+- Detailed reasoning and justification for each rubric point (as full sentences or bullet points), in order, before any conclusions.
+- Output JSON as the very last item in your answer. The JSON should include all rubric fields as keys, with your concluded value for each. Do not wrap the JSON in code blocks.
+
+**Example**
+
+[Begin Example]
+
+**Reasoning:**
+- Correctness: The question correctly describes the function behavior as shown in the code. There are no factual errors.
+- Answer's Correctness: The answer accurately describes the output for the given code input.
+- Answer's Completeness: There could be another edge case the answer does not mention, but since the question only asks about a single case, the answer covers all needed details.
+- Grammatical: The question follows standard grammar and punctuation.
+- Clarity: The phrasing is specific and leaves no ambiguity.
+- Relevance to course content: Lists and loops are core CS1 topics.
+- Relevance to learner code: The question asks directly about the logic used in the student's code, so this is highly relevant (5/5).
+- Appropriateness of difficulty for CS1: The question asks about control flow, which is typical of CS1, and not unnecessarily difficult (3/5).
+- Revised Bloom's Taxonomy Level: The question asks for an explanation, so this matches the "Understand" level.
+
+**Evaluation JSON:**
 {
-  "correctness": true,
-  "answer_correctness": true,
-  "answer_completeness": true,
-  "grammatical": true,
-  "clarity": true,
-  "course_content_relevance": true,
-  "learner_code_relevance": 1,
-  "cs1_difficulty": 1,
-  "bloom_level": "Understand"
+  "Correctness": true,
+  "AnswerCorrectness": true,
+  "AnswerCompleteness": true,
+  "Grammatical": true,
+  "Clarity": true,
+  "RelevanceToCourseContent": true,
+  "RelevanceToLearnerCode": 5,
+  "AppropriatenessOfDifficultyForCS1": 3,
+  "RevisedBloomsTaxonomyLevel": "Understand"
 }
 
-Use boolean values for the first six criteria. Use an integer from 1 to 5 for learner_code_relevance and cs1_difficulty. For bloom_level, choose exactly one of Remember, Understand, Apply, Analyse, Evaluate, or Create based on the cognitive task the question actually assesses, not merely its intended level. Correctness checks whether the question is factually accurate, sufficiently specified, and free of misleading content. Answer_correctness checks whether the answer is correct. Answer_completeness checks whether the answer covers all required parts when multiple answers are possible. Course_content_relevance is true only when the question can be answered from the supplied problem statement/course content. Learner-code relevance measures how directly the question concerns the supplied code. CS1 difficulty measures appropriateness for an introductory programming course.
-""".strip()
+[End Example]
+
+Please repeat this evaluation process for every question/answer/code set you review. Remember to:
+- Reason through all rubric fields first, in order.
+- Only output your completed JSON after all reasoning steps.
+
+**Important:**  
+- Always justify each field's rating before giving your conclusion for that field.
+- The final answer is a single JSON and includes one field for each rubric criterion.  
+- Never present conclusions before their associated reasoning.
+
+**Reminder:**  
+Evaluate a programming question/answer pair about code using all rubric fields. Each field’s justification comes before its result. Yield a single JSON evaluation at the end.""".strip()
     user_prompt = f"""
 student_code:
 ```c
 {student_code}
 ```
-
-problem_statement: {problem_statement}
-intended_bloom_level: {intended_level}
 question: {question}
 answer: {answer}
 """.strip()
@@ -310,7 +354,6 @@ def call_evaluator_agent(
     student_code: str,
     question: str,
     answer: str,
-    intended_level: str,
 ) -> dict[str, Any]:
     for attempt in range(1, 4):
         response = client.chat.completions.create(
@@ -319,7 +362,6 @@ def call_evaluator_agent(
                 student_code,
                 question,
                 answer,
-                intended_level,
             ),
         )
         raw = response.choices[0].message.content or "{}"
@@ -454,9 +496,8 @@ def process_workbook(input_path: Path, output_path: Path, sheet_name: str | None
                     student_code,
                     generated["question"],
                     generated["answer"],
-                    level_permutation[question_index],
                 )
-                for question_index, generated in enumerate(generated_rows)
+                for generated in generated_rows
             ]
 
             row = {

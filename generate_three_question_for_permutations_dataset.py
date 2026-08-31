@@ -36,6 +36,19 @@ TARGET_LEVELS = [
 LEVEL_PERMUTATIONS = list(itertools.permutations([level for level, _ in TARGET_LEVELS]))
 LEVEL_DESCRIPTIONS = {level: description for level, description in TARGET_LEVELS}
 
+EVALUATION_FIELDS = {
+    "correctness": bool,
+    "answer_correctness": bool,
+    "answer_completeness": bool,
+    "grammatical": bool,
+    "clarity": bool,
+    "course_content_relevance": bool,
+    "learner_code_relevance": int,
+    "cs1_difficulty": int,
+    "bloom_level": str,
+}
+VALID_BLOOM_LEVELS = {"Remember", "Understand", "Apply", "Analyse", "Evaluate", "Create"}
+
 
 def _extract_json_object(text: str) -> str:
     start = text.find("{")
@@ -234,6 +247,99 @@ def call_openai_for_question_generation(client: OpenAI, model: str, student_code
     raise RuntimeError("Unreachable")
 
 
+def build_question_evaluation_prompt(
+    student_code: str,
+    question: str,
+    answer: str,
+    intended_level: str,
+    problem_statement: str = "A palindrome is a word that reads exactly the same from left to right or from right to left (an example is “noon”). Write a function called IsPalindrome() which takes a string as input, and returns 1 (i.e. true) if that string is a palindrome and 0 (i.e. false) otherwise.",
+) -> list[dict[str, str]]:
+    system_prompt = """
+Evaluate one generated question and answer against the supplied student code and problem statement. Treat the problem statement as the delivered course content. Return only valid JSON with exactly these keys:
+{
+  "correctness": true,
+  "answer_correctness": true,
+  "answer_completeness": true,
+  "grammatical": true,
+  "clarity": true,
+  "course_content_relevance": true,
+  "learner_code_relevance": 1,
+  "cs1_difficulty": 1,
+  "bloom_level": "Understand"
+}
+
+Use boolean values for the first six criteria. Use an integer from 1 to 5 for learner_code_relevance and cs1_difficulty. For bloom_level, choose exactly one of Remember, Understand, Apply, Analyse, Evaluate, or Create based on the cognitive task the question actually assesses, not merely its intended level. Correctness checks whether the question is factually accurate, sufficiently specified, and free of misleading content. Answer_correctness checks whether the answer is correct. Answer_completeness checks whether the answer covers all required parts when multiple answers are possible. Course_content_relevance is true only when the question can be answered from the supplied problem statement/course content. Learner-code relevance measures how directly the question concerns the supplied code. CS1 difficulty measures appropriateness for an introductory programming course.
+""".strip()
+    user_prompt = f"""
+student_code:
+```c
+{student_code}
+```
+
+problem_statement: {problem_statement}
+intended_bloom_level: {intended_level}
+question: {question}
+answer: {answer}
+""".strip()
+    return [
+        {"role": "system", "content": system_prompt},
+        {"role": "user", "content": user_prompt},
+    ]
+
+
+def validate_question_evaluation(payload: dict[str, Any]) -> dict[str, Any]:
+    missing = [key for key in EVALUATION_FIELDS if key not in payload]
+    if missing:
+        raise ValueError(f"Evaluator response missing keys: {', '.join(missing)}")
+
+    for key, expected_type in EVALUATION_FIELDS.items():
+        value = payload[key]
+        if expected_type is bool and type(value) is not bool:
+            raise ValueError(f"Evaluator field '{key}' must be boolean")
+        if expected_type is int and (type(value) is not int or not 1 <= value <= 5):
+            raise ValueError(f"Evaluator field '{key}' must be an integer from 1 to 5")
+        if expected_type is str and (not isinstance(value, str) or value not in VALID_BLOOM_LEVELS):
+            raise ValueError(f"Evaluator field '{key}' must be a valid revised Bloom level")
+
+    return {key: payload[key] for key in EVALUATION_FIELDS}
+
+
+def call_evaluator_agent(
+    client: OpenAI,
+    model: str,
+    student_code: str,
+    question: str,
+    answer: str,
+    intended_level: str,
+) -> dict[str, Any]:
+    for attempt in range(1, 4):
+        response = client.chat.completions.create(
+            model=model,
+            messages=build_question_evaluation_prompt(
+                student_code,
+                question,
+                answer,
+                intended_level,
+            ),
+        )
+        raw = response.choices[0].message.content or "{}"
+        try:
+            return validate_question_evaluation(parse_model_json(raw))
+        except Exception as exc:  # noqa: BLE001 - retry on malformed evaluator output
+            print(
+                f"Warning: malformed evaluator response on attempt {attempt}/3: {exc}",
+                file=sys.stderr,
+            )
+            if attempt == 3:
+                snippet = raw[:500].replace("\n", "\\n")
+                raise ValueError(
+                    "Failed to parse evaluator response after 3 attempts. "
+                    f"Response snippet: {snippet}"
+                ) from exc
+
+    raise RuntimeError("Unreachable")
+
+
 def read_submissions(workbook_path: Path, sheet_name: str | None) -> tuple[list[str], list[str], list[str]]:
     workbook = load_workbook(workbook_path, data_only=True)
     worksheet = workbook[sheet_name] if sheet_name else workbook[workbook.sheetnames[0]]
@@ -294,10 +400,15 @@ def build_group_assignments(total_rows: int) -> list[int]:
 def process_workbook(input_path: Path, output_path: Path, sheet_name: str | None, limit: int | None) -> None:
     load_dotenv()
     client = OpenAI(
-        base_url=os.getenv("BASE_URL"),
-        api_key=os.getenv("OPENAI_API_KEY"),
+        base_url=os.getenv("QA_GENERATOR_BASE_URL"),
+        api_key=os.getenv("QA_GENERATOR_API_KEY"),
     )
-    model = os.getenv("OPENAI_MODEL")
+    model = os.getenv("QA_GENERATOR_MODEL")
+    evaluator_client = OpenAI(
+        base_url=os.getenv("EVALUATOR_BASE_URL"),
+        api_key=os.getenv("EVALUATOR_API_KEY"),
+    )
+    evaluator_model = os.getenv("EVALUATOR_MODEL")
 
     _, anon_ids, submissions = read_submissions(input_path, sheet_name)
 
@@ -311,12 +422,15 @@ def process_workbook(input_path: Path, output_path: Path, sheet_name: str | None
         "q1",
         "a1",
         "q1_level",
+        "q1_evaluation",
         "q2",
         "a2",
         "q2_level",
+        "q2_evaluation",
         "q3",
         "a3",
         "q3_level",
+        "q3_evaluation",
     ]
     output_path.parent.mkdir(parents=True, exist_ok=True)
 
@@ -333,6 +447,17 @@ def process_workbook(input_path: Path, output_path: Path, sheet_name: str | None
             group_index = group_assignments[index - 1]
             level_permutation = LEVEL_PERMUTATIONS[group_index]
             generated_rows = generate_question_set(client, model, student_code, level_permutation)
+            evaluations = [
+                call_evaluator_agent(
+                    evaluator_client,
+                    evaluator_model,
+                    student_code,
+                    generated["question"],
+                    generated["answer"],
+                    level_permutation[question_index],
+                )
+                for question_index, generated in enumerate(generated_rows)
+            ]
 
             row = {
                 "ANON_ID": normalize_text(anon_id),
@@ -340,12 +465,15 @@ def process_workbook(input_path: Path, output_path: Path, sheet_name: str | None
                 "q1": normalize_text(generated_rows[0]["question"]),
                 "a1": normalize_text(generated_rows[0]["answer"]),
                 "q1_level": level_permutation[0],
+                "q1_evaluation": json.dumps(evaluations[0], ensure_ascii=False),
                 "q2": normalize_text(generated_rows[1]["question"]),
                 "a2": normalize_text(generated_rows[1]["answer"]),
                 "q2_level": level_permutation[1],
+                "q2_evaluation": json.dumps(evaluations[1], ensure_ascii=False),
                 "q3": normalize_text(generated_rows[2]["question"]),
                 "a3": normalize_text(generated_rows[2]["answer"]),
                 "q3_level": level_permutation[2],
+                "q3_evaluation": json.dumps(evaluations[2], ensure_ascii=False),
             }
             writer.writerow(row)
 

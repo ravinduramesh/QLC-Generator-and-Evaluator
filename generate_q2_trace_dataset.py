@@ -239,10 +239,10 @@ def read_submissions(workbook_path: Path, sheet_name: str | None) -> tuple[list[
 def process_workbook(input_path: Path, output_path: Path, sheet_name: str | None, limit: int | None) -> None:
     load_dotenv()
     client = OpenAI(
-        base_url=os.getenv("BASE_URL"),
-        api_key=os.getenv("OPENAI_API_KEY")
+        base_url=os.getenv("QA_GENERATOR_BASE_URL"),
+        api_key=os.getenv("QA_GENERATOR_API_KEY")
     )
-    model = os.getenv("OPENAI_MODEL")
+    model = os.getenv("QA_GENERATOR_MODEL")
 
     _, submissions = read_submissions(input_path, sheet_name)
 

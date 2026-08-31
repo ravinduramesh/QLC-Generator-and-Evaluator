@@ -36,6 +36,19 @@ TARGET_LEVELS = [
 LEVEL_PERMUTATIONS = list(itertools.permutations([level for level, _ in TARGET_LEVELS]))
 LEVEL_DESCRIPTIONS = {level: description for level, description in TARGET_LEVELS}
 
+EVALUATION_FIELDS = {
+    "Correctness": bool,
+    "AnswerCorrectness": bool,
+    "AnswerCompleteness": bool,
+    "Grammatical": bool,
+    "Clarity": bool,
+    "RelevanceToCourseContent": bool,
+    "RelevanceToLearnerCode": int,
+    "AppropriatenessOfDifficultyForCS1": int,
+    "RevisedBloomsTaxonomyLevel": str,
+}
+VALID_BLOOM_LEVELS = {"Remember", "Understand", "Apply", "Analyse", "Evaluate", "Create"}
+
 
 def _extract_json_object(text: str) -> str:
     start = text.find("{")
@@ -234,6 +247,141 @@ def call_openai_for_question_generation(client: OpenAI, model: str, student_code
     raise RuntimeError("Unreachable")
 
 
+def build_question_evaluation_prompt(
+    student_code: str,
+    question: str,
+    answer: str,
+) -> list[dict[str, str]]:
+    system_prompt = """
+Evaluate a question and answer pair generated about a student's code using the provided rubric. Carefully read the student's source code, the generated question, and its answer. For each rubric criterion below, provide a judgment. Before producing your final evaluation, explicitly reason through and justify each decision, considering any nuances, ambiguities, or edge cases. After justifying your reasoning for each, provide your findings as a structured JSON object.
+
+If any rubric field could be interpreted ambiguously (e.g., revised Bloom's taxonomy), reflect on possible options and explain your logic before reaching a final conclusion. All individual field conclusions and ratings must come after their associated reasoning.
+
+Continue evaluating and justifying each rubric field until all are completed. Only after all reasoning, supply your JSON output at the very end.
+
+Rubric fields to evaluate:
+- Correctness: Is the question factually accurate, complete, and free of falsehoods? (Boolean)
+- Answer's Correctness: Is the answer to the question factually correct? (Boolean)
+- Answer's Completeness: Does the answer fully address the question, especially if multiple possible aspects exist? (Boolean)
+- Grammatical: Is the question grammatically correct? (Boolean)
+- Clarity: Is the question clear and unambiguous? (Boolean)
+- Relevance to course content: Can the question be answered solely from course content? (Boolean)
+- Relevance to learner code: Does the question engage directly with aspects of the provided code (syntax, semantics, bugs, etc.)? (1-5 scale, with 5 = maximal relevance)
+- Appropriateness of difficulty for CS1: Is the question suitable for an introductory programming course (CS1)? (1-5 scale, with 3 as average difficulty)
+- Revised Bloom's Taxonomy Level: What cognitive process does the question primarily assess? (Remember, Understand, Apply, Analyse, Evaluate, Create — string)
+
+Respond only with your evaluation and the required JSON object.
+
+**Output format:**
+- Detailed reasoning and justification for each rubric point (as full sentences or bullet points), in order, before any conclusions.
+- Output JSON as the very last item in your answer. The JSON should include all rubric fields as keys, with your concluded value for each. Do not wrap the JSON in code blocks.
+
+**Example**
+
+[Begin Example]
+
+**Reasoning:**
+- Correctness: The question correctly describes the function behavior as shown in the code. There are no factual errors.
+- Answer's Correctness: The answer accurately describes the output for the given code input.
+- Answer's Completeness: There could be another edge case the answer does not mention, but since the question only asks about a single case, the answer covers all needed details.
+- Grammatical: The question follows standard grammar and punctuation.
+- Clarity: The phrasing is specific and leaves no ambiguity.
+- Relevance to course content: Lists and loops are core CS1 topics.
+- Relevance to learner code: The question asks directly about the logic used in the student's code, so this is highly relevant (5/5).
+- Appropriateness of difficulty for CS1: The question asks about control flow, which is typical of CS1, and not unnecessarily difficult (3/5).
+- Revised Bloom's Taxonomy Level: The question asks for an explanation, so this matches the "Understand" level.
+
+**Evaluation JSON:**
+{
+  "Correctness": true,
+  "AnswerCorrectness": true,
+  "AnswerCompleteness": true,
+  "Grammatical": true,
+  "Clarity": true,
+  "RelevanceToCourseContent": true,
+  "RelevanceToLearnerCode": 5,
+  "AppropriatenessOfDifficultyForCS1": 3,
+  "RevisedBloomsTaxonomyLevel": "Understand"
+}
+
+[End Example]
+
+Please repeat this evaluation process for every question/answer/code set you review. Remember to:
+- Reason through all rubric fields first, in order.
+- Only output your completed JSON after all reasoning steps.
+
+**Important:**  
+- Always justify each field's rating before giving your conclusion for that field.
+- The final answer is a single JSON and includes one field for each rubric criterion.  
+- Never present conclusions before their associated reasoning.
+
+**Reminder:**  
+Evaluate a programming question/answer pair about code using all rubric fields. Each field’s justification comes before its result. Yield a single JSON evaluation at the end.""".strip()
+    user_prompt = f"""
+student_code:
+```c
+{student_code}
+```
+question: {question}
+answer: {answer}
+""".strip()
+    return [
+        {"role": "system", "content": system_prompt},
+        {"role": "user", "content": user_prompt},
+    ]
+
+
+def validate_question_evaluation(payload: dict[str, Any]) -> dict[str, Any]:
+    missing = [key for key in EVALUATION_FIELDS if key not in payload]
+    if missing:
+        raise ValueError(f"Evaluator response missing keys: {', '.join(missing)}")
+
+    for key, expected_type in EVALUATION_FIELDS.items():
+        value = payload[key]
+        if expected_type is bool and type(value) is not bool:
+            raise ValueError(f"Evaluator field '{key}' must be boolean")
+        if expected_type is int and (type(value) is not int or not 1 <= value <= 5):
+            raise ValueError(f"Evaluator field '{key}' must be an integer from 1 to 5")
+        if expected_type is str and (not isinstance(value, str) or value not in VALID_BLOOM_LEVELS):
+            raise ValueError(f"Evaluator field '{key}' must be a valid revised Bloom level")
+
+    return {key: payload[key] for key in EVALUATION_FIELDS}
+
+
+def call_evaluator_agent(
+    client: OpenAI,
+    model: str,
+    student_code: str,
+    question: str,
+    answer: str,
+) -> dict[str, Any]:
+    for attempt in range(1, 4):
+        response = client.chat.completions.create(
+            model=model,
+            messages=build_question_evaluation_prompt(
+                student_code,
+                question,
+                answer,
+            ),
+        )
+        raw = response.choices[0].message.content or "{}"
+        try:
+            return validate_question_evaluation(parse_model_json(raw))
+        except Exception as exc:  # noqa: BLE001 - retry on malformed evaluator output
+            print(
+                f"Warning: malformed evaluator response on attempt {attempt}/3: {exc}",
+                file=sys.stderr,
+            )
+            if attempt == 3:
+                snippet = raw[:500].replace("\n", "\\n")
+                raise ValueError(
+                    "Failed to parse evaluator response after 3 attempts. "
+                    f"Response snippet: {snippet}"
+                ) from exc
+
+    raise RuntimeError("Unreachable")
+
+
 def read_submissions(workbook_path: Path, sheet_name: str | None) -> tuple[list[str], list[str], list[str]]:
     workbook = load_workbook(workbook_path, data_only=True)
     worksheet = workbook[sheet_name] if sheet_name else workbook[workbook.sheetnames[0]]
@@ -298,6 +446,11 @@ def process_workbook(input_path: Path, output_path: Path, sheet_name: str | None
         api_key=os.getenv("QA_GENERATOR_API_KEY"),
     )
     model = os.getenv("QA_GENERATOR_MODEL")
+    evaluator_client = OpenAI(
+        base_url=os.getenv("EVALUATOR_BASE_URL"),
+        api_key=os.getenv("EVALUATOR_API_KEY"),
+    )
+    evaluator_model = os.getenv("EVALUATOR_MODEL")
 
     _, anon_ids, submissions = read_submissions(input_path, sheet_name)
 
@@ -311,12 +464,15 @@ def process_workbook(input_path: Path, output_path: Path, sheet_name: str | None
         "q1",
         "a1",
         "q1_level",
+        "q1_evaluation",
         "q2",
         "a2",
         "q2_level",
+        "q2_evaluation",
         "q3",
         "a3",
         "q3_level",
+        "q3_evaluation",
     ]
     output_path.parent.mkdir(parents=True, exist_ok=True)
 
@@ -333,6 +489,16 @@ def process_workbook(input_path: Path, output_path: Path, sheet_name: str | None
             group_index = group_assignments[index - 1]
             level_permutation = LEVEL_PERMUTATIONS[group_index]
             generated_rows = generate_question_set(client, model, student_code, level_permutation)
+            evaluations = [
+                call_evaluator_agent(
+                    evaluator_client,
+                    evaluator_model,
+                    student_code,
+                    generated["question"],
+                    generated["answer"],
+                )
+                for generated in generated_rows
+            ]
 
             row = {
                 "ANON_ID": normalize_text(anon_id),
@@ -340,12 +506,15 @@ def process_workbook(input_path: Path, output_path: Path, sheet_name: str | None
                 "q1": normalize_text(generated_rows[0]["question"]),
                 "a1": normalize_text(generated_rows[0]["answer"]),
                 "q1_level": level_permutation[0],
+                "q1_evaluation": json.dumps(evaluations[0], ensure_ascii=False),
                 "q2": normalize_text(generated_rows[1]["question"]),
                 "a2": normalize_text(generated_rows[1]["answer"]),
                 "q2_level": level_permutation[1],
+                "q2_evaluation": json.dumps(evaluations[1], ensure_ascii=False),
                 "q3": normalize_text(generated_rows[2]["question"]),
                 "a3": normalize_text(generated_rows[2]["answer"]),
                 "q3_level": level_permutation[2],
+                "q3_evaluation": json.dumps(evaluations[2], ensure_ascii=False),
             }
             writer.writerow(row)
 

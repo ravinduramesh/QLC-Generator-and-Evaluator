@@ -14,7 +14,7 @@ from openai import OpenAI
 from openpyxl.reader.excel import load_workbook
 
 DEFAULT_INPUT = "Lab9Responses-Mini.xlsx"
-DEFAULT_OUTPUT = "Lab9Responses_three_questions_permutations.csv"
+DEFAULT_OUTPUT = "Lab9Responses_three_questions_permutations_and_evaluations.csv"
 DEFAULT_SHEET = None
 DEFAULT_LIMIT = None
 
@@ -273,25 +273,9 @@ Rubric fields to evaluate:
 Respond only with your evaluation and the required JSON object.
 
 **Output format:**
-- Detailed reasoning and justification for each rubric point (as full sentences or bullet points), in order, before any conclusions.
-- Output JSON as the very last item in your answer. The JSON should include all rubric fields as keys, with your concluded value for each. Do not wrap the JSON in code blocks.
+Output JSON as the very last item in your answer. The JSON should include all rubric fields as keys, with your concluded value for each. Do not wrap the JSON in code blocks.
 
-**Example**
-
-[Begin Example]
-
-**Reasoning:**
-- Correctness: The question correctly describes the function behavior as shown in the code. There are no factual errors.
-- Answer's Correctness: The answer accurately describes the output for the given code input.
-- Answer's Completeness: There could be another edge case the answer does not mention, but since the question only asks about a single case, the answer covers all needed details.
-- Grammatical: The question follows standard grammar and punctuation.
-- Clarity: The phrasing is specific and leaves no ambiguity.
-- Relevance to course content: Lists and loops are core CS1 topics.
-- Relevance to learner code: The question asks directly about the logic used in the student's code, so this is highly relevant (5/5).
-- Appropriateness of difficulty for CS1: The question asks about control flow, which is typical of CS1, and not unnecessarily difficult (3/5).
-- Revised Bloom's Taxonomy Level: The question asks for an explanation, so this matches the "Understand" level.
-
-**Evaluation JSON:**
+**Example Evaluation JSON:**
 {
   "Correctness": true,
   "AnswerCorrectness": true,
@@ -304,19 +288,16 @@ Respond only with your evaluation and the required JSON object.
   "RevisedBloomsTaxonomyLevel": "Understand"
 }
 
-[End Example]
-
-Please repeat this evaluation process for every question/answer/code set you review. Remember to:
-- Reason through all rubric fields first, in order.
+Remember to:
+- Silently reason through all rubric fields first, in order.
 - Only output your completed JSON after all reasoning steps.
 
 **Important:**  
-- Always justify each field's rating before giving your conclusion for that field.
+- Always silently justify each field's rating before giving your conclusion for that field.
 - The final answer is a single JSON and includes one field for each rubric criterion.  
-- Never present conclusions before their associated reasoning.
 
 **Reminder:**  
-Evaluate a programming question/answer pair about code using all rubric fields. Each field’s justification comes before its result. Yield a single JSON evaluation at the end.""".strip()
+Evaluate a programming question/answer pair about code using all rubric fields. Yield a single JSON evaluation at the end.""".strip()
     user_prompt = f"""
 student_code:
 ```c

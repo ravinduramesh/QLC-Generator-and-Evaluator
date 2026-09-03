@@ -1,0 +1,1535 @@
+﻿ANON_ID,original_code,q1,a1,q1_level,q1_evaluation,q2,a2,q2_level,q2_evaluation,q3,a3,q3_level,q3_evaluation
+1,"int IsPalindrome(char *word)
+{
+    int left = 0;
+    int right = strlen(word) - 1;
+
+    while (left < right) {
+        if (word[left] != word[right]) {
+            return 0; 
+        }
+        left++;
+        right--;
+    }
+
+    return 1; 
+    
+}",What is the purpose of the condition 'left < right' in the while loop of this function?,"It ensures that characters are compared from the two ends of the word toward the center, stopping once all necessary pairs have been checked.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}","According to the logic in the while loop, what will the variable 'left' be set to each time a pair of matching characters is found at word[left] and word[right]?","Each time a matching pair is found, 'left' is incremented by 1, so its value increases by one for each successful comparison.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 4, ""AppropriatenessOfDifficultyForCS1"": 2, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What change would you make to the current code to allow IsPalindrome() to ignore spaces when checking if a word is a palindrome?,You would need to add logic to skip spaces when comparing characters by incrementing the left index and decrementing the right index if word[left] or word[right] is a space.,Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}"
+2,"int IsPalindrome(char *word)
+{
+    int n = strlen(word);
+    for (int i = 0; i < (n / 2); i++) {
+        if (word[i]!=word[n-i-1]) {
+            return 0;
+            break;
+        }
+    }
+    return 1;
+}",What is the purpose of comparing 'word[i]' and 'word[n-i-1]' in the for loop?,"It checks if the characters at symmetric positions from the start and end of the string are the same, which is necessary to determine if the word is a palindrome.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}","If IsPalindrome is called with the input ""level"", how many iterations will the for loop perform and why?","The for loop will perform 2 iterations because the loop iterates from i = 0 up to i < n/2, where n is 5, so it runs for i = 0 and i = 1.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What change would you suggest to remove any unnecessary code and improve the style or efficiency of the IsPalindrome function?,"The 'break;' statement after 'return 0;' is unnecessary and should be removed, as the function will return and exit at that point.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Analyse""}"
+3,"int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    
+    for (int i = 0; i < length / 2; i++) {
+        if (word[i] != word[length - 1 - i]) {
+            return 0;
+        }
+    }
+    return 1;
+}",What is the purpose of comparing word[i] with word[length - 1 - i] in the for loop?,"It checks whether the character at position i from the start matches the character at the corresponding position from the end, which determines if the string reads the same forwards and backwards.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}","Given the loop condition 'i < length / 2', how many times will the loop run for a word of length 7, and which character positions will be compared in the first iteration?","The loop runs 3 times for a word of length 7, and in the first iteration it compares the characters at positions 0 and 6.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}","How would you modify the IsPalindrome function to correctly handle empty strings as palindromes, while maintaining efficient memory and runtime performance?","Add a condition at the start to check if the input string is empty (length 0), and if so, return 1 immediately, as an empty string is considered a palindrome.",Create,"{""Correctness"": false, ""AnswerCorrectness"": false, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 4, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}"
+4,"#include <string.h>
+#include <stdio.h>
+
+int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    int middle = (length - 1)/2;
+    int counter = 0;
+   
+    if (length <= 1) {
+        return 1;
+    }
+
+    if (length == 2) {
+        if (word[0] == word[1]) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    for (int i = 0; i < middle; i++) {
+        if (word[i] == word[length - 1 - i]) {
+            counter++;
+        }
+    }
+    
+    int ispalindrome = 0;
+    if (counter == middle) {
+        ispalindrome = 1;
+    }
+    return ispalindrome;
+}",What is the purpose of comparing word[i] with word[length - 1 - i] inside the for loop?,"It checks if the character at position i from the start matches the corresponding character at the same position from the end, helping determine if the string is a palindrome.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}","Suppose the input to IsPalindrome is the string ""abba""; how many times will the line 'if (word[i] == word[length - 1 - i]) { counter++; }' be executed, and what will be the final value of counter after the loop ends?","The line will be executed once (since middle is 1), and counter will be 1 after the loop.",Apply,"{""Correctness"": false, ""AnswerCorrectness"": false, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",How would you modify the for loop to ensure that the function correctly checks all necessary character pairs for palindromes of both even and odd lengths?,"Change the loop to run while i < length / 2 instead of i < middle, so that all corresponding pairs from the start and end are compared for any length.",Create,"{""Correctness"": true, ""AnswerCorrectness"": false, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}"
+5,"int IsPalindrome(char *word)
+{
+    int left = 0;
+    int right = (int)strlen(word) - 1;
+    
+    while (left < right) {
+        if (word[left] != word[right]) {
+            return 0;
+        }
+        left++;
+        right--;
+    }
+    return 1;
+}",What is the purpose of the 'while (left < right)' condition in this function?,It ensures that the loop continues as long as there are unmatched character pairs from the beginning and end of the string that need to be checked.,Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}","If the input to IsPalindrome is the string ""level"", how many times will the while loop execute before the function returns?",The while loop will execute 2 times before the function returns.,Apply,"{""Correctness"": true, ""AnswerCorrectness"": false, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What change would you make to the IsPalindrome function to allow it to also handle empty strings correctly as palindromes?,"I would add a check at the start of the function to return 1 if the input string is empty, since an empty string is considered a palindrome.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 2, ""RevisedBloomsTaxonomyLevel"": ""Apply""}"
+6,"int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    for (int i = 0; i < length/2; i++) {
+        if (word[i] != word[length-i-1]) {
+            return 0;
+        }
+    }
+    return 1;
+}",What is the purpose of comparing 'word[i]' and 'word[length-i-1]' in the for loop of this function?,It checks whether the character at position i from the start matches the character at the same position from the end to determine if the string is a palindrome.,Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}","When the input word is 'level', how many times does the for-loop in IsPalindrome execute, and why?","The for-loop executes 2 times because for a 5-letter word, length/2 is 2 (integer division), so i goes from 0 to 1.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What change would you suggest to modify this function so that it ignores spaces while checking if a word is a palindrome?,"I'd add logic to skip space characters when comparing characters from the beginning and end, so that spaces are ignored when determining if the string is a palindrome.",Create,"{""Correctness"": true, ""AnswerCorrectness"": false, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}"
+7,"int IsPalindrome(char *word)
+{
+
+int length = strlen(word);
+
+int left = 0;
+int right = length - 1;
+
+while (left < right) 
+{
+    if (word[left] != word[right])
+    
+    {
+        return 0;
+    }
+    
+    left++;
+    right--;
+}
+
+return 1;
+    
+}",What is the purpose of the 'while (left < right)' condition in this function?,It ensures that character comparisons continue only as long as there are unreached pairs from the opposite ends of the word moving towards the center.,Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}","If the input to IsPalindrome is the string ""madam"", what will the variables 'left' and 'right' be compared in each iteration of the while loop, and which comparisons are made?","In the first iteration, 'word[0]' ('m') is compared to 'word[4]' ('m'); in the second iteration, 'word[1]' ('a') is compared to 'word[3]' ('a'); since left then becomes equal to right (2), the loop ends.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What change would you make to the function so that it can also correctly identify palindromes in words that contain uppercase letters?,"I would modify the character comparison to convert both word[left] and word[right] to the same case, such as by using the tolower() function from <ctype.h>, before comparing them.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}"
+8,"int IsPalindrome(char *word)
+{
+    int length= strlen(word), p=1;
+
+    if (length== 1){
+        return p;
+    }
+    for (int i=0; i<length/2; i++){
+    if(word[i]!=word[length-1-i]){
+        p=0;
+        return p;
+    }
+    }
+    return p;
+}",What is the purpose of comparing 'word[i]' with 'word[length - 1 - i]' inside the for loop?,"It checks whether the character at the i-th position from the start is equal to the character at the corresponding i-th position from the end, which is necessary to verify if the string is a palindrome.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}","When the input word is ""madam"", how many times does the loop 'for (int i=0; i<length/2; i++)' execute, and why?","The loop executes 2 times because 'length' is 5, so 'length/2' equals 2 (integer division), resulting in iterations for i = 0 and i = 1.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",Suggest one change to the IsPalindrome function that would allow it to correctly handle empty strings as palindromes.,"Modify the function to check if the input string length is zero, and if so, return 1 to consider an empty string as a palindrome.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}"
+9,"int IsPalindrome(char *word) {
+  int len = strlen(word);
+  for (int i = 0; i < len / 2; i++) {
+    if (word[i] != word[len - i - 1])
+      return 0;
+  }
+  return 1;
+}",What is the purpose of comparing 'word[i]' with 'word[len - i - 1]' in the for loop of the IsPalindrome function?,"It checks if the character from the start of the string matches the corresponding character from the end, ensuring the word reads the same forwards and backwards.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}","If the input to IsPalindrome is the string ""radar"", how many times will the for loop execute?","The for loop will execute 2 times because it iterates from i = 0 up to (but not including) len / 2, and the length of ""radar"" is 5, so len / 2 is 2.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}","What change would you make to this function to allow it to correctly handle input strings that may contain uppercase letters as well as lowercase letters, and why?","I would modify the comparison so that both characters are compared in the same case, for example by converting both to lowercase using tolower(), to ensure that 'A' and 'a' are considered equal and the function works for mixed-case inputs.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}"
+10,"int IsPalindrome(char *word)
+{
+    int i = 0;
+    int j = 0;
+    int test = 0;
+
+    while (word[i] != '\0') {
+        i++; //counts then number of characters till null ie abcba would be 5
+    }
+    if (i == 1) {
+        return test = 1; //if only one letter, then always true
+    }
+
+
+    for (j = 0; j < i/2; j++) { // from 0 to i/2 and from i to i/2
+        if (word[j] == word [i-j-1]) {
+            test = 1;
+        }
+        else {
+            test = 0;
+            return test;
+        }
+    }
+    return test;
+}",What is the purpose of comparing 'word[j]' with 'word[i-j-1]' in the for loop of this function?,"It checks whether the character from the start (at index j) matches the corresponding character from the end (at index i-j-1) of the word, to determine if the word is symmetric like a palindrome.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}","If the input is the string 'abca', what value does 'test' have when the for-loop exits, and why?","'test' will have the value 0 because the characters at positions 0 and 3 ('a' and 'a') match and set 'test' to 1, but at positions 1 and 2 ('b' and 'c') they don't match, causing 'test' to be set to 0 and returned immediately from the function.",Apply,"{""Correctness"": false, ""AnswerCorrectness"": false, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": false, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What specific change could you make to improve the efficiency of counting the length of the string in this code?,You can replace the manual loop that counts characters with the built-in strlen() function to directly obtain the string's length more efficiently.,Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}"
+11,"#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
+
+int IsPalindrome(char *word)
+{
+    int pal = true;
+    
+    for (int i = 0; i <= (strlen(word)-1); i++) {
+        if (word[i] != word[strlen(word)-1-i]) {
+            pal = false;
+        }
+    }
+    return pal;
+}",What is the intent of using 'word[strlen(word)-1-i]' in the comparison within the for loop of the IsPalindrome function?,"It accesses the character at the position symmetric to i from the end of the string, allowing the function to compare pairs of characters from the start and end moving towards the center.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}","Given the loop boundary 'i <= (strlen(word)-1)' in the for loop, how many times will the loop run if the input word is 'noon'?","The loop will run 4 times, once for each character in the string 'noon'.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What change would you make to the loop condition in the IsPalindrome function to improve its runtime efficiency?,"The loop should run only while i is less than strlen(word)/2, as comparing pairs beyond the halfway point is unnecessary.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 4, ""RevisedBloomsTaxonomyLevel"": ""Analyse""}"
+12,"int IsPalindrome(char *word) {
+    size_t length = strlen(word);
+    if (length == 1) return 1;
+
+    for (int left = 0; left < length / 2; left++) {
+        int right = length - left - 1;
+        if (word[left] != word[right]) {
+            return 0;
+        }
+    }
+
+    return 1;
+}",What is the purpose of comparing 'word[left]' and 'word[right]' within the loop in this code?,"It checks whether the characters at symmetric positions from the start and end of the word are the same, which is necessary to determine if the word is a palindrome.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}","If the input to IsPalindrome is ""racecar"", how many times will the for loop execute before the function returns?","The for loop will execute three times before returning, comparing each pair of characters from the ends towards the center.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}","What change would you make to the function so that it correctly treats empty strings as palindromes, and why is this change necessary?","I would add a check at the start of the function to return 1 if the input string's length is zero, because an empty string is usually treated as a palindrome by definition.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Analyse""}"
+13,"int IsPalindrome(char *word)
+{
+    int stringSize, checkUpperLimit;
+    int i;
+
+    // Determine the size of the string and how many
+    // characters to check.
+    stringSize = strlen(word);
+    checkUpperLimit = stringSize / 2;
+
+    // Check for any cases which make the word not a palindrome
+    for (i = 0; i < checkUpperLimit; i++) {
+        if (word[i] != word[stringSize - i - 1]) {
+            return 0;
+        }
+    }
+
+    // If program makes it this far, word must be a palindrome.
+    return 1;
+}",What is the purpose of using 'word[stringSize - i - 1]' in the comparison inside the for loop?,"It accesses the character at the symmetric position from the end of the string to compare it with the character from the start, checking if both positions match.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}","Given the code's use of 'checkUpperLimit = stringSize / 2', how many comparisons does the for loop perform for a 7-character string?",The loop performs 3 comparisons because 7 divided by 2 using integer division is 3.,Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}","What single change would you make to the IsPalindrome function to allow it to handle words that contain uppercase letters as palindromes as well, assuming only standard libraries?","You would convert each character to lowercase using tolower() before comparing, such as comparing tolower(word[i]) with tolower(word[stringSize - i - 1]).",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}"
+14,"int IsPalindrome(char *word)
+{
+    int i = 0;
+    int j = strlen(word)-1;
+    while (word[i] == word[j]){
+        i++;
+        j--;
+        if (i == strlen(word)) {
+            return 1;
+        }
+    }
+    return 0;
+}",What is the purpose of updating both 'i++' and 'j--' within the while loop in this function?,"It moves 'i' forward from the start of the word and 'j' backward from the end, allowing the function to compare matching characters from both ends towards the center.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}","If you apply the IsPalindrome function to the input 'noon', what will happen in the while loop and what value will the function return?","For the input 'noon', the while loop will compare matching characters from the ends and move i and j towards the center; once i equals strlen(word), the function returns 1, indicating the word is a palindrome.",Apply,"{""Correctness"": false, ""AnswerCorrectness"": false, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",How could you modify the stopping condition in the while loop to make the palindrome check more efficient and correct for all string lengths?,"You should change the while loop to check 'i < j' as the condition, so the loop only compares necessary character pairs and handles both even and odd length strings correctly.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 4, ""RevisedBloomsTaxonomyLevel"": ""Analyse""}"
+15,"int IsPalindrome(char *word)
+{
+    int length = 0;
+    
+    while (word[length] != '\0')
+        length++;
+
+    for (int i = 0; i < length / 2; i++)
+        if (word[i] != word[length - i - 1])  
+            return 0;
+    return 1;
+}",What is the purpose of the condition 'word[i] != word[length - i - 1]' in the for loop of this function?,It compares the character at position i from the start of the string with the character at the corresponding position from the end to check if they are the same.,Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}","If the input word is 'level', how many times will the 'if (word[i] != word[length - i - 1])' comparison be evaluated in this function?","The comparison will be evaluated 2 times, once for i = 0 and once for i = 1, since length is 5 and the loop runs while i < length / 2.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}","What modification would you suggest to make the code more concise or efficient, given that the standard strlen() function can be used?",I would suggest replacing the manual length calculation with the built-in strlen() function to make the code shorter and potentially more efficient.,Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 4, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}"
+16,"int IsPalindrome(char *word)
+{
+    int palindromic = 1;
+	int length = strlen(word) - 1;
+	for (int i = 0; i < length; i++) {
+		if (word[i] != word[length - i]) {
+			palindromic = 0;
+		}
+	}
+
+	return palindromic;
+}",What is the purpose of comparing 'word[i]' and 'word[length - i]' in this for loop?,"It checks whether the character from the start matches the corresponding character from the end, which is necessary to determine if the word is a palindrome.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}","According to operator precedence, what does the expression 'word[length - i]' access in each iteration of the for loop?","It accesses the character in the string located at the position counted from the end, matching the position of the character from the start at index i.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 4, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What change would you suggest to the loop condition or its range to make the IsPalindrome function both correct and more efficient for checking if a word is a palindrome?,"The loop should run only up to length / 2, and return 0 immediately upon finding a mismatch, making the check correct and increasing efficiency.",Create,"{""Correctness"": false, ""AnswerCorrectness"": false, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Analyse""}"
+17,"int IsPalindrome(char *word)
+{
+    int len = strlen(word);
+    for (int i = 0; i<len/2; i++) {
+        if (word[i] != word[(len-1-i)]) {
+            return 0;
+        }
+    }
+    return 1;
+}",What is the purpose of using 'len-1-i' as the index when comparing characters in the word array?,"It accesses the character from the end of the string that corresponds to the character at position i from the start, allowing the function to compare matching pairs from both ends toward the center.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}","What specific change would you suggest to the IsPalindrome function to handle strings with spaces and punctuation as palindromes (for example, ""nurses run"")?","I would modify the function to skip over any non-alphabetic characters when comparing letters from both ends, so spaces and punctuation don't affect the palindrome check.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 4, ""AppropriatenessOfDifficultyForCS1"": 4, ""RevisedBloomsTaxonomyLevel"": ""Create""}","For the input word ""deified"", how many times will the for loop in IsPalindrome run before returning a value?","The for loop will run 3 times, checking indices 0 with 6, 1 with 5, and 2 with 4 before returning 1.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+18,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    int counter = 0;
+for (int i = 1;i<= length;i++)
+{
+    if (word[i-1] == word[length-i])
+    {
+        counter = counter+1;
+    }
+    else if ((word[i-1] != word[length-i]))
+    {
+        counter = counter;
+    }
+    
+    
+}
+if (counter == length)
+{
+    return 1;
+}
+else {
+    return 0;
+}
+
+}",What is the purpose of using 'word[i-1] == word[length-i]' inside the if condition in the for loop?,"It checks whether the character at the (i-1)th position from the start of the string matches the character at the (length-i)th position from the end, helping compare corresponding characters for palindrome checking.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What change would you suggest to make the IsPalindrome function more runtime efficient for checking if a word is a palindrome?,"I would change the loop to only iterate up to half the length of the word, since comparing each character to its counterpart once is sufficient for checking for a palindrome.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 4, ""RevisedBloomsTaxonomyLevel"": ""Evaluate""}","What value will the 'counter' variable have after the for loop finishes executing if the input to IsPalindrome is the word 'aba', and why?","The 'counter' will be 3 because for each character position, the if condition 'word[i-1] == word[length-i]' is true, so the counter is incremented during all three iterations.",Apply,"{""Correctness"": false, ""AnswerCorrectness"": false, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Analyse""}"
+19,"int IsPalindrome(char* word) {
+	int length = strlen(word);
+
+	int i = 0;
+	int flag = 1;
+	//printf(""i=%d, flag=%d, length=%d, halfway=%d\n"", i, flag, length, floor(length / 2) - 1);
+	while (flag == 1 && i<=floor(length/2)-1) {
+		//printf(""i=%d: %c -- %c\n"", i, word[i], word[length - 1 - i]);
+		if (word[i] != word[length - 1 - i]) {
+			//printf(""%c -- %c\n"", word[i], word[length-1-i]);
+			flag = 0;
+			break;
+		}
+		i++;
+	}
+	return flag;
+}",What is the purpose of 'word[length - 1 - i]' in the comparison inside the if statement?,"It accesses the character from the end of the word that corresponds to the current character from the start, allowing comparison of mirrored characters to check for a palindrome.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}","How would you modify the function to correctly handle palindromes with odd lengths, considering the condition in the while loop?",Replace 'i<=floor(length/2)-1' with 'i < length/2' in the while loop so that the function checks all necessary character pairs for both odd and even length words.,Create,"{""Correctness"": false, ""AnswerCorrectness"": false, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}","According to the while loop condition 'i<=floor(length/2)-1', for a word of length 5, what is the highest value of i that will be checked before the loop ends?","The highest value of i checked will be 1, because floor(5/2) - 1 is 1.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+20,"int IsPalindrome(char string[]) {
+
+	int is_identical = 0;
+	int string_length = strlen(string);
+
+	char new_string[100];
+
+	for (int i = 0; i < string_length; i++) {
+
+		new_string[i] = string[string_length - 1 - i];
+
+	}
+
+	new_string[string_length] = '\0';
+
+	if (strcmp(string, new_string) == 0) {
+
+		is_identical = 1;
+
+	}
+
+	return is_identical;
+}",What is the purpose of 'new_string[i] = string[string_length - 1 - i];' in the for loop?,"It copies characters from the original string to new_string in reverse order, effectively reversing the original string.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What change could you make to improve the memory efficiency of this function so it does not use an extra array when checking for palindromes?,"Instead of creating a new string, you can compare characters from the start and end of the original string moving towards the center, returning 0 if any mismatch is found and 1 if all pairs match.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 4, ""RevisedBloomsTaxonomyLevel"": ""Analyse""}","When the input string is ""racecar"", what will be the value stored in new_string after the for loop completes?","The value stored in new_string will be ""racecar"" with a null-terminator at the end.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+21,"int IsPalindrome(char *word)
+{
+   int length = 0;
+    while (word[length] != '\0')
+    {
+        length++;
+    }
+    // printf(""Length = %d\n"", length);
+    
+    
+    // printf(""odd\n"");
+    // printf(""length/2 = %d"", length/2);
+    for (int j = 0; j < (length/2); j++)
+    {
+        // printf(""word[j] == %c\n"", word[j]);
+        // printf(""other = %c\n"", word[length-j-1]);
+        if (word[j] != word[length-j-1])
+        {
+            return 0;
+        }
+    }
+    
+
+  
+
+    //printf(""%d\n"", i/2); // if length =3 prints 1
+
+    return 1; 
+}",What is the purpose of comparing 'word[j]' with 'word[length-j-1]' in the for loop of this function?,"It checks if the characters from the start and end of the string are the same, ensuring the word is the same forwards and backwards.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}","How would you modify the IsPalindrome function to use the strlen() function instead of manually calculating the length, in order to make the code cleaner and more concise?",Replace the manual length calculation with 'int length = strlen(word);' at the beginning of the function.,Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 2, ""RevisedBloomsTaxonomyLevel"": ""Apply""}","When the for loop uses 'j < (length/2)' as its condition, how many times will the loop execute for a word of length 7, and which character pairs will be compared?","The loop will execute 3 times (for j = 0, 1, and 2), comparing character pairs (word[0] with word[6]), (word[1] with word[5]), and (word[2] with word[4]).",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+22,"int IsPalindrome(char *word)
+{
+    for (int i = 0; i < (strlen(word)) / 2; i++) {
+		if (word[i] != word[strlen(word) - i - 1]) {
+			return 0;
+		}
+	}
+	return 1;
+}",What is the purpose of using 'strlen(word) - i - 1' as an index in 'word[strlen(word) - i - 1]' within the for loop?,"It accesses the character in the word that is the same distance from the end as 'i' is from the beginning, allowing comparison of mirrored characters to check for a palindrome.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}","What change can you suggest to make this function more runtime efficient, specifically regarding repeated use of strlen(word) in the loop condition and body?","Store the value of strlen(word) in a variable before the loop so it is computed only once, rather than repeatedly calling strlen(word) inside the loop.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 4, ""RevisedBloomsTaxonomyLevel"": ""Analyse""}","How many times will the for loop in IsPalindrome run if the input word is ""level"", and what does each iteration compare?","The loop runs 2 times, comparing the first and last characters, then the second and second-to-last characters of the word.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+23,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+	int palindrome = 0;
+	int length = strlen(word);
+for( int i = 0; i < length; i++) {
+	if(word[i] == word[length - 1 - i]) {
+		palindrome = 1;
+	} else {
+		palindrome = 0;
+		break;
+	}
+}
+  return palindrome;
+}",What is the purpose of comparing 'word[i]' to 'word[length - 1 - i]' in the for loop of the IsPalindrome function?,"It checks if each character from the start of the word matches the corresponding character from the end, which is necessary to determine if the word reads the same forwards and backwards.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What change would you make to the for loop condition to improve the function's runtime efficiency while still correctly determining if 'word' is a palindrome?,"The loop should only run until i < length / 2, since comparing the first half to the second half is sufficient to check for a palindrome.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}","In the loop condition 'i < length', how does this affect the number of character comparisons performed when checking if the input word is a palindrome?","It causes the loop to compare every character in the word, including each pair twice, instead of just the necessary pairs up to the middle.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+24,"int IsPalindrome(char *word)
+{
+    int len = strlen(word);
+    int i = 0;
+    for (i = 0; i < len/2; i++) {
+        if (word[i] != word[len - 1 - i]){
+            return 0;
+        }
+    }
+
+    return 1;
+}",What is the purpose of comparing 'word[i]' with 'word[len - 1 - i]' in the for loop?,"It checks if the character at the current position from the start matches the corresponding character from the end, which is necessary to determine if the word is a palindrome.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}","What specific change would you suggest to allow IsPalindrome to correctly handle empty strings in addition to non-empty ones, and why?","I would add a check at the start of the function to return 1 if word[0] is the null character, since an empty string should be considered a palindrome.",Create,"{""Correctness"": false, ""AnswerCorrectness"": false, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 4, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Analyse""}","If the input to IsPalindrome is the string ""level"", how many times will the for loop execute, and why is this the case based on the loop's condition?","The loop will execute 2 times because it runs from i = 0 up to (but not including) i = len/2, and for a five-letter word, len/2 is 2 (integer division), so i takes the values 0 and 1.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+25,"int IsPalindrome(char *word)
+{
+    int length = 0;
+    char reverse[100] = """";
+
+
+    while (word[length] != '\0')
+    {
+        length++;
+    }
+    
+
+    for (int i = 0; i < length; i++)
+    {
+        reverse[i] = word[length - 1 - i];
+    }
+    reverse[length] = '\0';
+
+
+    for (int j = 0; j < length; j++)
+    {
+        if (reverse[j] != word[j])
+        {
+            return 0;
+        }
+    }
+
+    
+    return 1;
+}",What is the purpose of 'reverse[i] = word[length - 1 - i];' in the function?,"It copies the characters from the end of the input word to the beginning of the reverse array, effectively creating the reversed version of the input word.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What change would you make to the code to improve its runtime efficiency when checking if a string is a palindrome?,"Avoid creating and comparing a reverse string; instead, compare characters directly from both ends of the input string moving toward the center.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 4, ""RevisedBloomsTaxonomyLevel"": ""Analyse""}","In the loop 'for (int i = 0; i < length; i++) { reverse[i] = word[length - 1 - i]; }', what value will reverse[0] have after this loop completes if word is ""racecar""?","reverse[0] will have 'r', the last character of the input word ""racecar"".",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 2, ""RevisedBloomsTaxonomyLevel"": ""Apply""}"
+26,"int IsPalindrome(char* word) {
+	if (strlen(word) == 1) {
+		return 1;
+	}
+	for (int i = 0; i < strlen(word)/2; i++) {
+		if (!(word[i] == word[strlen(word) - i - 1])) {
+			return 0;
+		}
+	}
+	return 1;
+}",What is the purpose of 'word[strlen(word) - i - 1]' in the comparison inside the loop?,"It accesses the character at the mirrored position from the end of the string, allowing the function to compare corresponding characters from the start and end moving towards the center.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What change would you suggest to improve the runtime efficiency of the for-loop that compares characters in this function?,Store the result of strlen(word) in a variable before the loop to avoid recalculating the string length on every iteration.,Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 4, ""RevisedBloomsTaxonomyLevel"": ""Analyse""}","If the input to IsPalindrome is the string ""abcba"", what value of i will cause the if condition in the for loop to evaluate to true, and why?","No value of i will cause the if condition to evaluate to true because each character at position i matches the character at the symmetric position from the end, so the loop completes and the function returns 1.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+27,"#include <stdio.h>
+#include <string.h>
+int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    int isPalidrome = 0;
+    int opposite = length - 1;
+    int counter = 0;
+    
+    for (int i = 0; i < length/2; i++) {
+        if (word[i] == word[opposite]) {
+            counter++;
+        }
+        opposite--;
+    }
+    
+    if (counter == length/2) {
+        isPalidrome = 1;
+    }
+    
+    return isPalidrome;
+}",What is the purpose of the 'opposite' variable and how is it used in the for loop?,"The 'opposite' variable tracks the index of the character from the end of the string that is compared with characters from the start, enabling comparison between symmetric letters in the word.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",Suggest a change to the IsPalindrome function that fixes a logical bug affecting its correctness and briefly state why this change is necessary.,"The variable name 'isPalidrome' is misspelled and it should be initialized to 1 and set to 0 when a mismatch occurs; also, comparing characters using '==' and incrementing a counter is unnecessary—return 0 immediately when a mismatch is found, and return 1 at the end if none are found, to properly check for palindromes.",Create,"{""Correctness"": false, ""AnswerCorrectness"": false, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Analyse""}","What value will the variable 'counter' hold after the for loop completes when the input word is ""level""?","It will hold the value 2, since both pairs of characters compared at positions (0,4) and (1,3) are equal.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+28,"#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+	int length = strlen(word);
+	char org[100];
+	strcpy(org, word);
+	
+	
+	for (int i = 0; i < (length/2); i++)
+	
+	{
+		char temp = org[i];
+		org[i] = org[length - 1 - i];
+		org[length -1 - i] = temp;
+				
+	}
+	
+	int result = strcmp(org, word);
+	
+	if (result == 0) {
+		return 1;
+	} 
+	else {
+		return 0;
+	}
+		
+	
+	
+}",What is the purpose of swapping org[i] with org[length - 1 - i] in the for loop inside the IsPalindrome function?,It reverses the original word stored in org by swapping characters from the start and end towards the center.,Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",How would you modify the IsPalindrome function to improve its memory efficiency by avoiding the use of the org array during the palindrome check?,"The function can be modified to compare characters in the original string directly (word[i] with word[length-1-i]) without creating or using the org array, thus saving memory.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 4, ""RevisedBloomsTaxonomyLevel"": ""Apply""}","After the for-loop has executed, what will the contents of the 'org' array be if the input word is 'level'?","After the loop, 'org' will contain the string 'level' in reverse order, which is 'level'.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+29,"int IsPalindrome(char *word)
+{
+    int length=strlen(word);
+    for (int i=0; i<length/2; i++) {
+        if (word[i]!=word[length-1-i]) {
+            return 0;
+        }
+    }
+    return 1;
+}",What is the purpose of comparing 'word[i]' with 'word[length-1-i]' in the for loop?,"It checks whether the character from the front of the string matches the corresponding character from the end, which is necessary to determine if the word is a palindrome.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What change would you suggest to make the IsPalindrome function handle empty strings correctly as palindromes?,Add a condition at the beginning of the function to return 1 if the input string has length zero.,Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 4, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}","Given the loop condition 'i<length/2' in this function, how many character comparisons are performed when checking a word with 7 characters?","The loop will perform 3 character comparisons because length/2 equals 3 when length is 7, and i goes from 0 to 2.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+30,"int IsPalindrome(char *word)
+{
+ size_t length = strlen(word);
+ int halfsize = length/2;
+ 
+ 
+ for (int i = 0; i< halfsize; i++){
+  if (word[i] != word[length -1 -i]) {
+   return 0;
+  }
+}
+return 1;
+}",What is the purpose of comparing word[i] with word[length - 1 - i] inside the for loop in this function?,It checks if the character from the start of the word matches the corresponding character from the end to determine if the word reads the same forwards and backwards.,Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}","How would you modify the IsPalindrome function to correctly handle input strings that include spaces or punctuation, treating only alphabetic characters when checking for a palindrome?","I would modify the loop to skip over non-alphabetic characters when comparing characters from the start and end, by advancing indices accordingly, so that only letters are compared for palindrome checking.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 4, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}","Given the calculation 'word[length -1 -i]' in the for loop, how does this determine which character to compare with 'word[i]' each time through the loop?","It selects the character from the end of the string that corresponds to the current position i from the start, so each character at index i is compared to its mirrored counterpart at index length - 1 - i.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+31,"int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    for (int i = 0; i < length/2; i++) {
+        if (word[i] != word[length - i - 1]) {
+            return 0;
+        }
+    }
+    return 1;
+    
+}",What is the purpose of using 'word[length - i - 1]' as an index in this function?,"It accesses the character from the end of the string that corresponds to the character at position i from the start, allowing comparison of mirrored characters to check for a palindrome.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}","What modification would you make to the IsPalindrome function to correctly handle strings that include spaces or punctuation, treating them as potential palindromes if their letters match when ignoring those characters?","I would update the function to skip over spaces and punctuation when comparing characters, so that only the letters are checked for palindromic order.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}","If the input to IsPalindrome is the string ""madam"", how many times will the for loop execute, and why?","The for loop will execute 2 times because the loop condition is i < length/2, which for a 5-letter word evaluates to i < 2, meaning i takes values 0 and 1.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+32,"int IsPalindrome(char *word)
+{
+    int i;
+    int length = strlen(word);
+            if(length == 1)
+            {
+            return 1;
+            }
+
+    for(i=0; i < length/2; i++)
+    {
+        if (word[i] != word[length - 1 - i])
+        {
+            return 0;
+        }
+
+    }
+    return 1;
+}",What is the purpose of using 'word[i] != word[length - 1 - i]' in the if statement inside the loop?,"It checks whether the character from the front of the string matches the corresponding character from the end, helping to determine if the string is a palindrome.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": false, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}","What change would you suggest to IsPalindrome to make it handle empty strings correctly as palindromes, based on the requirements?","Add a check at the start of the function to return 1 if the input string is empty, so IsPalindrome returns true for empty strings.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}","If the input word is ""level"", how many times will the for loop in this function execute, and what part of the code determines this number?","The for loop will execute 2 times, because it iterates from i = 0 up to (but not including) length/2, and for the five-letter word ""level"", length/2 equals 2.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+33,"int IsPalindrome(char *word)
+{
+	
+	int length = strlen(word);
+	int i;
+	
+	for(i=0 ; i<length/2 ; i++){
+		
+		if(word[i] != word[length-i-1]){
+			return 0;
+		}
+	
+	}
+	
+	return 1;
+
+}","Given the use of 'i < length/2' in the for loop, how many times will the body of the loop execute if the input word has 7 characters?","The body of the loop will execute 3 times, because the condition checks up to (but not including) half the length, so it iterates for i = 0, 1, and 2.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What is the purpose of comparing 'word[i]' and 'word[length-i-1]' in the if statement inside the loop?,It checks whether the character from the start matches the corresponding character from the end to determine if the word reads the same forwards and backwards.,Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What small change could you make to this function so that it can correctly identify palindromes when the string contains uppercase letters as well as lowercase letters?,You could convert both characters being compared to the same case using the tolower() or toupper() function before comparing them.,Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}"
+34,"int IsPalindrome(char str[]) {
+	int left = 0;
+	int right = strlen(str) - 1;
+
+	while (left < right) {
+		if (str[left] != str[right]) {
+			return 0;
+		}
+
+		left++;
+		right--;
+	}
+
+	return 1;
+}","If the input string to IsPalindrome is ""racecar"", what will be the values of 'left' and 'right' when the while loop condition becomes false?",Both 'left' and 'right' will be 3 when the while loop condition becomes false.,Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}",What is the purpose of 'left++' and 'right--' inside the while loop in this function?,They move the left and right indices toward each other so that the function compares the next pair of characters from the outside in.,Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What modification would you suggest to make IsPalindrome ignore spaces when checking if the input string is a palindrome?,I would add logic to skip over spaces when comparing characters by incrementing or decrementing 'left' and 'right' as needed until they point to non-space characters.,Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}"
+35,"int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+
+    char reverse[100];
+    for (int i = 0; i < length; i++) {
+        reverse[length-i-1] = word[i];
+    }
+    reverse[length] = '\0';
+
+    if (strcmp(reverse, word) == 0) {
+        return 1;
+    }
+    return 0;
+}","After executing the for loop that fills the 'reverse' array, what will be the contents of 'reverse' if the input word is ""noon""?","'reverse' will contain the string ""noon"", which is a reversed copy of the input word.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What is the purpose of 'reverse[length-i-1] = word[i];' in the function?,"It places each character from the input word into the reverse array in the opposite order, effectively building the reversed version of the input string.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What change could you make to the IsPalindrome function to avoid using extra memory for the reverse array and improve its memory efficiency?,"You could compare characters from the start and end of the word directly within a loop, eliminating the need for the reverse array.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 4, ""RevisedBloomsTaxonomyLevel"": ""Apply""}"
+36,"int IsPalindrome(char *word)
+{   int wordLength = strlen(word);
+    for (int i = wordLength -1; i >= 0; i--)
+    {
+        if (word[i]  !=  word[wordLength - 1 - i])
+        {
+            return 0;
+        }
+    }
+    return 1;
+    
+}","According to how the loop is structured in this function, how many times will the if-condition be checked for a 5-character word?","The if-condition will be checked 5 times, once for each value of i from 4 down to 0.",Apply,"{""Correctness"": false, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 2, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What is the purpose of using 'wordLength - 1 - i' as an index in the comparison inside the for loop?,"It accesses the character from the end of the string that corresponds to the character at position i from the start, allowing the code to compare matching characters from opposite ends.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",Identify and describe one change you would make to the for loop to improve this function's efficiency when checking for a palindrome.,"The loop should only run until the midpoint of the word (i < wordLength / 2) instead of checking every character, as comparing both halves is sufficient to determine if it is a palindrome.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Analyse""}"
+37,"int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    for (int i=0; i < length/2; i++){
+        if (word[i] != word[length-i-1])
+        {
+            return 0;
+        }
+    }
+    return 1;
+}","For the input string ""madam"", how many times will the for loop in the IsPalindrome function execute?","The for loop will execute 2 times for the input ""madam"".",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 2, ""RevisedBloomsTaxonomyLevel"": ""Apply""}",What is the intent of comparing 'word[i]' to 'word[length-i-1]' inside the loop in the IsPalindrome function?,"This comparison checks if the characters at symmetrical positions from the start and end of the string are the same, which is necessary to determine if the word reads the same forwards and backwards.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What modification would you make to the IsPalindrome function so that it treats words with mixed uppercase and lowercase letters as palindromes if the letters match regardless of case?,"I would convert both characters being compared to the same case, such as using tolower(word[i]) and tolower(word[length-i-1]), before comparing them.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}"
+38,"int IsPalindrome(char *word) {
+    int length = strlen(word);
+
+    for (int i = 0; i < length; i++) {
+        if (word[i] != word[(length-1) - i]) {
+            return 0;
+        }
+    }
+
+    return 1;
+}",How many times will the for-loop in IsPalindrome run when the input word has six characters?,"The loop will run six times because it iterates from i = 0 up to i < length, with length being 6.",Apply,"{""Correctness"": false, ""AnswerCorrectness"": false, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What is the purpose of using 'word[(length-1) - i]' in the if statement inside the loop?,"It accesses the character from the end of the string that is in the mirrored position to 'i' from the start, so the code can compare characters from both ends to check for palindrome symmetry.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}","What change would you make to the loop condition to improve the efficiency of the IsPalindrome function, and why?","The loop should run while i < length / 2 to avoid unnecessary comparisons after the midpoint, improving runtime efficiency.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Analyse""}"
+39,"int IsPalindrome(char *word)
+{
+    int len = strlen(word);
+    
+    for (int i = 0; i<len/2; i++){
+
+        if(word[i] != word[len-1-i]){
+
+            return 0;
+        }
+
+    }
+    return 1;
+}","For the comparison 'word[i] != word[len-1-i]' inside the for loop, how does this logic correctly check whether the string is a palindrome as per the requirements?","It compares each character from the start of the string to its corresponding character from the end, ensuring that every symmetric pair matches, which is the necessary condition for a word to be a palindrome.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What is the purpose of comparing 'word[i]' and 'word[len-1-i]' in the for loop of this function?,"It checks whether the character from the beginning of the string matches the corresponding character from the end, which is necessary to determine if the word is a palindrome.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}","What change would you make to the IsPalindrome function to allow it to correctly handle palindromes with mixed uppercase and lowercase letters (such as ""NooN"")?","I would modify the comparison to make both characters lowercase (using a function like tolower) before comparing them, so that the function treats uppercase and lowercase letters as equivalent.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}"
+40,"int IsPalindrome(char* word)
+{
+	char temp[100];
+	int len = strlen(word);
+	for (int i = 0; i < len; i++) {
+		temp[i] = word[len - 1 - i];
+	}
+	temp[len] = '\0';
+	return (strcmp(temp, word) == 0);
+
+}","If the input to IsPalindrome is the string ""deed"", what will be the value of temp after the for-loop completes?","temp will contain the string ""deed"" after the for-loop finishes.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What is the purpose of using 'word[len - 1 - i]' as the index in the for loop inside the IsPalindrome function?,It accesses the characters of the input word in reverse order so each character is copied from the end of the word to the beginning of the temp array.,Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",Suggest a change to the code that would make the IsPalindrome function more memory efficient without affecting its correctness.,"You can avoid creating the temp array and instead compare characters from the start and end of the word directly in a loop, returning 0 if any mismatch is found; this removes the need for extra memory.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 4, ""RevisedBloomsTaxonomyLevel"": ""Create""}"
+41,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word) {
+    int L = strlen(word);
+    
+    for  (int i = 0; i<L/2; i++) {
+        if (word[i] != word[L -1 -i]) {
+            return 0;
+        }
+    }
+    
+    return 1;
+}","If the input to IsPalindrome is the string ""abba"", how many times will the loop in the function body execute?","The loop will execute 2 times, because for a string of length 4, i goes from 0 to 1 (i < 2).",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 2, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What is the purpose of comparing 'word[i]' with 'word[L - 1 - i]' in the for loop inside the IsPalindrome function?,It checks whether the characters from the beginning and end of the string are the same to determine if the word reads the same forwards and backwards.,Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}","What change would you make to the IsPalindrome function to handle input strings that contain spaces (e.g., 'nurses run'), assuming only letters and spaces are present?",I would modify the comparison to skip spaces by advancing indices i and L-1-i past any spaces before comparing characters at those positions.,Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 4, ""RevisedBloomsTaxonomyLevel"": ""Apply""}"
+42,"int IsPalindrome(char *word)
+{
+    size_t finalnum = strlen(word);
+    int end = finalnum;
+    for (int i = 0; i < finalnum; i++) {
+        if (word[i] != word[end-1-i]) {
+            return 0;
+        }
+    }
+    return 1;
+}","If the input to IsPalindrome is the string ""abcba"", how many times will the 'for' loop execute, and why?","The loop will execute 5 times because 'finalnum' is 5, so the loop runs from i = 0 to i < 5.",Apply,"{""Correctness"": false, ""AnswerCorrectness"": false, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What is the purpose of using 'word[end-1-i]' in the comparison inside the for loop?,"It accesses the character from the end of the string that corresponds to the character at position i, allowing the function to compare matching characters from both ends to check for a palindrome.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What change would you make to the for-loop condition to make the function more runtime efficient and why?,"The loop should run only while i < finalnum/2, since after checking the midpoint, all character pairs have been compared and further iterations are redundant.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 4, ""RevisedBloomsTaxonomyLevel"": ""Analyse""}"
+43,"int IsPalindrome(char *word)
+{
+   
+
+   for (int i = 0; i<strlen(word); i++){
+    if (word[i] != word[strlen(word)-1-i]){
+        return 0;
+    }
+   }
+   return 1;
+
+}","If the input to IsPalindrome is the string ""deed"", how many times will the loop actually execute, and why?","The loop will execute 4 times because it iterates once for each character in the string, from i = 0 up to i = strlen(word) - 1.",Apply,"{""Correctness"": false, ""AnswerCorrectness"": false, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Analyse""}",What is the purpose of using 'strlen(word)-1-i' as the index for the word array in the comparison inside the for loop?,"It accesses the character from the end of the string that corresponds to the character at position i from the start, allowing comparison of characters from both ends toward the center to check for a palindrome.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What change could you make to the for loop to improve the runtime efficiency of this function without changing its behavior?,"You could replace 'i < strlen(word)' with 'i < strlen(word) / 2' so that the loop only checks each pair once, since checking beyond the middle is redundant.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 4, ""RevisedBloomsTaxonomyLevel"": ""Analyse""}"
+44,"int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    for (int i=0; i<length; i++) {
+        if (word[i]!= word[length-i-1]) {
+            return 0;
+        }
+    }
+    return 1;
+}","For the input ""racecar"", how many times will the 'if' condition inside the for loop be checked in the IsPalindrome function?","It will be checked 7 times, once for each character since the loop runs from i = 0 up to i < length (where length is 7).",Apply,"{""Correctness"": false, ""AnswerCorrectness"": false, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What is the purpose of using 'word[length-i-1]' in the condition inside the for loop?,"It accesses the character from the end of the string that corresponds to the character at position i from the start, allowing comparison of characters from both ends towards the center.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",How would you modify the for-loop's range to improve the function's efficiency while still correctly checking for palindromes?,"Change the loop to stop at i < length/2, since checking beyond the halfway point repeats comparisons already made.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 4, ""RevisedBloomsTaxonomyLevel"": ""Apply""}"
+45,"int IsPalindrome(char *word)
+{
+    int i;
+    int length = strlen(word);
+    
+    for (i = 0; i < length/2; i++) {
+        if (word[i] != word[length - 1 - i]) {
+            return 0;
+        }
+    }
+    return 1;
+}","For the input string ""level"", how many times will the for loop in the IsPalindrome function execute?","The for loop will execute 2 times, since strlen(""level"") is 5 and the loop runs while i < 5/2, i.e., i < 2.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What is the purpose of using 'word[length - 1 - i]' as an index in the comparison inside the for loop?,"It accesses the character from the end of the string that corresponds to the current character from the start, allowing the function to compare matching pairs from opposite sides of the word.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}","What change would you suggest to the IsPalindrome function to make it correctly handle words with spaces, such as 'n u r s e s r u n'?",I would suggest modifying the comparison loop to skip spaces by checking if word[i] or word[length - 1 - i] is a space and incrementing or decrementing the corresponding index to ignore spaces during comparison.,Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}"
+46,"int IsPalindrome(char* word)
+{
+	int length = strlen(word)-1;
+
+	for (int i = 0; i <= length / 2; i++) {
+
+		if (word[i] != word[length - i]) {
+
+			return 0;
+		}
+	}
+
+	return 1;
+
+}","According to operator precedence and bounds, how many times will the for-loop execute when IsPalindrome is called with the input ""deed""?","The for-loop will execute 2 times because length is 3, so i goes from 0 to 1 inclusive (i <= 1).",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What is the purpose of 'word[length - i]' in the comparison inside the if statement?,"It accesses the character from the end of the string that corresponds to the character at position i from the start, allowing the function to compare characters from both ends toward the middle.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What is one necessary change you could make to the IsPalindrome function to correctly handle palindromes for single-character inputs or empty strings?,"You should remove the '-1' from 'int length = strlen(word)-1;' and instead set 'length' to 'strlen(word)' directly, then use 'word[length - 1 - i]' in the comparison to handle strings of any length correctly.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Analyse""}"
+47,"int IsPalindrome(char *word)
+{
+   int length;
+	for (int i = 0; word[i] != '\0'; i++) {
+		length = i;
+	   }
+	   if (length%2 == 0) {
+		   for (int i = 0; i <= length/2; i++) {
+			   if (word[i] != word[length - i]) {
+				   return 0;
+			   }
+		   }
+		return 1;	   
+   }
+				   
+		else {
+			for (int i = 0; i <= (length-1)/2; i++) {
+			   if (word[i] != word[length - i]) {
+				   return 0;
+			   }		
+			}
+		return 1; 
+		    
+	}
+}","What value does the variable 'length' hold after the first for loop finishes, and how does this affect the way the palindrome check works in the following code?","After the first for loop, 'length' equals the index of the last character in the word (i.e., string length minus one), which causes the later palindrome checks to compare characters using this index, rather than the string's total length.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 4, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What is the purpose of the condition 'if (word[i] != word[length - i])' in this function?,"It checks whether the characters at mirrored positions from the start and end of the word are the same, which is necessary to determine if the string is a palindrome.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What change would you suggest to make the calculation of the string's length more efficient and reliable instead of how 'length' is currently determined in this code?,"I would use the strlen() function to directly get the length of the string, replacing the for loop that assigns length, which improves efficiency and correctness.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}"
+48,"int IsPalindrome(char *word)
+{
+	int length=(int)strlen(word);
+	int i;
+	for (i=0;i<(length/2);i++){
+		if (word[i]!=word[length-1-i]){
+			return 0;
+		}
+	}
+	return 1;
+}","If the input to the function is the string ""level"", how many times will the for loop in IsPalindrome() execute, and what is the value of 'i' in its last iteration?","The for loop will execute 2 times, and the value of 'i' in its last iteration will be 1.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}",What is the purpose of using 'word[length-1-i]' in the comparison inside the for loop?,"It accesses the character from the end of the string that corresponds to the character at position i from the start, allowing the function to compare matching pairs needed to check for a palindrome.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}","How would you modify the IsPalindrome function so that it correctly identifies palindromes in strings that contain spaces (e.g., 'nurses run')?",You would need to update the function to ignore spaces when comparing characters by skipping spaces in both directions during the loop.,Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 4, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}"
+49,"int IsPalindrome(char *word) {
+    int left = 0;
+    int right = strlen(word) - 1;
+
+    while (left < right) {
+        if (word[left] != word[right]) {
+            return 0;  // not a palindrome
+        }
+        left++;
+        right--;
+    }
+
+    return 1;  // is a palindrome
+}","Based on operator precedence and loop logic, what exact values do 'left' and 'right' have immediately before the loop condition fails in IsPalindrome when the input is a five-letter palindrome word?","For a five-letter palindrome, immediately before the while loop stops, 'left' is 2 and 'right' is 2.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Analyse""}","How would you modify the IsPalindrome function to make it case-insensitive, so that it treats uppercase and lowercase letters as equal when determining if a word is a palindrome?","You would convert both word[left] and word[right] to the same case (using functions like tolower()) before comparing them, so that letter case does not affect the palindrome check.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}",What is the purpose of the condition 'left < right' in the while loop of this function?,"It ensures that characters are only compared from the start and end of the string until the two indices meet or cross, preventing unnecessary checks after that point.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+50,"int IsPalindrome(char *word)
+{
+    int left = 0;
+    int right = strlen(word) - 1;
+
+    while (left < right) {
+        if (word[left] != word[right]) {
+            return 0;
+        }
+        left++;
+        right--;
+    }
+    return 1;
+}","If IsPalindrome is called with the input ""madam"", how many times will the while loop execute before the function returns a value?",The while loop will execute 2 times before the function returns a value.,Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}",How could you modify this function to ignore spaces in the input word when determining if it is a palindrome?,You can update the function to skip over spaces by incrementing 'left' and decrementing 'right' whenever word[left] or word[right] is a space before performing the comparison.,Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}",What is the purpose of 'left++' and 'right--' inside the while loop in this function?,They move the left index forward and the right index backward so that each character from the start and end are compared moving toward the middle of the word.,Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+51,"int IsPalindrome(char* word)
+{
+	int i = 0;
+	int length = strlen(word);
+	
+
+	if (word[i] != word[length-1]) {
+		return 0;
+	}
+	else if (word[i+1] != word[length-2]) {
+		return 0;
+	}
+	else {
+		return 1;
+	}
+}","According to the logic in the function, what will IsPalindrome(""abba"") return, and which operator precedence or logic aspect determines this result?","It will return 1 because only the first and last, then second and second-last characters are compared and both pairs match, and the 'else' block is executed; no loop checks all possible pairs.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What specific change would you make to the function so that it correctly checks all corresponding pairs of characters in any length word to determine if it is a palindrome?,"I would use a loop to compare each character from the start of the word with its corresponding character from the end, returning 0 if any pair does not match; if the loop completes, I would return 1.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}",What is the purpose of using 'word[length-1]' in the comparison within the function?,"It accesses the character at the last position of the string to compare it with the first character, which helps check if the word is the same forwards and backwards.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+52,"#include <stdio.h>
+#include <string.h>
+
+int IsPalindrome(char *word)
+{
+	int start = 0;
+	int end = strlen(word) - 1;
+
+	while (start < end) {
+		if (word[start] != word[end]) {
+			return 0;
+		}
+		start++;
+		end--;
+	}
+	return 1;
+}","If IsPalindrome is called with the input ""racecar"", what value will the function return, and why?","The function will return 1 because, as it compares characters from the start and end moving toward the center, all corresponding characters are equal, so the loop completes and the function returns 1.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 2, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What specific change would you make to allow IsPalindrome to correctly handle empty strings as palindromes according to the problem statement assumptions?,"I would add a check at the start of the function to return 1 if the input string is empty, since an empty string should be considered a palindrome.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}",What is the purpose of the condition 'start < end' in the while loop of the IsPalindrome function?,"It ensures that characters are only compared from the outside in, stopping once the middle of the word is reached so that each relevant pair is checked exactly once.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+53,"#include <stdbool.h>
+
+int IsPalindrome(char *word)
+{
+    int stringLength = strlen(word);
+    bool flag = true;
+    int i = 0;
+    while (flag && i < stringLength / 2) {
+        if (word[i] != word[stringLength - 1 - i]) {
+            flag = false;
+        }
+        i++;
+    }
+    
+    if (flag) {
+        return 1;
+    }
+    else {
+        return 0;
+    }
+}","If the input to IsPalindrome is the string ""level"", after how many iterations of the while loop will the variable i reach the value 2?","After two iterations, since i starts at 0 and is incremented by 1 in each iteration, it will be equal to 2 at the start of the third iteration.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",How would you modify this IsPalindrome function so that it ignores spaces in the input word when checking for a palindrome?,"You would need to skip over spaces when comparing characters by advancing the indices i and stringLength - 1 - i whenever word[i] or word[stringLength - 1 - i] is a space, so that only non-space characters are compared.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}",What is the purpose of the condition 'word[i] != word[stringLength - 1 - i]' in the while loop?,"It checks whether the characters at symmetric positions from the start and end of the string are the same, which is necessary to determine if the word is a palindrome.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+54,"int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    for (int i = 0; i < length; i++) {
+        if (word[i] != word[length - 1 - i]) {
+            return 0;
+        }
+    }
+    return 1;
+}","Given the loop condition 'for (int i = 0; i < length; i++)', how many times will the loop body execute if the input word has 5 characters?","The loop body will execute 5 times, once for each value of i from 0 to 4.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 4, ""AppropriatenessOfDifficultyForCS1"": 2, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What change would you suggest to the loop condition to avoid unnecessary comparisons and thus improve the runtime efficiency of the IsPalindrome function?,"The loop should iterate only up to i < length / 2 instead of i < length, since comparing past the halfway point repeats checks, making the code more efficient.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 4, ""RevisedBloomsTaxonomyLevel"": ""Apply""}",What is the purpose of comparing 'word[i]' with 'word[length - 1 - i]' in the loop of the IsPalindrome function?,"It checks whether the characters from the start and end of the word are the same, moving towards the center to determine if the word is a palindrome.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+55,"int IsPalindrome(char* word)
+{
+	int len = strlen(word);
+	for (int i = 0; i < len/2; i++) {
+		if (word[i] != word[len-i-1]) {
+			return(0);
+		}
+	}
+	return(1);
+}","If the input to IsPalindrome is the string ""level"", will the for loop check the comparison word[2] != word[2], and why or why not?","No, the for loop will not compare word[2] with word[2] because the loop runs only while i is less than len/2, so for ""level"" (length 5), i goes from 0 to 1.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What change would you make to the IsPalindrome function to allow it to correctly check palindrome status for strings that contain uppercase letters as well as lowercase letters?,"I would convert both characters to the same case (either lower or upper) before comparing them, such as using tolower() for each character in the comparison.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}",What is the purpose of comparing 'word[i]' with 'word[len-i-1]' in the for loop of this function?,"It checks whether the character from the start of the word matches the corresponding character from the end, to determine if the string is the same forwards and backwards.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+56,"int IsPalindrome(char* word) {
+	int count;
+	count = 2;
+	if (word[strlen(word)-1] != word[0]) {
+		return 0; // check if last letter = first letter
+	}
+	for (int i = 1; i < strlen(word); i++) {
+		if (word[i] != word[strlen(word) - count]) {
+			return 0;
+		}
+		count++;
+	}
+	return 1;
+
+}","Given the input string ""deed"", what value does the variable 'count' take in each iteration of the for loop, and how does this affect which characters are compared?","For input ""deed"", 'count' starts at 2, then increases by 1 in each loop iteration (becoming 3, 4, etc.), so each time word[i] is compared to word[strlen(word) - count], ensuring characters from the start and end are checked towards the center.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": false, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": false, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Analyse""}",What change would you suggest to make this function more runtime efficient regarding the repeated use of strlen(word) within the loop?,Store the value of strlen(word) in a variable before the loop to avoid recalculating the length of the word in each iteration.,Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}",What is the purpose of using 'word[strlen(word) - count]' in the for loop's comparison?,"It is used to access the character from the end of the string that corresponds to the character being checked from the start, allowing comparison between mirror positions in the word.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+57,"int IsPalindrome(char *word)
+{
+    int strlength = strlen(word);
+    for(int i=0; i<=strlength;i++){
+        if (word[i] != word[strlength-i-1]){
+            return 0;
+        }
+    }
+    return 1;
+}","According to how the for-loop is written, how many times will the loop run when IsPalindrome is called with the word ""noon""?","The loop will run 5 times, iterating with i from 0 to 4 inclusive, because it uses 'i <= strlength' where strlength is 4.",Apply,"{""Correctness"": false, ""AnswerCorrectness"": false, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What specific change would you suggest to correct the loop condition so that IsPalindrome does not access memory outside the string bounds?,The loop condition should be 'i < strlength/2' instead of 'i <= strlength' to prevent accessing characters outside the valid range of the string.,Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 4, ""RevisedBloomsTaxonomyLevel"": ""Apply""}",What is the purpose of using 'word[strlength-i-1]' in the comparison within the if statement?,"It accesses the character in the word that is in the mirrored position from the end, allowing the function to compare characters from opposite ends toward the center.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+58,"int IsPalindrome(char *word)
+{
+    int length = 0;
+    while (word[length] != '\0')
+        length++;
+
+    int a = 0; // start of char array
+    int b = length - 1; // length of char array
+
+    while (a < b) {
+        if (word[a] != word[b]) 
+            return 0;
+        a++;
+        b--;
+        }
+            return 1;
+    }","If the input to IsPalindrome is the string ""madam"", what will be the final value returned, and why does the condition 'if (word[a] != word[b]) return 0;' determine this?","The function will return 1 because for each pair of characters from the start and end, word[a] equals word[b]; the condition only returns 0 if a mismatched pair is found, otherwise the function completes the loop and returns 1.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}","What change would you suggest to make the code more efficient based on the availability of standard string functions, given the problem statement?","Replace the manual while loop that calculates length with 'int length = strlen(word);' to make the code shorter and more efficient, since <string.h> is allowed.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}",What is the purpose of the while(a < b) loop in the IsPalindrome function?,"It compares characters from the start and end of the string moving towards the center to check if they are the same, ensuring the word reads the same forwards and backwards.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+59,"int IsPalindrome(char *word)
+{
+    int left = 0;
+    int right = strlen(word) -1;
+
+    while(left < right)
+    {
+        if(word[left] != word[right])
+        {
+            return 0;
+        }
+        left++;
+        right--;
+    }
+    return 1;
+}","If the input to IsPalindrome is the string ""madam"", how many times will the while loop execute, and why?","The while loop will execute 2 times because left and right pointers move toward each other, comparing first and last characters, then second and second-last, stopping when left is no longer less than right.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}","What change would you make to the IsPalindrome function so it can handle empty strings as valid palindromes, and what would you change in the code to achieve this?","I would update the function to return 1 immediately if the input string is empty, by adding a check 'if (word[0] == '\0') return 1;' at the beginning of the function.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": false, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}",What is the purpose of the condition 'word[left] != word[right]' in the IsPalindrome function?,"It checks whether the characters at the current left and right positions of the word are different, which helps determine if the word is not a palindrome at that point.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+60,"int IsPalindrome(char *word)
+{
+    int length= strlen(word);
+    for (int i=0; i<length/2; i++){
+        if(word[i] != word[length-i-1]){
+            return 0;
+        }
+    }
+    return 1;
+}","If the input to IsPalindrome is the string ""refer"", how many times will the for-loop execute before the function returns?","The for-loop will execute 2 times before the function returns, once for i=0 and once for i=1, since length is 5 and the loop runs while i<2.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What change would you suggest to modify the IsPalindrome function so that it treats upper and lower case letters as equal when checking for palindromes?,"I would convert both characters being compared to the same case, such as using tolower(word[i]) and tolower(word[length-i-1]), before comparing them.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}",What is the purpose of comparing 'word[i]' with 'word[length - i - 1]' inside the for loop?,"It checks if the character at position i from the start of the word matches the corresponding character from the end, which is necessary to determine if the word is a palindrome.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+61,"int IsPalindrome(char *word)
+{
+    int left = 0;
+    int right = strlen(word) - 1;
+
+    while (left < right) 
+    {
+        if (word[left] != word[right]) 
+        {
+            return 0;
+        }
+        left++;
+        right--;
+    }
+    return 1;
+}","If the input to IsPalindrome is the string ""civic"", what values will 'left' and 'right' have immediately before the while loop stops iterating for the last time?","Immediately before the last iteration ends, 'left' will be 2 and 'right' will also be 2.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": false, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}","How would you modify this function so it correctly handles empty strings as palindromes, and what code change would you make?","I would add a check at the start of the function to return 1 if word[0] is the null terminator, because an empty string should also be considered a palindrome.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}",What is the purpose of the condition 'word[left] != word[right]' in the function?,It checks whether the characters at corresponding positions from the start and end of the string are different to determine if the word is not a palindrome.,Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+62,"int IsPalindrome(char *word)
+{
+    	int left = 0;
+	int right = 0;
+	while (word[right] != '\0') {
+		right++;
+	}
+	right--; 
+	while (left < right) {
+		if (word[left] != word[right]) {
+			return 0; 
+		}
+		left++;
+		right--;
+	}
+	return 1; 
+}","If the input to IsPalindrome is the string ""abba"", what are the values of 'left' and 'right' during the final comparison within the second while loop?","During the final comparison, 'left' is 1 and 'right' is 2.",Apply,"{""Correctness"": false, ""AnswerCorrectness"": false, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",How would you modify the code to improve its efficiency by using the strlen() function as allowed by the instructions?,Replace the initial loop for computing right with 'int right = strlen(word) - 1;' so that the string length is calculated directly and more efficiently.,Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}",What is the purpose of 'right--;' after the first while loop in this function?,It sets 'right' to the index of the last character in the string (just before the null terminator).,Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+63,"int IsPalindrome(char *word)
+{
+    int len = strlen(word);
+	
+	for (int i = 0; i <= len/2; i++) {
+		if (word[i] != word[len - 1 - i]){
+			return 0;
+		}
+	}
+	return 1;
+}","In the for-loop 'for (int i = 0; i <= len/2; i++)', what is the exact range of index values that 'i' will take when the input word has 5 characters, and why is this range chosen?","For a 5-character word, 'i' will take values 0, 1, and 2 because len/2 is 2, so the loop runs while i is less than or equal to 2; this checks each character from the start and end up to the center to compare for palindrome symmetry.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What change would you make to the loop condition to fix any logical error and ensure correct palindrome detection for all input lengths?,Change the loop condition from 'i <= len/2' to 'i < len/2' so the function does not incorrectly compare the middle character with itself in odd-length words.,Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 4, ""RevisedBloomsTaxonomyLevel"": ""Analyse""}",What is the purpose of the condition 'word[i] != word[len - 1 - i]' in the for loop of this function?,"It checks whether the character from the start of the string is different from the corresponding character from the end, helping to determine if the word is not a palindrome.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+64,"int IsPalindrome(char *word)
+{
+    int left= 0;
+    int right = strlen(word) - 1;
+}","After executing 'int right = strlen(word) - 1;' for the input ""level"", what value will the variable 'right' hold?",The variable 'right' will hold the value 4.,Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 2, ""RevisedBloomsTaxonomyLevel"": ""Remember""}","What specific change would you make to this function so that it correctly determines whether the input word is a palindrome, based on the intended functionality described?","You should add a loop comparing characters at positions 'left' and 'right', returning 0 if any do not match and 1 if the loop completes, to properly check for a palindrome.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}",What is the purpose of assigning 'right = strlen(word) - 1' in the function?,"It initializes the 'right' variable to the index of the last character in the string, so comparisons can be made from both ends of the word.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+65,"int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    int palindrome = 1;
+        for (int i = 0; i < (length / 2); i++) {
+            if (word[i] != word[length -1 -i]) {
+                palindrome = 0;
+                break;
+            }
+        }
+        if (palindrome == 1) {
+            return 1;
+        }
+        else {
+            return 0;
+    }
+    
+}",What change could you make to the IsPalindrome function to improve its style or efficiency by removing the unnecessary 'palindrome' variable?,"You can return 0 immediately inside the loop when a mismatch is found, and return 1 after the loop ends, eliminating the need for the 'palindrome' variable.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}",What is the purpose of using 'length - 1 - i' as an index when comparing characters in the word?,"It accesses the character from the end of the word that corresponds to the character at position i from the start, allowing the function to compare matching pairs from both ends toward the center.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}","If the input to this function is the word 'level', how many times will the if condition inside the for-loop be evaluated, and why?","It will be evaluated 2 times because the loop runs from i = 0 up to (length / 2) - 1, checking the first and second character pairs for a five-letter word.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+66,"int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    int check = 1;
+    for (int i = 0; i < length / 2; i++) {
+	    if (!(word[i] == word[length - 1 - i])) {
+		check = 0;
+        }
+    }
+    return check;
+    
+}","How could you modify the function so that it immediately returns 0 when a mismatch is found, instead of checking the entire word?","Replace 'check = 0;' with 'return 0;' inside the if statement, and keep 'return 1;' at the end, so the function stops early when a non-matching character pair is detected.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}",What is the purpose of 'word[length - 1 - i]' as used in the comparison inside the for loop?,"It accesses the character from the end of the word that corresponds to the character at position i from the start, allowing the function to compare matching positions from both ends toward the center.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}","According to operator precedence and index calculation, what specific characters are being compared in the if condition inside the for loop during each iteration?",The if condition compares the character at position i from the start with the character at position (length - 1 - i) from the end of the word during each iteration.,Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+67,"int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+
+    int left = 0;
+    int right = length - 1;
+
+    while (left < right) {
+        if (word[left] != word[right]) {
+            return 0;
+        }
+        left++;
+        right--;
+    }
+    return 1;
+    
+}",What single minor change could you suggest to modify this function so that it correctly considers empty strings as palindromes?,"Add a check at the beginning of the function that returns 1 if 'length' is 0, so that empty strings are treated as palindromes.",Create,"{""Correctness"": false, ""AnswerCorrectness"": false, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 2, ""RevisedBloomsTaxonomyLevel"": ""Analyse""}",What is the purpose of the condition 'left < right' in the while loop of this function?,"It ensures that the loop compares characters only from the start and end of the string up to the middle, avoiding repeated or unnecessary comparisons.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}","What will the variables 'left' and 'right' refer to at the moment just before the 'while' loop begins its first iteration, if the input is the string ""noon""?",'left' will be 0 (pointing to the first character of the string) and 'right' will be 3 (pointing to the last character of the string).,Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 2, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+68,"int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    int check = 1;
+    int i = 0;
+    while (i <= length/2) {
+        if (word[i] != word[length - 1 - i]){
+            check = 0;
+            break;
+        }
+        i++;
+    }
+    return check;
+}",How would you modify the while loop condition to ensure all necessary character comparisons are made and prevent skipping the last comparison for odd-length words?,Change the loop condition from 'i <= length/2' to 'i < length/2' so that all required character pairs are compared without comparing the central character with itself.,Create,"{""Correctness"": false, ""AnswerCorrectness"": false, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Analyse""}",What is the purpose of using 'word[length - 1 - i]' in the comparison within the while loop?,"It accesses the character in the word that is the mirror image of the character at position i, allowing the function to compare corresponding characters from the start and end of the string to check if it is a palindrome.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}","If the input word is 'level', how many times will the while loop execute before returning a result?",The while loop will execute 3 times for the input 'level'.,Apply,"{""Correctness"": false, ""AnswerCorrectness"": false, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+69,"int IsPalindrome(char *word) { 
+	int length = strlen(word);
+	for (int i = 0; i < length/2; i++) {
+		if (word[i]!=word[length-1-i]) {
+			return 0;
+		}
+	}
+	return 1;
+}","What modification would you make to allow IsPalindrome() to work correctly if the input string contains spaces or uppercase letters, in addition to lowercase letters?",I would modify the function to ignore spaces and perform a case-insensitive comparison by converting all characters to lowercase before comparing them.,Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 4, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Create""}",What is the purpose of using 'length - 1 - i' as an index when comparing characters in the for loop?,"It refers to the character in the word that is the same distance from the end as i is from the start, allowing comparison of pairs of characters from opposite ends towards the middle.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}","If the input to IsPalindrome is the string ""level"", how many times does the loop execute and what characters are compared in each iteration?","The loop executes 2 times: in the first iteration it compares 'l' and 'l', and in the second iteration it compares 'e' and 'e'.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+70,"#define CRT_SECURE_NO_WARNINGS
+#include <string.h>
+
+int IsPalindrome(char* word) {
+
+	int i;
+	int length = strlen(word);
+
+for (i = 0; i < length / 2; i++) {
+	if (word[i] != word[length - 1 - i]) {
+		return 0;
+	}
+}
+return 1;
+
+}","How could you modify this IsPalindrome function to support checking palindromes in a case-insensitive way, even if the input may contain both uppercase and lowercase letters?",You would convert both word[i] and word[length - 1 - i] to the same case (such as using tolower()) before comparing them in the if statement.,Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}",What is the purpose of comparing 'word[i]' with 'word[length - 1 - i]' in the for loop of the IsPalindrome function?,"It checks whether the character from the start of the word matches the corresponding character from the end, ensuring the word reads the same forwards and backwards.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}","In the for loop, how many times will the loop body execute if the input word has 7 characters?","The loop body will execute 3 times, because i ranges from 0 to 2 as the condition is i < 7 / 2, which is 3.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+71,"int IsPalindrome(char *word)
+{
+    int i = 0;
+    int j = strlen(word) - 1;
+    while (i < j) {
+        if (word[i] != word[j]) return 0;
+        i++;
+        j--;
+    }
+    return 1;
+}","What modification would you make to the function to handle input strings that include spaces, so that phrases like 'nurses run' are considered palindromes?",I would add logic to ignore spaces when comparing characters by using a loop to skip over space characters for both i and j before comparing word[i] and word[j].,Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}",What is the purpose of initializing 'j' as 'strlen(word) - 1' in this function?,It sets 'j' to the index of the last character in the string so the comparison can start from both ends of the word.,Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}","If you call IsPalindrome with the input ""level"", how many times will the while loop body execute?",The while loop body will execute 2 times.,Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}"
+72,"int IsPalindrome(char *word)
+{
+ int length = strlen(word);
+ int left =0;
+ int right = length -1;
+ while (left<right){
+     if (word[left]==word[right]){
+         left++;
+         right--;
+     } else {
+         return 0;
+     }
+     }
+     return 1;
+ }","How would you modify the IsPalindrome function to correctly handle empty strings as input, ensuring it still meets the requirements described?","Add a condition at the start of the function to check if the input string is empty (length 0), and if so, return 1 since an empty string can be considered a palindrome.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}",What is the purpose of the condition 'left < right' in the while loop of this function?,"It ensures that character comparisons continue only until the middle of the word is reached, preventing unnecessary re-checks and guaranteeing all needed pairs are compared.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}","For the input 'level', what are the values of 'left' and 'right' when the while loop in this function finishes executing?","After the loop finishes for input 'level', 'left' will be 2 and 'right' will also be 2.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}"
+73,"int IsPalindrome(char *word)
+{
+int len = strlen(word);
+    for (int i = 0; i < len / 2; i++) {
+	if (word[i] != word[len - i - 1]){
+	return false;
+	}
+	}
+	return true;
+	
+}",What change would you suggest to ensure that the IsPalindrome function returns the required integer values (1 or 0) instead of C boolean literals for non-empty input strings?,Replace 'return false;' with 'return 0;' and 'return true;' with 'return 1;'.,Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 2, ""RevisedBloomsTaxonomyLevel"": ""Apply""}",What is the purpose of using 'word[len - i - 1]' as the index in the condition inside the for loop?,"It accesses the character in the word that is the mirror image of 'word[i]' from the opposite end, enabling comparison of pairs from both ends towards the center.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}","If the input to IsPalindrome is the string ""level"", how many times will the for loop execute, and what indices of 'word' will be compared in each iteration?","The for loop will execute 2 times; in the first iteration, word[0] is compared with word[4], and in the second, word[1] is compared with word[3].",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+74,"int IsPalindrome(char *word)
+{
+    int length;
+    int i;
+    length = strlen(word);
+    
+    for(i = 0; i < length; i++)
+    {
+        if(word[i] != word[length - 1 - i])
+        {
+            return 0;
+        }
+    }
+    return 1;
+}",How would you modify the for-loop condition in the IsPalindrome function to make the code check only the necessary characters and improve its runtime efficiency?,Change the loop condition from 'i < length' to 'i < length / 2' to avoid redundant comparisons and improve efficiency.,Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 4, ""RevisedBloomsTaxonomyLevel"": ""Apply""}",What is the purpose of 'word[length - 1 - i]' in the comparison inside the for loop?,"It accesses the character in the string starting from the end, allowing the code to compare each character from the start with its corresponding character from the end.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}","When the input to IsPalindrome is the string ""abba"", how many times will the for loop's body execute before the function returns, and why?","The for loop's body will execute two times because for a string of length 4, i runs from 0 to 3, but the palindrome comparison only requires checking pairs at positions 0 vs 3 and 1 vs 2 (i = 0 and i = 1); after these, all necessary comparisons are done.",Apply,"{""Correctness"": false, ""AnswerCorrectness"": false, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": false, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 4, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Analyse""}"
+75,"int IsPalindrome(char *word)
+{
+    int left = 0;
+    int right = strlen(word)-1;
+    
+    while(left < right){
+        if(word[left] != word[right]){
+            return 0;
+        }
+        left++;
+        right--;
+    }
+    return 1;
+}",How would you change the function so that it correctly identifies single-character strings as palindromes?,No change is needed because the current logic correctly treats single-character strings as palindromes by returning 1.,Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 2, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What is the purpose of the condition 'word[left] != word[right]' in this function?,"It checks whether the characters at the current left and right positions are different, which would mean the word is not a palindrome.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}","If the input to IsPalindrome is the string ""deed"", at what values of 'left' and 'right' does the loop condition 'while(left < right)' stop evaluating as true?",The loop condition stops being true when 'left' equals 2 and 'right' equals 1.,Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+76,"void ReverseString(char *str)
+{
+    int l = strlen(str);
+    char newstr[l+1];
+    int m = 0;
+    for (int i = l-1; i >= 0; i--) {
+        newstr[m] = str[i];
+        m++;
+    }
+    newstr[m] = '\0';
+    strcpy(str, newstr);
+}
+
+int IsPalindrome(char *word)
+{
+    char wordrev[100];
+    strcpy(wordrev, word);
+    ReverseString(wordrev);
+    if (strcmp(word, wordrev) == 0) {
+        return 1;
+    } else {
+        return 0;
+    }
+}",What is one change you could make to the ReverseString function to avoid possible issues with variable-length arrays and make it more memory efficient?,"You could dynamically allocate memory for newstr using malloc based on the length of str, and free it after use, or modify the function to swap characters in place without creating a new array.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 4, ""RevisedBloomsTaxonomyLevel"": ""Analyse""}","What is the purpose of using 'strcpy(wordrev, word);' at the beginning of the IsPalindrome function?",It copies the input string into wordrev so that wordrev can be modified without changing the original input string.,Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}","What will be the contents of 'wordrev' immediately after calling ReverseString(wordrev) inside the IsPalindrome function, assuming 'word' is 'level'?","'wordrev' will hold the value 'level' reversed, which is 'level', so it will still be 'level'.",Apply,"{""Correctness"": false, ""AnswerCorrectness"": false, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+77,"int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    for (int i = 0; i < length / 2; i++)
+    {
+        if (word[i] != word[length - i - 1])
+        {
+            return 0;
+        }
+    }
+    return 1;
+}",What change would you suggest to improve the efficiency of repeatedly calling strlen(word) inside the IsPalindrome function's for loop?,Store the result of strlen(word) in a variable before the loop and use that variable in the loop condition and body to avoid recalculating the string length each time.,Create,"{""Correctness"": true, ""AnswerCorrectness"": false, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Analyse""}",What is the purpose of comparing word[i] with word[length - i - 1] in the loop of this function?,"It checks whether the character from the front matches the corresponding character from the end, which is necessary to determine if the word is the same forwards and backwards.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}","If the input to IsPalindrome is the string ""level"", how many times will the for loop body (the code inside the loop) be executed?","The loop body will be executed 2 times because the loop runs from i = 0 to i < length / 2, and ""level"" has length 5, so the loop iterates for i = 0 and i = 1.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+78,"int IsPalindrome(char *word)
+{
+    int i = 0;
+    int j = strlen(word) - 1;
+    
+    while (i < j) 
+    {
+        if (word[i] != word[j]) 
+            return 0;
+            
+        i++;
+        j--;
+    }
+    return 1;
+}","What modification would you make to the IsPalindrome function to handle empty strings correctly as palindromes, given that the current code assumes at least one character?","I would add a check at the start of the function to return 1 if the input string has length 0, treating empty strings as palindromes.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 4, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}",What is the purpose of the condition 'i < j' in the while loop of this function?,It ensures that the comparisons only occur between characters from the start and end of the string moving inward until all needed pairs are checked.,Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}","If the input to IsPalindrome is the word ""level"", what would the conditional 'if (word[i] != word[j])' evaluate to during the first iteration of the while loop, and why?","It would evaluate to false because word[0] and word[4] are both 'l', so they are equal.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+79,"int IsPalindrome(char *word)
+{
+    int left = 0;
+    int right = strlen(word) - 1;
+
+    while (left < right) {
+        if (word[left] != word[right]) {
+            return 0;
+        }
+        left++;
+        right--;
+    }
+    
+    return 1;
+}",What modification would you make to the function so that it can correctly handle empty strings as potential palindromes?,"I would add a condition at the start of the function to check if the input string is empty (word[0] == '\0') and return 1, treating the empty string as a palindrome.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}",What is the purpose of 'right = strlen(word) - 1;' in the function?,It sets 'right' to the index of the last character in the string so the function can compare characters from both ends toward the center.,Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}","If the input to IsPalindrome is the string ""level"", at what index values will the characters be compared during the while loop, and why?","Characters at indexes 0 and 4, then 1 and 3 will be compared because left starts at 0, right starts at 4 (length minus one), and both move toward the center with each iteration while left < right.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+80,"int IsPalindrome(char *word)
+{
+    int length;
+    length = strlen(word);
+
+    int i = 0;
+    while (i < length/2) {
+        if (word[i] != word[length - 1 - i]) {
+            return 0;
+        }
+    i++;
+    }
+    return 1;
+}",Identify one bug or inefficiency in the IsPalindrome function and propose a change to fix it or make it more efficient.,"The function currently calls strlen(word) only once in a variable, which is efficient; however, it does not handle empty strings explicitly, though the problem says inputs have at least one character. To fix a logic bug, if 'word' has trailing spaces or non-alphabetic characters, they may impact palindrome detection. Alternatively, a runtime improvement is to avoid recalculating 'length - 1 - i' for each iteration by storing it in a variable, or make the function work for empty strings by returning 1 immediately if 'length == 0'.",Create,"{""Correctness"": false, ""AnswerCorrectness"": false, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 2, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Analyse""}",What is the purpose of using 'word[length - 1 - i]' in the comparison within the while loop?,"It accesses the character from the end of the string that corresponds to the character at position i, allowing comparison of characters from opposite ends to check for palindrome symmetry.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}","If the function IsPalindrome is called with the input ""level"", what value will be returned and why?",The function will return 1 because 'level' is a palindrome; each character at position i matches the character at position length-1-i for all i in the first half of the string.,Apply,"{""Correctness"": true, ""AnswerCorrectness"": false, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+81,"int IsPalindrome(char *word)
+{
+    	
+	int i = 0;
+	int length = strlen(word);
+	char temp[100];
+
+	// making backwards word
+	while (i < length) {
+		temp[i] = word[length - i - 1]; 
+		i++;
+	}
+
+	// comparing word with backwards word
+	i = 0;
+	while (i < length) {  
+		if (temp[i] != word[i]) {
+			return 0;
+		}
+		i++;
+	}
+	return 1;
+}",What change could you make to eliminate the need for the extra 'temp' array and improve the memory efficiency of this function?,"You could compare characters from the start and end of the word moving towards the middle, returning 0 if any mismatch is found, without creating a separate reversed copy.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 4, ""RevisedBloomsTaxonomyLevel"": ""Evaluate""}","If you call IsPalindrome with the input ""level"", what value will the variable temp[0] contain after the first while loop completes, and why?","It will contain 'l', because temp[0] is assigned word[length - 0 - 1], which is the last character of the input string.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What is the purpose of using 'word[length - i - 1]' when assigning a value to temp[i] in the first while loop?,"It accesses the characters of 'word' in reverse order, so that 'temp' becomes a backwards copy of the original string.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+82,"int IsPalindrome(char *word)
+{int len = strlen(word);
+for (int i = 0; i < len/2; i++) {
+	if (word[i] != word[len - 1 - i]) {
+		return 0;
+		
+	}
+}
+return 1;
+    
+}","If you wanted IsPalindrome to also correctly handle empty strings as palindromes, what simple change would you suggest to improve the code for this new case?","No code change is needed, as the existing function already returns 1 for empty strings, treating them as palindromes.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 4, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}","If the input to IsPalindrome is the string ""level"", how many times will the for loop execute, and why?","The loop will execute 2 times because the length of ""level"" is 5, so i goes from 0 to 1 (i < 5/2), checking the first two pairs of characters from both ends.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What is the purpose of the condition 'word[i] != word[len - 1 - i]' in this function?,"It checks whether the character at position i from the start is different from the corresponding character at position i from the end, to determine if the word is not a palindrome.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+83,"int IsPalindrome(char *word)
+{
+    int left = 0;
+    int right = strlen(word) - 1;
+    while (left < right) {
+        if (word[left] != word[right]) {
+            return 0;
+        }
+        left++;
+        right--;
+    }
+    return 1;
+}","How would you modify the IsPalindrome function to handle input strings where uppercase and lowercase letters should be considered equal, such as treating ""Noon"" as a palindrome?","I would convert both word[left] and word[right] to the same case using a function like tolower() before comparing them, ensuring that letter case differences don't affect the palindrome check.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}","If the input to IsPalindrome is the string ""level"", at which iteration of the while loop will the comparison 'word[left] != word[right]' first evaluate to false, and what are the values of 'left' and 'right' at that moment?","On the first iteration, 'word[left]' is 'l' and 'word[right]' is 'l', so the comparison evaluates to false; at this moment, 'left' is 0 and 'right' is 4.",Apply,"{""Correctness"": false, ""AnswerCorrectness"": false, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": false, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What is the purpose of using 'strlen(word) - 1' when assigning a value to the 'right' variable in this function?,"It sets 'right' to the index of the last character in the string, since array indices start at 0 but 'strlen(word)' gives the total number of characters.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+84,"int IsPalindrome(char *word)
+{
+    int left = 0;
+    int right = strlen(word) - 1;
+    
+    while (left < right)
+    {
+        if (word[left] != word[right])
+            return 0;
+        left++;
+        right--;
+    }
+    return 1;
+}","What change would you suggest to support palindromes that contain uppercase letters as well as lowercase letters, without altering the original input string?","Use a case-insensitive comparison by converting both word[left] and word[right] to the same case (e.g., with tolower or toupper) before comparing them in the if statement.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}","If the input word is 'level', what value will the variables 'left' and 'right' have immediately before the function returns 1?",Both 'left' and 'right' will be equal to 2 immediately before returning 1.,Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What is the purpose of the condition 'word[left] != word[right]' in this function?,It checks whether the current characters from the left and right ends of the string are different to determine if the word is not a palindrome.,Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 2, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+85,"int IsPalindrome(char *string)
+{
+    int start = 0;
+    int end = strlen(string) - 1;
+    while (start < end)
+    {
+        if (string[start] == string[end])
+        {
+            start++;
+            end--;
+            continue;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    return 1;
+}",What change would you suggest to handle empty strings correctly as palindromes in the IsPalindrome function?,"I would add a condition at the start of the function to check if the input string is empty (i.e., string[0] == '\0') and return 1, since an empty string is considered a palindrome.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}","If the input string is ""abba"", what will be the values of the variables 'start' and 'end' immediately before the function returns 1, and why?","Both 'start' and 'end' will be 2, because after each matching pair, 'start' is incremented and 'end' is decremented until 'start' is no longer less than 'end', causing the loop to exit before the return.",Apply,"{""Correctness"": false, ""AnswerCorrectness"": false, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What is the purpose of decrementing 'end' and incrementing 'start' inside the while loop?,"They make the function compare characters from the beginning and end of the string, moving towards the center to check if they match.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+86,"int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+	for (int i = 0 ; i < length ; i++) {
+		if (word[i] == word[length-i-1]) {
+		}
+		else {
+			return 0;
+		}
+	}
+	return 1;
+}",How could you modify the for-loop condition to reduce unnecessary comparisons and improve the efficiency of the IsPalindrome function?,"Change the loop condition from 'i < length' to 'i < length / 2' so that each pair of characters is compared only once, checking only up to the middle of the string.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}","How many times will the for loop run for a word with 6 characters, and why is this number of iterations chosen in this code?","The for loop will run 6 times because the loop condition is 'i < length', so it checks each position from both ends, although it only needs to check the first half to determine if the word is a palindrome.",Apply,"{""Correctness"": false, ""AnswerCorrectness"": false, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What is the purpose of comparing 'word[i]' with 'word[length-i-1]' in the for loop?,"It checks whether the character from the start of the word matches the corresponding character from the end, which is necessary to determine if the string is a palindrome.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+87,"int IsPalindrome(char *word)
+{
+    int i = 0;
+    int j = strlen(word) - 1;
+
+    while (i < j)
+    {
+        if (word[i] != word[j])
+        {
+            return 0;   
+        }
+
+        i = i + 1;
+        j = j - 1;
+    }
+
+    return 1;   
+}",How could you modify the IsPalindrome function to make it handle empty strings as palindromes while maintaining good style?,"Add a check at the beginning of the function to return 1 if the string length is zero, ensuring that empty strings are treated as palindromes.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 4, ""AppropriatenessOfDifficultyForCS1"": 2, ""RevisedBloomsTaxonomyLevel"": ""Apply""}","If the input string is 'deed', what will the values of 'i' and 'j' be just before the while loop exits, and why?","Just before the while loop exits, 'i' will be 2 and 'j' will be 1, because the loop increments 'i' and decrements 'j' after each comparison until 'i' is no longer less than 'j'.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What is the purpose of using 'strlen(word) - 1' to initialize the variable j in this function?,"It sets j to the index of the last character in the string, allowing the comparison of characters from both ends of the word toward the center.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+88,"int IsPalindrome(char *word)
+{
+    int wordstart = 0;
+    int wordend = 0;
+    while (word[wordend] != '\0') {
+        wordend++;
+    }
+    wordend--;
+    
+    while (wordend >= wordstart) {
+        if (word[wordstart] == ' ') {
+            wordstart++;
+        }
+        if (word[wordend] == ' ') {
+            wordend--;
+        }
+        if (word[wordstart] != word[wordend]) {
+            return 0;
+        }
+        wordstart++;
+        wordend--;
+    }
+    return 1;
+}","If you wanted the IsPalindrome function to also treat uppercase and lowercase characters as equal, what specific change should you make to the code?",You should convert both word[wordstart] and word[wordend] to the same case using a function like tolower or toupper before comparing them in the if statement.,Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}","When the code checks 'if (word[wordstart] == ' ')', how does this affect which characters are compared for palindrome checking in the string?","It skips over any spaces in the string by incrementing 'wordstart', so spaces are ignored when comparing characters to check for a palindrome.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What is the purpose of the conditions checking if 'word[wordstart]' or 'word[wordend]' are equal to a space character in this function?,"These conditions skip over any spaces at the start or end while comparing characters, so spaces are ignored when checking if the word is a palindrome.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": false, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+89,"int IsPalindrome(char *word) {
+
+    //find length (number of REAL characters)
+    int truth = 0;
+    int length = 0;
+    
+    while (word[length] != '\0') {
+        length++;
+    }
+
+    if (length > 1){
+        for (int i=0; i<length; i++) {
+            if (word[i] != word[length - 1 - i]) {
+                truth = 1;
+            }
+        }
+    }   
+    if (length == 1) {
+        truth = 0;
+    }
+
+    if (truth == 1) {
+        return 0;
+    }
+    else 
+    {
+        return 1;
+    }
+
+}",How would you improve the efficiency and style of the IsPalindrome function by making better use of available standard library functions?,I would replace the manual length calculation loop with 'int length = strlen(word);' to use the standard library and make the code more concise and readable.,Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 4, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}","If the input to IsPalindrome is the string ""mot"", what value will 'truth' have just before the final if-statement and why?","'truth' will be 1, because during the loop, it detects that the first and last characters ('m' and 't') are not equal, so the condition 'word[i] != word[length - 1 - i]' becomes true and sets 'truth' to 1.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What is the purpose of using 'length - 1 - i' as an index in the comparison 'word[i] != word[length - 1 - i]' inside the for loop?,"It allows the code to compare the character at position i from the start of the word with the corresponding character from the end, helping to check if the string reads the same forwards and backwards.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+90,"int IsPalindrome(char* word)
+{
+	int len = strlen(word);
+	if (len == 1)
+	{
+		return 1;
+	}
+	for (int i = 0; i < len / 2; i++) 
+	{
+		if (word[i] != word[len - 1 - i])
+		{
+			return 0;
+		}
+	}
+	return 1;
+}","What change would you recommend to handle the case when the input word is an empty string, and why is this necessary?","I would add a check for len == 0 at the beginning of the function, returning 1, because an empty string is typically considered a palindrome and currently the code does not handle this input.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Analyse""}","If the input to IsPalindrome is the string ""abba"", how many times will the for-loop run before the function returns 1?",The for-loop will run 2 times before the function returns 1.,Apply,"{""Correctness"": true, ""AnswerCorrectness"": false, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What is the purpose of comparing 'word[i]' with 'word[len - 1 - i]' in the for loop of this function?,"It checks if each character from the start matches its corresponding character from the end, ensuring the word reads the same forwards and backwards.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+91,"int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    for (int i = length-1; i>=0; i--)
+    {
+        if (word[i] != word[length-i-1])
+        {
+            return 0;
+        }
+    }
+    return 1;
+}",What important correction should you make to the loop boundaries in this code to ensure each character from the start of the word is only compared once against its matching character from the end?,The loop should run from i = 0 to i < length/2 to avoid redundant comparisons and potential errors when the word has an odd number of characters.,Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Analyse""}","If the input to IsPalindrome is the string ""deed"", how many times will the statement 'if (word[i] != word[length-i-1])' be evaluated in the for loop?","It will be evaluated 4 times, once for each value of i from 3 down to 0.",Apply,"{""Correctness"": false, ""AnswerCorrectness"": false, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What is the purpose of comparing word[i] with word[length-i-1] inside the for loop in this function?,"It checks if the character at position i from the start matches the corresponding character from the end, helping to determine if the word reads the same forwards and backwards.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+92,"int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    int j = 0;
+    for(int i = length - 1; i >= length/2; i--){
+        if(word[j] != word[i]){
+            return 0;
+        }
+        j++;
+    }
+    return 1;
+}","How would you modify the IsPalindrome function to correct the bug that may occur with words of odd length, and make the comparison loop more straightforward?","Switch the loop so that it starts at i = 0 and ends at i < length/2, comparing word[i] with word[length - 1 - i] each time; this avoids using two indices and ensures each mirrored character is correctly compared for any string length.",Create,"{""Correctness"": false, ""AnswerCorrectness"": false, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": false, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}","If the input to IsPalindrome is the string ""level"", how many times will the for loop execute, and what does this determine in the function's logic?","The for loop will execute 2 times, which allows the function to compare the first and last, and the second and second-to-last characters to determine if the string is a palindrome.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What is the purpose of comparing word[j] and word[i] inside the if statement in this function?,"It checks whether the character from the start of the word matches the corresponding character from the end, ensuring the word reads the same forwards and backwards.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+93,"#include <stdio.h> 
+#include <string.h> 
+
+int IsPalindrome(char *word)
+{
+    int length = strlen(word); 
+    char *first = word; 
+    char *last = word + length -1; 
+
+    while (first < last) 
+    {
+        
+        if (*first != *last)
+        {
+            return 0; 
+        }
+        
+        first++; 
+        last = last -1; 
+        
+    }
+    return 1; 
+}","How would you modify the IsPalindrome function to make it correctly handle empty strings as palindromes, supporting the new case where the input could be an empty string?","Add a check at the beginning of the function to return 1 if the input word has length 0, ensuring empty strings are treated as palindromes.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 4, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}","If the input to IsPalindrome is the string ""racecar"", what values will the 'first' and 'last' pointers have just before the function returns a value?","Both 'first' and 'last' will point to the middle character 'e' in the string, since they will meet at the center after comparing pairs from the ends.",Apply,"{""Correctness"": false, ""AnswerCorrectness"": false, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": false, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Analyse""}",What is the purpose of the expression 'word + length - 1' when assigning it to the 'last' pointer in this function?,"It sets 'last' to point to the last character of the string, allowing comparisons from the end towards the start.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+94,"int IsPalindrome(char *word)
+{
+    int len = strlen(word);
+    for (int i=0; i < strlen(word) / 2; i++) {
+        if (word[i] != word[len - i - 1]) {
+            return 0;
+        }
+    }
+    return 1;
+}",What modification would make this function more efficient by avoiding repeated calls to strlen inside the loop?,Store the value of strlen(word) in a variable before the loop and use that variable in the loop condition instead of calling strlen(word) each iteration.,Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 4, ""RevisedBloomsTaxonomyLevel"": ""Apply""}","If the input to IsPalindrome is the string ""level"", how many times will the for loop in the function execute?",The for loop will execute 2 times.,Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}",What is the purpose of the expression 'len - i - 1' when used as an index in 'word[len - i - 1]' in this function?,"It provides the index of the character from the end of the string that corresponds to the character at position i from the start, allowing comparison of characters from opposite ends.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+95,"#include <string.h>
+
+int IsPalindrome(char *word)
+{
+    int length = (int)strlen(word);
+    int palindrome = 1;
+
+    for (int i = 0; i < (int)(length/2); i++){
+        if (word[i] != word[length-i-1]){
+            palindrome = 0;
+        }
+    }
+
+    return  palindrome;
+
+}","What single change to the for-loop in IsPalindrome would make the function return early for non-palindrome words, improving its runtime efficiency?",Add 'return 0;' immediately after setting palindrome to 0 inside the if statement so that the function exits as soon as a mismatch is found.,Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": false, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}","Assuming the input to IsPalindrome is the word ""level"", how many times will the for-loop execute, and why?","The loop will execute 2 times because the length is 5, so i runs from 0 to (5/2) - 1, that is, i = 0 and i = 1.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What is the purpose of comparing 'word[i]' with 'word[length-i-1]' in the for loop?,"It checks if the characters from the start and end of the string are the same, moving towards the center, to determine if the word reads identically forwards and backwards.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+96,"int IsPalindrome(char* word)
+{
+	int i = 0;
+	int length = strlen(word);
+	for (i = 0; i < length / 2; i++) {
+		if (word[i] != word[length - 1 - i]) {
+			return 0;
+		}
+	}
+	return 1;
+}","What change would you suggest to the IsPalindrome function to make it handle empty strings correctly (i.e., return 1 if the input is """")?","I would add a check at the start of the function to return 1 if the input string length is 0, indicating that an empty string is considered a palindrome.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}","For the input word 'level', how many times will the for-loop in IsPalindrome execute, and why?","The for-loop will execute 2 times because it runs from i = 0 up to i < length / 2, and for 'level' (length 5), length / 2 is 2 (integer division), so i takes values 0 and 1.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What is the purpose of using 'length - 1 - i' as an index when comparing characters in the for loop of the IsPalindrome function?,"It accesses the character from the end of the string that corresponds to the character being checked from the start, allowing comparison of characters from both ends moving toward the center.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+97,"int IsPalindrome(char *word)
+{
+    int WordLength = strlen(word);
+    int i = 0;
+    int j = WordLength - 1;
+
+    while (i < j) {
+        if (word[i] != word[j]) {
+            return 0;
+        }
+        i++;
+        j--;
+    }
+    return 1;
+}","What change could you make to this function so that it correctly handles empty strings as palindromes, in accordance with the usual definition?","You could add a check at the beginning of the function to return 1 if the string is empty, since an empty string is considered a palindrome.",Create,"{""Correctness"": true, ""AnswerCorrectness"": false, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 4, ""AppropriatenessOfDifficultyForCS1"": 2, ""RevisedBloomsTaxonomyLevel"": ""Apply""}","If the input to IsPalindrome is the string ""deed"", what will be the value of variable 'i' on the final iteration of the while loop before it exits?","On the final iteration before the while loop exits, the value of 'i' will be 1.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What is the purpose of the condition 'i < j' in the while loop of this function?,"It ensures that the characters from the start and end of the word are compared only until the middle is reached, preventing unnecessary repeated comparisons.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+98,"int IsPalindrome(char *word)
+{
+    {
+        int left = 0;
+        int right = strlen(word) - 1;
+
+        while (left < right) {
+            if (word[left] != word[right]) {
+                return 0;
+            }
+            left++;
+            right--;
+        }
+        return 1;
+    }
+}","Suggest a change to the IsPalindrome function to handle empty strings as valid palindromes, according to the definition of a palindrome.","Add a check at the start of the function to return 1 if the input string is empty, treating empty strings as valid palindromes.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 4, ""AppropriatenessOfDifficultyForCS1"": 2, ""RevisedBloomsTaxonomyLevel"": ""Apply""}","If the input to IsPalindrome is ""level"", after the first iteration of the while loop, what are the values of 'left' and 'right'?","After the first iteration, 'left' is 1 and 'right' is 3.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What is the purpose of the condition 'word[left] != word[right]' in the while loop of this function?,"It checks whether the characters at symmetrical positions from the start and end of the word are different, which would mean the word is not a palindrome.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+99,"int IsPalindrome(char *word)
+{
+    int n=0,j=0;
+	while (word[n]!='\0') {
+		n++;
+	}
+	for (int i=0;i<n/2;i++) {
+		if (word[i]==word[n-1-i]) {
+			j++;
+		}
+	}
+	if (j==n/2) {
+		return 1;
+	} else {
+		return 0;
+	}
+}",How can you modify this code to make it more efficient by avoiding the unnecessary use of the variable 'j' while still correctly determining if the input string is a palindrome?,"You can remove the variable 'j' and, instead, immediately return 0 inside the for loop if a mismatched character pair is found; if the loop completes without finding a mismatch, then return 1 at the end.",Create,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Apply""}","If the input to IsPalindrome is the string ""abba"", what will be the value of j after the for loop completes?",The value of j will be 2 after the for loop completes.,Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 2, ""RevisedBloomsTaxonomyLevel"": ""Apply""}",What is the purpose of using 'word[n-1-i]' as an index in the comparison inside the for loop?,"It accesses the character from the end of the string that pairs with the character at position i from the start, allowing comparison of characters from both ends toward the center to check for palindrome symmetry.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"
+100,"int IsPalindrome(char *word)
+{
+    int length = strlen(word);
+    for (int i = 0; i < length/2; i++)
+    {
+        if (word[i] !=  word[length - i -1])
+        return 0;
+    }
+    return 1;
+}","What change would you make to the IsPalindrome function if you wanted it to handle empty strings correctly as palindromes, and why?","I would check if the input string is empty at the start of the function (e.g., if (length == 0) return 1;) because by definition, an empty string should be considered a palindrome.",Create,"{""Correctness"": false, ""AnswerCorrectness"": false, ""AnswerCompleteness"": false, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 4, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Evaluate""}","If the input to IsPalindrome is the string ""civic"", what will be the value of i and the compared character pairs during each iteration of the for loop?","For input ""civic"" (length 5), in the first iteration i=0 compares word[0]='c' with word[4]='c', in the second iteration i=1 compares word[1]='i' with word[3]='i'; the loop ends before i=2 because length/2 is 2.",Apply,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}",What is the purpose of comparing word[i] and word[length - i - 1] in the for loop of this function?,"It checks whether the character from the start of the word matches the corresponding character from the end, ensuring the word reads the same forwards and backwards.",Understand,"{""Correctness"": true, ""AnswerCorrectness"": true, ""AnswerCompleteness"": true, ""Grammatical"": true, ""Clarity"": true, ""RelevanceToCourseContent"": true, ""RelevanceToLearnerCode"": 5, ""AppropriatenessOfDifficultyForCS1"": 3, ""RevisedBloomsTaxonomyLevel"": ""Understand""}"

@@ -18,23 +18,13 @@ DEFAULT_OUTPUT = "Lab9Responses_three_questions_permutations.csv"
 DEFAULT_SHEET = None
 DEFAULT_LIMIT = None
 
-TARGET_LEVELS = [
-    (
-        "Understand",
-        "Explain the purpose or intent of syntax, keywords, or language rules without executing it manually line by line. (ex: What does the remove() method do?, What is the purpose of i++?, what is the purpose of using 'length - 1 - i' as an index for the word array?)",
-    ),
-    (
-        "Apply",
-        "Apply operator precedence rules, solving logic and iteration counts, or tracing code with specified inputs to determine the exact state or output.",
-    ),
-    (
-        "Create",
-        "Suggest necessary changes to make the code style better, fix a bug, make the code more memory efficient, make the code more runtime efficient. If the code is perfect, modify the code to support a new test case (a minor new feature)",
-    ),
-]
+LEVEL_DESCRIPTIONS = {
+    "Understand": "Explain the purpose or intent of syntax, keywords, or language rules without executing it manually line by line. (ex: What does the remove() method do?, What is the purpose of i++?, what is the purpose of using 'length - 1 - i' as an index for the word array?)",
+    "Apply": "Apply operator precedence rules, solving logic and iteration counts, or tracing code with specified inputs to determine the exact state or output.",
+    "Create": "Suggest necessary changes to make the code style better, fix a bug, make the code more memory efficient, make the code more runtime efficient. If the code is perfect, modify the code to support a new test case (a minor new feature)",
+}
 
-LEVEL_PERMUTATIONS = list(itertools.permutations([level for level, _ in TARGET_LEVELS]))
-LEVEL_DESCRIPTIONS = {level: description for level, description in TARGET_LEVELS}
+LEVEL_PERMUTATIONS = list(itertools.permutations(LEVEL_DESCRIPTIONS.keys()))
 
 
 def _extract_json_object(text: str) -> str:
@@ -307,6 +297,7 @@ def process_workbook(input_path: Path, output_path: Path, sheet_name: str | None
 
     fieldnames = [
         "ANON_ID",
+        "group_index",
         "original_code",
         "q1",
         "a1",
@@ -336,6 +327,7 @@ def process_workbook(input_path: Path, output_path: Path, sheet_name: str | None
 
             row = {
                 "ANON_ID": normalize_text(anon_id),
+                "group_index": group_index,
                 "original_code": student_code,
                 "q1": normalize_text(generated_rows[0]["question"]),
                 "a1": normalize_text(generated_rows[0]["answer"]),

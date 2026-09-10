@@ -14,27 +14,26 @@ from openai import OpenAI
 from openpyxl.reader.excel import load_workbook
 
 DEFAULT_INPUT = "Lab9Responses-Mini.xlsx"
-DEFAULT_OUTPUT = "Lab9Responses_three_questions_permutations_and_evaluations.csv"
+DEFAULT_OUTPUT = "Lab9Responses_three_questions_permutations_with_evaluation.csv"
 DEFAULT_SHEET = None
 DEFAULT_LIMIT = None
 
-TARGET_LEVELS = [
-    (
-        "Understand",
-        "Explain the purpose or intent of syntax, keywords, or language rules without executing it manually line by line. (ex: What does the remove() method do?, What is the purpose of i++?, what is the purpose of using 'length - 1 - i' as an index for the word array?)",
-    ),
-    (
-        "Apply",
-        "Apply operator precedence rules, solving logic and iteration counts, or tracing code with specified inputs to determine the exact state or output.",
-    ),
-    (
-        "Create",
-        "Suggest necessary changes to make the code style better, fix a bug, make the code more memory efficient, make the code more runtime efficient. If the code is perfect, modify the code to support a new test case (a minor new feature)",
-    ),
-]
+LEVEL_DESCRIPTIONS = {
+    "Understand": "Explain the purpose or intent of syntax, keywords, or language rules without executing it manually line by line. (ex: What does the remove() method do?, What is the purpose of i++?, what is the purpose of using 'length - 1 - i' as an index for the word array?)",
+    "Apply": "Apply operator precedence rules, solving logic and iteration counts, or tracing code with specified inputs to determine the exact state or output.",
+    "Create": "Suggest necessary changes to make the code style better, fix a bug, make the code more memory efficient, make the code more runtime efficient. If the code is perfect, modify the code to support a new test case (a minor new feature)",
+}
 
-LEVEL_PERMUTATIONS = list(itertools.permutations([level for level, _ in TARGET_LEVELS]))
-LEVEL_DESCRIPTIONS = {level: description for level, description in TARGET_LEVELS}
+LEVEL_PERMUTATIONS = list(itertools.permutations(LEVEL_DESCRIPTIONS.keys()))
+
+VALID_BLOOM_LEVELS = {
+    "Remember",
+    "Understand",
+    "Apply",
+    "Analyse",
+    "Evaluate",
+    "Create",
+}
 
 EVALUATION_FIELDS = {
     "Correctness": bool,
@@ -47,7 +46,17 @@ EVALUATION_FIELDS = {
     "AppropriatenessOfDifficultyForCS1": int,
     "RevisedBloomsTaxonomyLevel": str,
 }
-VALID_BLOOM_LEVELS = {"Remember", "Understand", "Apply", "Analyse", "Evaluate", "Create"}
+
+IMPROVEMENT_FIELDS = (
+    "Correctness",
+    "AnswerCorrectness",
+    "AnswerCompleteness",
+    "Grammatical",
+    "Clarity",
+    "RelevanceToCourseContent",
+    "RelevanceToLearnerCode",
+    "AppropriatenessOfDifficultyForCS1",
+)
 
 
 def _extract_json_object(text: str) -> str:
@@ -267,8 +276,14 @@ Rubric fields to evaluate:
 - Clarity: Is the question clear and unambiguous? (Boolean)
 - Relevance to course content: Can the question be answered solely from course content? (Boolean)
 - Relevance to learner code: Does the question engage directly with aspects of the provided code (syntax, semantics, bugs, etc.)? (1-5 scale, with 5 = maximal relevance)
-- Appropriateness of difficulty for CS1: Is the question suitable for an introductory programming course (CS1)? (1-5 scale, with 3 as average difficulty)
+- Appropriateness of difficulty for CS1: Is the question suitable for an introductory programming course (CS1)? (1-5 scale, with 5 = maximal appropriateness)
 - Revised Bloom's Taxonomy Level: What cognitive process does the question primarily assess? (Remember, Understand, Apply, Analyse, Evaluate, Create — string)
+
+Improvement suggestions:
+- For each Boolean rubric field that is false, provide a specific, actionable suggestion for improving the question or answer.
+- For RelevanceToLearnerCode and AppropriatenessOfDifficultyForCS1, provide a specific, actionable suggestion when the score is less than 5.
+- For criteria that meet their target, use an empty string as the suggestion.
+- Include suggestions for every key listed in the ImprovementSuggestions object, even when the suggestion is empty.
 
 Respond only with your evaluation and the required JSON object.
 
@@ -277,27 +292,38 @@ Output JSON as the very last item in your answer. The JSON should include all ru
 
 **Example Evaluation JSON:**
 {
-  "Correctness": true,
-  "AnswerCorrectness": true,
-  "AnswerCompleteness": true,
-  "Grammatical": true,
-  "Clarity": true,
-  "RelevanceToCourseContent": true,
-  "RelevanceToLearnerCode": 5,
-  "AppropriatenessOfDifficultyForCS1": 3,
-  "RevisedBloomsTaxonomyLevel": "Understand"
+    "Correctness": true,
+    "AnswerCorrectness": true,
+    "AnswerCompleteness": true,
+    "Grammatical": true,
+    "Clarity": true,
+    "RelevanceToCourseContent": true,
+    "RelevanceToLearnerCode": 5,
+    "AppropriatenessOfDifficultyForCS1": 3,
+    "RevisedBloomsTaxonomyLevel": "Understand",
+    "ImprovementSuggestions": {
+        "Correctness": "",
+        "AnswerCorrectness": "",
+        "AnswerCompleteness": "",
+        "Grammatical": "",
+        "Clarity": "",
+        "RelevanceToCourseContent": "",
+        "RelevanceToLearnerCode": "Mention the specific code construct being assessed.",
+        "AppropriatenessOfDifficultyForCS1": "Simplify the wording and focus on one introductory concept."
+    }
 }
 
 Remember to:
 - Silently reason through all rubric fields first, in order.
 - Only output your completed JSON after all reasoning steps.
 
-**Important:**  
+**Important:**
 - Always silently justify each field's rating before giving your conclusion for that field.
-- The final answer is a single JSON and includes one field for each rubric criterion.  
+- The final answer is a single JSON and includes one field for each rubric criterion.
 
-**Reminder:**  
-Evaluate a programming question/answer pair about code using all rubric fields. Yield a single JSON evaluation at the end.""".strip()
+**Reminder:**
+Evaluate a programming question/answer pair about code using all rubric fields. Yield a single JSON evaluation at the end.
+""".strip()
     user_prompt = f"""
 student_code:
 ```c
@@ -313,7 +339,8 @@ answer: {answer}
 
 
 def validate_question_evaluation(payload: dict[str, Any]) -> dict[str, Any]:
-    missing = [key for key in EVALUATION_FIELDS if key not in payload]
+    required_fields = [*EVALUATION_FIELDS, "ImprovementSuggestions"]
+    missing = [key for key in required_fields if key not in payload]
     if missing:
         raise ValueError(f"Evaluator response missing keys: {', '.join(missing)}")
 
@@ -326,7 +353,48 @@ def validate_question_evaluation(payload: dict[str, Any]) -> dict[str, Any]:
         if expected_type is str and (not isinstance(value, str) or value not in VALID_BLOOM_LEVELS):
             raise ValueError(f"Evaluator field '{key}' must be a valid revised Bloom level")
 
-    return {key: payload[key] for key in EVALUATION_FIELDS}
+    suggestions = payload["ImprovementSuggestions"]
+    if not isinstance(suggestions, dict):
+        raise ValueError("Evaluator field 'ImprovementSuggestions' must be an object")
+    missing_suggestions = [key for key in IMPROVEMENT_FIELDS if key not in suggestions]
+    if missing_suggestions:
+        raise ValueError(
+            "Evaluator improvement suggestions missing keys: "
+            f"{', '.join(missing_suggestions)}"
+        )
+    invalid_suggestions = [
+        key for key in IMPROVEMENT_FIELDS if not isinstance(suggestions[key], str)
+    ]
+    if invalid_suggestions:
+        raise ValueError(
+            "Evaluator improvement suggestions must be strings for keys: "
+            f"{', '.join(invalid_suggestions)}"
+        )
+
+    boolean_fields = [
+        key for key, expected_type in EVALUATION_FIELDS.items()
+        if expected_type is bool
+    ]
+    missing_required_suggestions = [
+        key for key in boolean_fields
+        if payload[key] is False and not suggestions[key].strip()
+    ]
+    missing_required_suggestions.extend(
+        key for key in ("RelevanceToLearnerCode", "AppropriatenessOfDifficultyForCS1")
+        if payload[key] < 5 and not suggestions[key].strip()
+    )
+    if missing_required_suggestions:
+        raise ValueError(
+            "Evaluator must provide improvement suggestions for: "
+            f"{', '.join(missing_required_suggestions)}"
+        )
+
+    return {
+        **{key: payload[key] for key in EVALUATION_FIELDS},
+        "ImprovementSuggestions": {
+            key: suggestions[key] for key in IMPROVEMENT_FIELDS
+        },
+    }
 
 
 def call_evaluator_agent(
@@ -339,11 +407,7 @@ def call_evaluator_agent(
     for attempt in range(1, 4):
         response = client.chat.completions.create(
             model=model,
-            messages=build_question_evaluation_prompt(
-                student_code,
-                question,
-                answer,
-            ),
+            messages=build_question_evaluation_prompt(student_code, question, answer),
         )
         raw = response.choices[0].message.content or "{}"
         try:
@@ -427,11 +491,6 @@ def process_workbook(input_path: Path, output_path: Path, sheet_name: str | None
         api_key=os.getenv("QA_GENERATOR_API_KEY"),
     )
     model = os.getenv("QA_GENERATOR_MODEL")
-    evaluator_client = OpenAI(
-        base_url=os.getenv("EVALUATOR_BASE_URL"),
-        api_key=os.getenv("EVALUATOR_API_KEY"),
-    )
-    evaluator_model = os.getenv("EVALUATOR_MODEL")
 
     _, anon_ids, submissions = read_submissions(input_path, sheet_name)
 
@@ -441,6 +500,7 @@ def process_workbook(input_path: Path, output_path: Path, sheet_name: str | None
 
     fieldnames = [
         "ANON_ID",
+        "group_index",
         "original_code",
         "q1",
         "a1",
@@ -472,30 +532,31 @@ def process_workbook(input_path: Path, output_path: Path, sheet_name: str | None
             generated_rows = generate_question_set(client, model, student_code, level_permutation)
             evaluations = [
                 call_evaluator_agent(
-                    evaluator_client,
-                    evaluator_model,
+                    client,
+                    model,
                     student_code,
-                    generated["question"],
-                    generated["answer"],
+                    generated_row["question"],
+                    generated_row["answer"],
                 )
-                for generated in generated_rows
+                for generated_row in generated_rows
             ]
 
             row = {
                 "ANON_ID": normalize_text(anon_id),
+                "group_index": group_index,
                 "original_code": student_code,
                 "q1": normalize_text(generated_rows[0]["question"]),
                 "a1": normalize_text(generated_rows[0]["answer"]),
                 "q1_level": level_permutation[0],
-                "q1_evaluation": json.dumps(evaluations[0], ensure_ascii=False),
+                "q1_evaluation": json.dumps(evaluations[0], ensure_ascii=False, separators=(",", ":")),
                 "q2": normalize_text(generated_rows[1]["question"]),
                 "a2": normalize_text(generated_rows[1]["answer"]),
                 "q2_level": level_permutation[1],
-                "q2_evaluation": json.dumps(evaluations[1], ensure_ascii=False),
+                "q2_evaluation": json.dumps(evaluations[1], ensure_ascii=False, separators=(",", ":")),
                 "q3": normalize_text(generated_rows[2]["question"]),
                 "a3": normalize_text(generated_rows[2]["answer"]),
                 "q3_level": level_permutation[2],
-                "q3_evaluation": json.dumps(evaluations[2], ensure_ascii=False),
+                "q3_evaluation": json.dumps(evaluations[2], ensure_ascii=False, separators=(",", ":")),
             }
             writer.writerow(row)
 

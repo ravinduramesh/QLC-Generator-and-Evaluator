@@ -42,7 +42,7 @@ EVALUATION_FIELDS = {
     "Grammatical": bool,
     "Clarity": bool,
     "RelevanceToCourseContent": bool,
-    "RelevanceToLearnerCode": int,
+    "RelevanceToLearnerCode": bool,
     "AppropriatenessOfDifficultyForCS1": int,
     "RevisedBloomsTaxonomyLevel": str,
 }
@@ -275,13 +275,14 @@ Rubric fields to evaluate:
 - Grammatical: Is the question grammatically correct? (Boolean)
 - Clarity: Is the question clear and unambiguous? (Boolean)
 - Relevance to course content: Can the question be answered solely from course content? (Boolean)
-- Relevance to learner code: Does the question engage directly with aspects of the provided code (syntax, semantics, bugs, etc.)? (1-5 scale, with 5 = maximal relevance)
+- Relevance to learner code: Does the question engage directly with aspects of the provided code (syntax, semantics, bugs, etc.)? (Boolean)
 - Appropriateness of difficulty for CS1: Is the question suitable for an introductory programming course (CS1)? (1-5 scale, with 5 = maximal appropriateness)
 - Revised Bloom's Taxonomy Level: What cognitive process does the question primarily assess? (Remember, Understand, Apply, Analyse, Evaluate, Create — string)
 
 Improvement suggestions:
 - For each Boolean rubric field that is false, provide a specific, actionable suggestion for improving the question or answer.
-- For RelevanceToLearnerCode and AppropriatenessOfDifficultyForCS1, provide a specific, actionable suggestion when the score is less than 5.
+- For RelevanceToLearnerCode, provide a specific, actionable suggestion when it is false.
+- For AppropriatenessOfDifficultyForCS1, provide a specific, actionable suggestion when the score is less than 5.
 - For criteria that meet their target, use an empty string as the suggestion.
 - Include suggestions for every key listed in the ImprovementSuggestions object, even when the suggestion is empty.
 
@@ -298,7 +299,7 @@ Output JSON as the very last item in your answer. The JSON should include all ru
     "Grammatical": true,
     "Clarity": true,
     "RelevanceToCourseContent": true,
-    "RelevanceToLearnerCode": 5,
+    "RelevanceToLearnerCode": true,
     "AppropriatenessOfDifficultyForCS1": 3,
     "RevisedBloomsTaxonomyLevel": "Understand",
     "ImprovementSuggestions": {
@@ -308,7 +309,7 @@ Output JSON as the very last item in your answer. The JSON should include all ru
         "Grammatical": "",
         "Clarity": "",
         "RelevanceToCourseContent": "",
-        "RelevanceToLearnerCode": "Mention the specific code construct being assessed.",
+        "RelevanceToLearnerCode": "",
         "AppropriatenessOfDifficultyForCS1": "Simplify the wording and focus on one introductory concept."
     }
 }
@@ -379,10 +380,13 @@ def validate_question_evaluation(payload: dict[str, Any]) -> dict[str, Any]:
         key for key in boolean_fields
         if payload[key] is False and not suggestions[key].strip()
     ]
-    missing_required_suggestions.extend(
-        key for key in ("RelevanceToLearnerCode", "AppropriatenessOfDifficultyForCS1")
-        if payload[key] < 5 and not suggestions[key].strip()
-    )
+    if not payload["RelevanceToLearnerCode"] and not suggestions["RelevanceToLearnerCode"].strip():
+        missing_required_suggestions.append("RelevanceToLearnerCode")
+    if (
+        payload["AppropriatenessOfDifficultyForCS1"] < 5
+        and not suggestions["AppropriatenessOfDifficultyForCS1"].strip()
+    ):
+        missing_required_suggestions.append("AppropriatenessOfDifficultyForCS1")
     if missing_required_suggestions:
         raise ValueError(
             "Evaluator must provide improvement suggestions for: "

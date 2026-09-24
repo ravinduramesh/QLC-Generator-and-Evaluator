@@ -24,7 +24,7 @@ TARGET_LEVELS = [
     ),
     (
         "Apply",
-        "Apply operator precedence rules, solving logic and iteration counts, or tracing code with specified inputs to determine the exact state or output.",
+        "Solving logic and iteration counts or tracing a part of the code (an iteration or a logic flow) with specified inputs to determine the exact state or output.",
     ),
     (
         "Create",

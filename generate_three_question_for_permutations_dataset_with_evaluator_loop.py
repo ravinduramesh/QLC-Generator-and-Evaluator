@@ -17,6 +17,7 @@ DEFAULT_INPUT = "Lab9Responses-Mini.xlsx"
 DEFAULT_OUTPUT = "Lab9Responses_three_questions_permutations_with_evaluation.csv"
 DEFAULT_SHEET = None
 DEFAULT_LIMIT = None
+MAX_REGENERATION_ATTEMPTS = 3
 
 LEVEL_DESCRIPTIONS = {
     "Understand": "Explain the purpose or intent of syntax, keywords, or language rules without executing it manually line by line. (ex: What does the remove() method do?, What is the purpose of i++?, what is the purpose of using 'length - 1 - i' as an index for the word array?)",
@@ -25,15 +26,6 @@ LEVEL_DESCRIPTIONS = {
 }
 
 LEVEL_PERMUTATIONS = list(itertools.permutations(LEVEL_DESCRIPTIONS.keys()))
-
-VALID_BLOOM_LEVELS = {
-    "Remember",
-    "Understand",
-    "Apply",
-    "Analyse",
-    "Evaluate",
-    "Create",
-}
 
 EVALUATION_FIELDS = {
     "QuestionCorrectness": bool,
@@ -56,7 +48,7 @@ IMPROVEMENT_FIELDS = (
     "RelevanceToCourseContent",
     "RelevanceToLearnerCode",
     "AppropriatenessOfDifficultyForCS1",
-    "AlignToTheLevelDescription"
+    "AlignToTheLevelDescription",
 )
 
 
@@ -165,7 +157,13 @@ def get_response_2_column(headers: list[str]) -> int:
     return 6
 
 
-def build_question_generation_prompt(student_code: str, target_level: str, level_description: str, problem_statement: str = "A palindrome is a word that reads exactly the same from left to right or from right to left (an example is “noon”).  Write a function called IsPalindrome() which takes a string as input, and returns 1 (i.e. true) if that string is a palindrome and 0 (i.e. false) otherwise.  You can assume that all characters in the string will be in lower case, and the input string will contain at least one character. NOTE: You can assume that the <string.h> header file is included, and therefore you can use the strlen() function") -> list[dict[str, str]]:
+def build_question_generation_prompt(
+    student_code: str,
+    target_level: str,
+    level_description: str,
+    previous_attempts: list[dict[str, Any]] | None = None,
+    problem_statement: str = "A palindrome is a word that reads exactly the same from left to right or from right to left (an example is “noon”).  Write a function called IsPalindrome() which takes a string as input, and returns 1 (i.e. true) if that string is a palindrome and 0 (i.e. false) otherwise.  You can assume that all characters in the string will be in lower case, and the input string will contain at least one character. NOTE: You can assume that the <string.h> header file is included, and therefore you can use the strlen() function",
+) -> list[dict[str, str]]:
     system_prompt = ("""
 Generate a concise, introductory programming classroom-friendly short-answer question that deeply probes a student's understanding of their own code with respect to a given Bloom's taxonomy level and corresponding description, targeting a specific aspect of the code (e.g., a particular line, construct, or logical element).  
 Accept the following required inputs:
@@ -221,19 +219,37 @@ problem_statement: '{problem_statement}'
 bloom_level: '{target_level}'
 bloom_desc: '{level_description}'
 """.strip()
+    if previous_attempts:
+        user_prompt += "\n\nPrevious attempts and evaluator feedback:\n" + json.dumps(
+            previous_attempts,
+            ensure_ascii=False,
+            indent=2,
+        ) + "\n\nRegenerate the question and answer by addressing the evaluator feedback."
     return [
         {"role": "system", "content": system_prompt},
         {"role": "user", "content": user_prompt},
     ]
 
-def call_openai_for_question_generation(client: OpenAI, model: str, student_code: str, target_level: str, level_description: str) -> dict[str, str]:
+def call_openai_for_question_generation(
+    client: OpenAI,
+    model: str,
+    student_code: str,
+    target_level: str,
+    level_description: str,
+    previous_attempts: list[dict[str, Any]] | None = None,
+) -> dict[str, str]:
     required_keys = ["question", "answer"]
 
     for attempt in range(1, 4):
         response = client.chat.completions.create(
             model=model,
             reasoning_effort="medium",
-            messages=build_question_generation_prompt(student_code, target_level, level_description),
+            messages=build_question_generation_prompt(
+                student_code,
+                target_level,
+                level_description,
+                previous_attempts,
+            ),
         )
         raw = response.choices[0].message.content or "{}"
 
@@ -264,7 +280,7 @@ def build_question_evaluation_prompt(
     answer: str,
     level_description: str,
 ) -> list[dict[str, str]]:
-    system_prompt = f"""
+    system_prompt = """
 Evaluate a question and answer pair generated about a student's code using the provided rubric. Carefully read the student's source code, the generated question, and its answer. For each rubric criterion below, provide a judgment. Before producing your final evaluation, explicitly reason through and justify each decision, considering any nuances, ambiguities, or edge cases. After justifying your reasoning for each, provide your findings as a structured JSON object.
 
 If any rubric field could be interpreted ambiguously, reflect on possible options and explain your logic before reaching a final conclusion. All individual field conclusions and ratings must come after their associated reasoning.
@@ -280,7 +296,7 @@ Rubric fields to evaluate:
 - Relevance to course content: Can the question be answered solely from course content? (Boolean)
 - Relevance to learner code: Does the question engage directly with aspects of the provided code (syntax, semantics, bugs, etc.)? (Boolean)
 - Appropriateness of difficulty for CS1: Is the question suitable for an introductory programming course (CS1)? (1-5 scale, with 5 = maximal appropriateness)
-- Align to the level description: Is the question aligned with the provided level description, which is {level_description}? Use true when it aligns and false otherwise. (Boolean)
+- AlignToTheLevelDescription: Is the question aligned with the provided level description, which is included below? Use true when it aligns and false otherwise. (Boolean)
 
 Improvement suggestions:
 - For each Boolean rubric field that is false, provide a specific, actionable suggestion for improving the question or answer.
@@ -295,7 +311,7 @@ Respond only with your evaluation and the required JSON object.
 Output JSON as the very last item in your answer. The JSON should include all rubric fields as keys, with your concluded value for each. Do not wrap the JSON in code blocks.
 
 **Example Evaluation JSON:**
-{{
+{
     "QuestionCorrectness": true,
     "AnswerCorrectness": true,
     "AnswerCompleteness": true,
@@ -305,7 +321,7 @@ Output JSON as the very last item in your answer. The JSON should include all ru
     "RelevanceToLearnerCode": true,
     "AppropriatenessOfDifficultyForCS1": 3,
     "AlignToTheLevelDescription": true,
-    "ImprovementSuggestions": {{
+    "ImprovementSuggestions": {
         "QuestionCorrectness": "",
         "AnswerCorrectness": "",
         "AnswerCompleteness": "",
@@ -315,8 +331,8 @@ Output JSON as the very last item in your answer. The JSON should include all ru
         "RelevanceToLearnerCode": "",
         "AlignToTheLevelDescription": "",
         "AppropriatenessOfDifficultyForCS1": "Simplify the wording and focus on one introductory concept."
-    }}
-}}
+    }
+}
 
 Remember to:
 - Silently reason through all rubric fields first, in order.
@@ -336,6 +352,7 @@ student_code:
 ```
 question: {question}
 answer: {answer}
+level_description: {level_description}
 """.strip()
     return [
         {"role": "system", "content": system_prompt},
@@ -381,8 +398,8 @@ def validate_question_evaluation(payload: dict[str, Any]) -> dict[str, Any]:
         key for key in boolean_fields
         if payload[key] is False and not suggestions[key].strip()
     ]
-    if not payload["AlignToTheLevelDescription"] and not suggestions["AlignToTheLevelDescription"].strip():
-        missing_required_suggestions.append("AlignToTheLevelDescription")
+    if not payload["RelevanceToLearnerCode"] and not suggestions["RelevanceToLearnerCode"].strip():
+        missing_required_suggestions.append("RelevanceToLearnerCode")
     if (
         payload["AppropriatenessOfDifficultyForCS1"] < 5
         and not suggestions["AppropriatenessOfDifficultyForCS1"].strip()
@@ -439,6 +456,57 @@ def call_evaluator_agent(
     raise RuntimeError("Unreachable")
 
 
+def evaluation_needs_improvement(evaluation: dict[str, Any]) -> bool:
+    return any(
+        evaluation[field] is False
+        for field, expected_type in EVALUATION_FIELDS.items()
+        if expected_type is bool
+    ) or evaluation["AppropriatenessOfDifficultyForCS1"] < 5
+
+
+def generate_and_evaluate_question(
+    client: OpenAI,
+    model: str,
+    student_code: str,
+    target_level: str,
+) -> tuple[dict[str, str], dict[str, Any]]:
+    attempts: list[dict[str, Any]] = []
+
+    for attempt_number in range(1, MAX_REGENERATION_ATTEMPTS + 1):
+        generated = call_openai_for_question_generation(
+            client,
+            model,
+            student_code,
+            target_level,
+            LEVEL_DESCRIPTIONS[target_level],
+            attempts,
+        )
+        evaluation = call_evaluator_agent(
+            client,
+            model,
+            student_code,
+            generated["question"],
+            generated["answer"],
+            LEVEL_DESCRIPTIONS[target_level],
+        )
+        attempts.append(
+            {
+                "attempt": attempt_number,
+                "question": generated["question"],
+                "answer": generated["answer"],
+                "evaluation": evaluation,
+            }
+        )
+
+        if not evaluation_needs_improvement(evaluation):
+            break
+
+    return generated, {
+        "attempts": attempts,
+        "latest_evaluation": attempts[-1]["evaluation"],
+    }
+
+
 def read_submissions(workbook_path: Path, sheet_name: str | None) -> tuple[list[str], list[str], list[str]]:
     workbook = load_workbook(workbook_path, data_only=True)
     worksheet = workbook[sheet_name] if sheet_name else workbook[workbook.sheetnames[0]]
@@ -460,26 +528,6 @@ def read_submissions(workbook_path: Path, sheet_name: str | None) -> tuple[list[
             submissions.append(code)
 
     return headers, anon_ids, submissions
-
-
-def generate_question_set(
-    client: OpenAI,
-    model: str,
-    student_code: str,
-    level_permutation: tuple[str, ...],
-) -> list[dict[str, str]]:
-    generated = []
-    for target_level in level_permutation:
-        generated.append(
-            call_openai_for_question_generation(
-                client,
-                model,
-                student_code,
-                target_level,
-                LEVEL_DESCRIPTIONS[target_level],
-            )
-        )
-    return generated
 
 
 def build_group_assignments(total_rows: int) -> list[int]:
@@ -541,18 +589,17 @@ def process_workbook(input_path: Path, output_path: Path, sheet_name: str | None
             student_code = normalize_text(student_code)
             group_index = group_assignments[index - 1]
             level_permutation = LEVEL_PERMUTATIONS[group_index]
-            generated_rows = generate_question_set(client, model, student_code, level_permutation)
-            evaluations = [
-                call_evaluator_agent(
+            generated_rows = []
+            evaluation_logs = []
+            for target_level in level_permutation:
+                generated, evaluation_log = generate_and_evaluate_question(
                     client,
                     model,
                     student_code,
-                    generated_row["question"],
-                    generated_row["answer"],
-                    LEVEL_DESCRIPTIONS[level_permutation[question_index]],
+                    target_level,
                 )
-                for question_index, generated_row in enumerate(generated_rows)
-            ]
+                generated_rows.append(generated)
+                evaluation_logs.append(evaluation_log)
 
             row = {
                 "ANON_ID": normalize_text(anon_id),
@@ -561,15 +608,15 @@ def process_workbook(input_path: Path, output_path: Path, sheet_name: str | None
                 "q1": normalize_text(generated_rows[0]["question"]),
                 "a1": normalize_text(generated_rows[0]["answer"]),
                 "q1_level": level_permutation[0],
-                "q1_evaluation": json.dumps(evaluations[0], ensure_ascii=False, separators=(",", ":")),
+                "q1_evaluation": json.dumps(evaluation_logs[0], ensure_ascii=False, separators=(",", ":")),
                 "q2": normalize_text(generated_rows[1]["question"]),
                 "a2": normalize_text(generated_rows[1]["answer"]),
                 "q2_level": level_permutation[1],
-                "q2_evaluation": json.dumps(evaluations[1], ensure_ascii=False, separators=(",", ":")),
+                "q2_evaluation": json.dumps(evaluation_logs[1], ensure_ascii=False, separators=(",", ":")),
                 "q3": normalize_text(generated_rows[2]["question"]),
                 "a3": normalize_text(generated_rows[2]["answer"]),
                 "q3_level": level_permutation[2],
-                "q3_evaluation": json.dumps(evaluations[2], ensure_ascii=False, separators=(",", ":")),
+                "q3_evaluation": json.dumps(evaluation_logs[2], ensure_ascii=False, separators=(",", ":")),
             }
             writer.writerow(row)
 

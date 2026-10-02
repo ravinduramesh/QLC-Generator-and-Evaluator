@@ -14,7 +14,7 @@ from openai import OpenAI
 from openpyxl.reader.excel import load_workbook
 
 DEFAULT_INPUT = "Lab9Responses-Mini.xlsx"
-DEFAULT_OUTPUT = "Lab9Responses_three_questions_permutations_with_evaluation.csv"
+DEFAULT_OUTPUT = "Lab9Responses_three_questions_permutations_with_evaluation_loop.csv"
 DEFAULT_SHEET = None
 DEFAULT_LIMIT = None
 MAX_REGENERATION_ATTEMPTS = 3
@@ -295,7 +295,7 @@ Rubric fields to evaluate:
 - Clarity: Is the question clear and unambiguous? (Boolean)
 - Relevance to course content: Can the question be answered solely from course content? (Boolean)
 - Relevance to learner code: Does the question engage directly with aspects of the provided code (syntax, semantics, bugs, etc.)? (Boolean)
-- Appropriateness of difficulty for CS1: Is the question suitable for an introductory programming course (CS1)? (1-5 scale, with 5 = maximal appropriateness)
+- Appropriateness of difficulty for CS1: Is the question suitable for an introductory programming course (CS1)? (1-5 scale, with 5 = maximal appropriateness). Treat any programming concept, syntax element, language feature, library function, or technique that already appears in the student's code as part of the introductory (CS1) level for this evaluation.
 - AlignToTheLevelDescription: Is the question aligned with the provided level description, which is included below? Use true when it aligns and false otherwise. (Boolean)
 
 Improvement suggestions:
